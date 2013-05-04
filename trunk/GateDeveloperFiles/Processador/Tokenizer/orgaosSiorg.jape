@@ -1,0 +1,32 @@
+// Valentin Tablan, 29/06/2001
+// $id$
+
+
+Phase:orgaos
+Input: Token SpaceToken Lookup
+Options: control = appelt
+
+
+
+Template: TipoEntidade = "Orgao"
+		
+				
+MACRO: ORGAOCOMPLETO
+(
+	({Lookup.majorType == [TipoEntidade]}) 
+)	
+
+
+
+Rule: Orgao	
+(
+	(ORGAOCOMPLETO)
+	
+): orgaoCompleto
+-->
+:orgaoCompleto.EntidadeIdentificada = { kind = [TipoEntidade], IdOrgao = :orgaoCompleto.Lookup.IdOrgao}
+
+
+
+
+		
