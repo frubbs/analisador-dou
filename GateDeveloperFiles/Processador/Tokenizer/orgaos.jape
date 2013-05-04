@@ -1,0 +1,61 @@
+// Valentin Tablan, 29/06/2001
+// $id$
+
+
+Phase:orgaos
+Input: Token SpaceToken Lookup
+Options: control = appelt
+
+
+
+Template: TipoEntidade = "Orgao"
+		
+
+MACRO: OrgaoCompletoMaiusculo
+(
+    (
+		({Token.orth == "allCaps"})
+		({SpaceToken})[1,3]
+	)[0,5]
+	{Lookup.majorType == [TipoEntidade]}
+	({SpaceToken})[1,3]
+    (
+		({Token.orth == "allCaps"} | {Lookup.majorType == "Conector"})
+		({SpaceToken})[0,3]
+		
+	)[1,5]
+)
+
+MACRO: OrgaoCompletoInicial
+(
+    (
+		({Token.orth == "upperInitial"})
+		({SpaceToken})[1,3]
+	)[0,4]
+	{Lookup.majorType == [TipoEntidade]}
+	({SpaceToken})[1,3]
+    (
+		({Token.orth == "upperInitial"} | {Lookup.majorType == "Conector"} )
+		({SpaceToken})[0,3]
+	)[1,4]
+)
+
+MACRO: ORGAOCOMPLETO
+(
+	(OrgaoCompletoInicial) | (OrgaoCompletoMaiusculo)
+)
+
+
+Rule: Orgao	
+(
+	(ORGAOCOMPLETO)
+): orgaoCompleto
+-->
+:orgaoCompleto.EntidadeIdentificada = { kind = [TipoEntidade]}
+
+
+				
+		
+
+
+		

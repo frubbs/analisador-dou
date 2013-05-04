@@ -1,0 +1,5 @@
+names.lst:Nome:listaSQL
+conectores.lst:Conector:listaBCE
+quebra.lst:QuebraLinha
+inicioPortaria.lst:InicioPortaria:listaBCE
+cargos.lst:Cargo
