@@ -17,8 +17,8 @@ SELECT
 	IdPortaria, IdEntidade, TipoLigacao, Tempo
 FROM
 	TbPortariaOrgaoSiorg
-WHERE
-	IdPortaria in (SELECT IdPortaria FROM TbPortaria WHERE Texto like '%segurança%' OR Texto like '%defesa%')
+/*WHERE
+	IdPortaria in (SELECT IdPortaria FROM TbPortaria WHERE Texto like '%segurança%' OR Texto like '%defesa%')*/
 
 
 DECLARE @Vertice TABLE (
@@ -82,3 +82,19 @@ JOIN
 	@Vertice v on pe.IDEntidade = v.IdOriginal
 JOIN 
 	@Vertice v2 on pe.IdPortaria = v2.IdOriginal
+
+
+
+SELECT 'XXXXXXXXXX  FIM DO ARQUIVO NET. INICIO DO ARQUIVO DE PARTIÇÕES XXXXXXXXXXXXXX'
+
+SELECT 
+	ep.Particao  
+FROM 
+	@Vertice v
+LEFT JOIN
+	 [SiorgSQL].[dbo].VwEntidadeParticao ep on ep.Co_Orgao = v.IdOriginal
+ORDER By v.ID
+
+
+
+

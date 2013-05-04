@@ -1,44 +1,35 @@
-SELECT
-	No_Orgao + '@IdOrgao=' + CAST(Co_Orgao as varchar)
-FROM
-	Ta_Nomes_Orgaos
-WHERE
-	LEN(No_Orgao) > 14
+use SiorgSQL
 
 
-
-	USE [SiorgSQL]
-GO
-
-SELECT *--N.No_Orgao, N.Co_Orgao , ','
+SELECT  --Orgaos subordinados a orgaos subordinados a presidencia
+	N3.No_Orgao + '@IdOrgao=' + CAST(N3.Co_Orgao as varchar) + '@Particao=' + CAST(N3.Co_Orgao_Pai as varchar)
 FROM 
-	[dbo].[Vw_Nomes_Orgaos] N --WHERE Co_Orgao = 26
+	[dbo].[Vw_Nomes_Orgaos] N 
 LEFT JOIN 
 	[dbo].[Vw_Nomes_Orgaos] N2 ON N.Co_Orgao = N2.Co_Orgao_Pai
 LEFT JOIN 
 	[dbo].[Vw_Nomes_Orgaos] N3 ON N2.Co_Orgao = N3.Co_Orgao_Pai
-LEFT JOIN 
-	[dbo].[Vw_Nomes_Orgaos] N4 ON N3.Co_Orgao = N4.Co_Orgao_Pai
-LEFT JOIN 
-	[dbo].[Vw_Nomes_Orgaos] N5 ON N4.Co_Orgao = N5.Co_Orgao_Pai
-LEFT JOIN 
-	[dbo].[Vw_Nomes_Orgaos] N6 ON N5.Co_Orgao = N6.Co_Orgao_Pai
-LEFT JOIN 
-	[dbo].[Vw_Nomes_Orgaos] N7 ON N6.Co_Orgao = N7.Co_Orgao_Pai
-LEFT JOIN 
-	[dbo].[Vw_Nomes_Orgaos] N8 ON N7.Co_Orgao = N8.Co_Orgao_Pai
+WHERE 
+	N.Co_Orgao = 26
+	AND LEN(N3.No_Orgao) > 15
+	AND N3.No_Orgao not in ('Comitês Técnicos', 'Comissão Técnica', 'Comissão de Ética', 'Secretaria-Geral', 'Assessoria Militar',
+							'Assessoria Técnica', 'Comitê Executivo', 'Assessoria Especial', 'Assessoria Jurídica', 'Secretaria-Executiva',
+							'Consultoria Jurídica', 'Secretaria Executiva', 'Assessoria Econômica', 'Gabinete do Ministro',
+							'Secretaria de Imprensa', 'Assessoria Parlamentar', 'Assessoria Administrativa', 'Diretoria de Gestão Interna')
+ORDER BY LEN(N3.No_Orgao)
 
 
-SELECT --Orgaos que nao tem pais (raiz)
-	N.No_Orgao + '@IdOrgao=' + CAST(N.Co_Orgao as varchar)
-LEFT JOIN 
+SELECT --Orgaos subordinados a presidencia
+	N.No_Orgao + '@IdOrgao=' + CAST(N.Co_Orgao as varchar) + + '@Particao=' + CAST(N.Co_Orgao as varchar)
+FROM
 	[dbo].[Vw_Nomes_Orgaos] N
 WHERE 
 	N.Co_Orgao_Pai = 26
 
 
+
 SELECT --Orgaos que nao tem pais (raiz)
-	No_Orgao + '@IdOrgao=' + CAST(Co_Orgao as varchar)
+	No_Orgao + '@IdOrgao=' + CAST(Co_Orgao as varchar) + '@Particao=' + CAST(Co_Orgao as varchar)
 FROM 
 	[dbo].[Vw_Nomes_Orgaos] N 
 WHERE N.Co_Orgao in (62823,

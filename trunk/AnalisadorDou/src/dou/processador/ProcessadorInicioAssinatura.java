@@ -82,10 +82,14 @@ public class ProcessadorInicioAssinatura implements ProcessadorAnotacoes
 
 							String IdOrgao = featureMap.get("IdOrgao") != null ? featureMap.get("IdOrgao").toString() : "";
 
-							strategy.registrar(new Ligacao(entidade, IdOrgao, identificacaoPortaria, textoPortaria,
+							int particao = featureMap.get("Particao") != null ? Integer.parseInt(featureMap.get("Particao")
+									.toString()) : 0;
+
+							String tipo = featureMap.get("kind") != null ? featureMap.get("kind").toString() : "";
+
+							strategy.registrar(new Ligacao(entidade, IdOrgao, particao, identificacaoPortaria, textoPortaria,
 									inicioPortaria, fimPortaria, // annFim.getEndNode().getOffset(),
-									inicioEntidade, fimEntidade, featureMap.get("kind").toString(), docFile, Util
-											.extrairDataDoNomeDoArquivo(docFile)));
+									inicioEntidade, fimEntidade, tipo, docFile, Util.extrairDataDoNomeDoArquivo(docFile)));
 
 							entidadesEncontradas.add(annEntidade);
 						}// TODO se falhar aqui ja pode sair fora. a lista esta
