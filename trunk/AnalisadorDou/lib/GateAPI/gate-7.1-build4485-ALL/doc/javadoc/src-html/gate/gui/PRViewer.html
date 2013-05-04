@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>gate/gui/PRViewer.java</title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+  <!-- start headline -->
+   <tr>
+    <td colspan="2">
+     <center><font size="+2">
+      <code><b>
+PRViewer.java
+      </b></code>
+     </font></center>
+    </td>
+   </tr>
+  <!-- end headline -->
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<a name="line.1"><font color="#808080">001</font>&nbsp;</a><font color="#3f7f5f">/*</font><br />
+<a name="line.2"><font color="#808080">002</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Copyright&nbsp;(c)&nbsp;1995-2012,&nbsp;The&nbsp;University&nbsp;of&nbsp;Sheffield.&nbsp;See&nbsp;the&nbsp;file</font><br />
+<a name="line.3"><font color="#808080">003</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;COPYRIGHT.txt&nbsp;in&nbsp;the&nbsp;software&nbsp;or&nbsp;at&nbsp;http://gate.ac.uk/gate/COPYRIGHT.txt</font><br />
+<a name="line.4"><font color="#808080">004</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.5"><font color="#808080">005</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;This&nbsp;file&nbsp;is&nbsp;part&nbsp;of&nbsp;GATE&nbsp;(see&nbsp;http://gate.ac.uk/),&nbsp;and&nbsp;is&nbsp;free</font><br />
+<a name="line.6"><font color="#808080">006</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;software,&nbsp;licenced&nbsp;under&nbsp;the&nbsp;GNU&nbsp;Library&nbsp;General&nbsp;Public&nbsp;License,</font><br />
+<a name="line.7"><font color="#808080">007</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Version&nbsp;2,&nbsp;June&nbsp;1991&nbsp;(in&nbsp;the&nbsp;distribution&nbsp;as&nbsp;file&nbsp;licence.html,</font><br />
+<a name="line.8"><font color="#808080">008</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;and&nbsp;also&nbsp;available&nbsp;at&nbsp;http://gate.ac.uk/gate/licence.html).</font><br />
+<a name="line.9"><font color="#808080">009</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.10"><font color="#808080">010</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Valentin&nbsp;Tablan&nbsp;27/02/2002</font><br />
+<a name="line.11"><font color="#808080">011</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.12"><font color="#808080">012</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;$Id:&nbsp;PRViewer.java&nbsp;15333&nbsp;2012-02-07&nbsp;13:18:33Z&nbsp;ian_roberts&nbsp;$</font><br />
+<a name="line.13"><font color="#808080">013</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.14"><font color="#808080">014</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*/</font><br />
+<a name="line.15"><font color="#808080">015</font>&nbsp;</a><font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">gate.gui;</font><br />
+<a name="line.16"><font color="#808080">016</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.17"><font color="#808080">017</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.awt.BorderLayout;</font><br />
+<a name="line.18"><font color="#808080">018</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.awt.Component;</font><br />
+<a name="line.19"><font color="#808080">019</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.awt.Toolkit;</font><br />
+<a name="line.20"><font color="#808080">020</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.awt.datatransfer.Clipboard;</font><br />
+<a name="line.21"><font color="#808080">021</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.awt.datatransfer.StringSelection;</font><br />
+<a name="line.22"><font color="#808080">022</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.awt.event.ActionEvent;</font><br />
+<a name="line.23"><font color="#808080">023</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.awt.event.MouseAdapter;</font><br />
+<a name="line.24"><font color="#808080">024</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.awt.event.MouseEvent;</font><br />
+<a name="line.25"><font color="#808080">025</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.26"><font color="#808080">026</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">javax.swing.AbstractAction;</font><br />
+<a name="line.27"><font color="#808080">027</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">javax.swing.JPopupMenu;</font><br />
+<a name="line.28"><font color="#808080">028</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">javax.swing.JScrollPane;</font><br />
+<a name="line.29"><font color="#808080">029</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.30"><font color="#808080">030</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.Gate;</font><br />
+<a name="line.31"><font color="#808080">031</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.Resource;</font><br />
+<a name="line.32"><font color="#808080">032</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.AbstractVisualResource;</font><br />
+<a name="line.33"><font color="#808080">033</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.ResourceData;</font><br />
+<a name="line.34"><font color="#808080">034</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.ResourceInstantiationException;</font><br />
+<a name="line.35"><font color="#808080">035</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.metadata.CreoleResource;</font><br />
+<a name="line.36"><font color="#808080">036</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.metadata.GuiType;</font><br />
+<a name="line.37"><font color="#808080">037</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.swing.XJTable;</font><br />
+<a name="line.38"><font color="#808080">038</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.util.GateRuntimeException;</font><br />
+<a name="line.39"><font color="#808080">039</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.40"><font color="#808080">040</font>&nbsp;</a><font color="#646464">@CreoleResource</font><font color="#000000">(</font><font color="#000000">name&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;Initialisation&nbsp;Parameters&#34;</font><font color="#000000">,&nbsp;guiType&nbsp;=&nbsp;GuiType.LARGE,</font><br />
+<a name="line.41"><font color="#808080">041</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">resourceDisplayed&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;gate.Resource&#34;</font><font color="#000000">,&nbsp;mainViewer&nbsp;=&nbsp;</font><font color="#7f0055"><b>true</b></font><font color="#000000">)</font><br />
+<a name="line.42"><font color="#808080">042</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">PRViewer&nbsp;</font><font color="#7f0055"><b>extends&nbsp;</b></font><font color="#000000">AbstractVisualResource&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.43"><font color="#808080">043</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.44"><font color="#808080">044</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">PRViewer</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.45"><font color="#808080">045</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.46"><font color="#808080">046</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.47"><font color="#808080">047</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><br />
+<a name="line.48"><font color="#808080">048</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#646464">@Override</font><br />
+<a name="line.49"><font color="#808080">049</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">Resource&nbsp;init</font><font color="#000000">()&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">ResourceInstantiationException&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.50"><font color="#808080">050</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">initLocalData</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.51"><font color="#808080">051</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">initGuiComponents</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.52"><font color="#808080">052</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">initListeners</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.53"><font color="#808080">053</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;this</b></font><font color="#000000">;</font><br />
+<a name="line.54"><font color="#808080">054</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.55"><font color="#808080">055</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.56"><font color="#808080">056</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.57"><font color="#808080">057</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>protected&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">initLocalData</font><font color="#000000">(){</font><br />
+<a name="line.58"><font color="#808080">058</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.59"><font color="#808080">059</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.60"><font color="#808080">060</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>protected&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">initGuiComponents</font><font color="#000000">(){</font><br />
+<a name="line.61"><font color="#808080">061</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">setLayout</font><font color="#000000">(</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">BorderLayout</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.62"><font color="#808080">062</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">editor&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">ResourceParametersEditor</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.63"><font color="#808080">063</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">editor.setEditable</font><font color="#000000">(</font><font color="#7f0055"><b>false</b></font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.64"><font color="#808080">064</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">editor.setAutoResizeMode</font><font color="#000000">(</font><font color="#000000">XJTable.AUTO_RESIZE_LAST_COLUMN</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.65"><font color="#808080">065</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">JScrollPane&nbsp;scroller&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">JScrollPane</font><font color="#000000">(</font><font color="#000000">editor</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.66"><font color="#808080">066</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">scroller.setAlignmentX</font><font color="#000000">(</font><font color="#000000">Component.LEFT_ALIGNMENT</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.67"><font color="#808080">067</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">scroller.setAlignmentY</font><font color="#000000">(</font><font color="#000000">Component.TOP_ALIGNMENT</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.68"><font color="#808080">068</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">add</font><font color="#000000">(</font><font color="#000000">scroller,&nbsp;BorderLayout.CENTER</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.69"><font color="#808080">069</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.70"><font color="#808080">070</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.71"><font color="#808080">071</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>protected&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">initListeners</font><font color="#000000">(){</font><br />
+<a name="line.72"><font color="#808080">072</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">editor.addMouseListener</font><font color="#000000">(</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">MouseAdapter</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.73"><font color="#808080">073</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">handleMouseEvent</font><font color="#000000">(</font><font color="#000000">MouseEvent&nbsp;e</font><font color="#000000">){</font><br />
+<a name="line.74"><font color="#808080">074</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if</b></font><font color="#000000">(</font><font color="#000000">e.isPopupTrigger</font><font color="#000000">()){</font><br />
+<a name="line.75"><font color="#808080">075</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">row&nbsp;=&nbsp;editor.rowAtPoint</font><font color="#000000">(</font><font color="#000000">e.getPoint</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.76"><font color="#808080">076</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">col&nbsp;=&nbsp;editor.columnAtPoint</font><font color="#000000">(</font><font color="#000000">e.getPoint</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.77"><font color="#808080">077</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">JPopupMenu&nbsp;popup&nbsp;=</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">JPopupMenu</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.78"><font color="#808080">078</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">popup.add</font><font color="#000000">(</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">CopyValueAction</font><font color="#000000">(</font><font color="#000000">row,&nbsp;col</font><font color="#000000">))</font><font color="#000000">;</font><br />
+<a name="line.79"><font color="#808080">079</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">popup.show</font><font color="#000000">(</font><font color="#000000">editor,e.getX</font><font color="#000000">()</font><font color="#000000">,&nbsp;e.getY</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.80"><font color="#808080">080</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.81"><font color="#808080">081</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.82"><font color="#808080">082</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><br />
+<a name="line.83"><font color="#808080">083</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#646464">@Override</font><br />
+<a name="line.84"><font color="#808080">084</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">mousePressed</font><font color="#000000">(</font><font color="#000000">MouseEvent&nbsp;e</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.85"><font color="#808080">085</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">handleMouseEvent</font><font color="#000000">(</font><font color="#000000">e</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.86"><font color="#808080">086</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.87"><font color="#808080">087</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.88"><font color="#808080">088</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#646464">@Override</font><br />
+<a name="line.89"><font color="#808080">089</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">mouseReleased</font><font color="#000000">(</font><font color="#000000">MouseEvent&nbsp;e</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.90"><font color="#808080">090</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">handleMouseEvent</font><font color="#000000">(</font><font color="#000000">e</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.91"><font color="#808080">091</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.92"><font color="#808080">092</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.93"><font color="#808080">093</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#646464">@Override</font><br />
+<a name="line.94"><font color="#808080">094</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">mouseClicked</font><font color="#000000">(</font><font color="#000000">MouseEvent&nbsp;e</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.95"><font color="#808080">095</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">handleMouseEvent</font><font color="#000000">(</font><font color="#000000">e</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.96"><font color="#808080">096</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.97"><font color="#808080">097</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">})</font><font color="#000000">;</font><br />
+<a name="line.98"><font color="#808080">098</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.99"><font color="#808080">099</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.100"><font color="#808080">100</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">cleanup</font><font color="#000000">(){</font><br />
+<a name="line.101"><font color="#808080">101</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>super</b></font><font color="#000000">.cleanup</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.102"><font color="#808080">102</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">editor.cleanup</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.103"><font color="#808080">103</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.104"><font color="#808080">104</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.105"><font color="#808080">105</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">setTarget</font><font color="#000000">(</font><font color="#000000">Object&nbsp;target</font><font color="#000000">){</font><br />
+<a name="line.106"><font color="#808080">106</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if</b></font><font color="#000000">(</font><font color="#000000">target&nbsp;==&nbsp;</font><font color="#7f0055"><b>null</b></font><font color="#000000">)&nbsp;</font><font color="#7f0055"><b>return</b></font><font color="#000000">;</font><br />
+<a name="line.107"><font color="#808080">107</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if</b></font><font color="#000000">(</font><font color="#000000">!</font><font color="#000000">(</font><font color="#000000">target&nbsp;</font><font color="#7f0055"><b>instanceof&nbsp;</b></font><font color="#000000">Resource</font><font color="#000000">)){</font><br />
+<a name="line.108"><font color="#808080">108</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>throw&nbsp;new&nbsp;</b></font><font color="#000000">GateRuntimeException</font><font color="#000000">(</font><font color="#7f0055"><b>this</b></font><font color="#000000">.getClass</font><font color="#000000">()</font><font color="#000000">.getName</font><font color="#000000">()&nbsp;</font><font color="#000000">+</font><br />
+<a name="line.109"><font color="#808080">109</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#2a00ff">&#34;&nbsp;can&nbsp;only&nbsp;be&nbsp;used&nbsp;to&nbsp;display&nbsp;&#34;&nbsp;</font><font color="#000000">+</font><br />
+<a name="line.110"><font color="#808080">110</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Resource.</font><font color="#7f0055"><b>class</b></font><font color="#000000">.getName</font><font color="#000000">()&nbsp;</font><font color="#000000">+</font><br />
+<a name="line.111"><font color="#808080">111</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#2a00ff">&#34;\n&#34;&nbsp;</font><font color="#000000">+&nbsp;target.getClass</font><font color="#000000">()</font><font color="#000000">.getName</font><font color="#000000">()&nbsp;</font><font color="#000000">+</font><br />
+<a name="line.112"><font color="#808080">112</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#2a00ff">&#34;&nbsp;is&nbsp;not&nbsp;a&nbsp;&#34;&nbsp;</font><font color="#000000">+</font><br />
+<a name="line.113"><font color="#808080">113</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Resource.</font><font color="#7f0055"><b>class</b></font><font color="#000000">.getName</font><font color="#000000">()&nbsp;</font><font color="#000000">+&nbsp;</font><font color="#2a00ff">&#34;!&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.114"><font color="#808080">114</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.115"><font color="#808080">115</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.116"><font color="#808080">116</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Resource&nbsp;pr&nbsp;=&nbsp;</font><font color="#000000">(</font><font color="#000000">Resource</font><font color="#000000">)</font><font color="#000000">target;</font><br />
+<a name="line.117"><font color="#808080">117</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">ResourceData&nbsp;rData&nbsp;=</font><br />
+<a name="line.118"><font color="#808080">118</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">(</font><font color="#000000">ResourceData</font><font color="#000000">)</font><font color="#000000">Gate.getCreoleRegister</font><font color="#000000">()</font><font color="#000000">.get</font><font color="#000000">(</font><font color="#000000">pr.getClass</font><font color="#000000">()</font><font color="#000000">.getName</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.119"><font color="#808080">119</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if</b></font><font color="#000000">(</font><font color="#000000">rData&nbsp;!=&nbsp;</font><font color="#7f0055"><b>null</b></font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.120"><font color="#808080">120</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">editor.init</font><font color="#000000">(</font><font color="#000000">pr,&nbsp;rData.getParameterList</font><font color="#000000">()</font><font color="#000000">.getInitimeParameters</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.121"><font color="#808080">121</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#7f0055"><b>else&nbsp;</b></font><font color="#000000">{</font><br />
+<a name="line.122"><font color="#808080">122</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">editor.init</font><font color="#000000">(</font><font color="#000000">pr,&nbsp;</font><font color="#7f0055"><b>null</b></font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.123"><font color="#808080">123</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.124"><font color="#808080">124</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.125"><font color="#808080">125</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">editor.removeCreoleListenerLink</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.126"><font color="#808080">126</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.127"><font color="#808080">127</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.128"><font color="#808080">128</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>protected&nbsp;</b></font><font color="#000000">ResourceParametersEditor&nbsp;editor;</font><br />
+<a name="line.129"><font color="#808080">129</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><br />
+<a name="line.130"><font color="#808080">130</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>protected&nbsp;class&nbsp;</b></font><font color="#000000">CopyValueAction&nbsp;</font><font color="#7f0055"><b>extends&nbsp;</b></font><font color="#000000">AbstractAction</font><font color="#000000">{</font><br />
+<a name="line.131"><font color="#808080">131</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">row,&nbsp;column;</font><br />
+<a name="line.132"><font color="#808080">132</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><br />
+<a name="line.133"><font color="#808080">133</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">CopyValueAction&nbsp;</font><font color="#000000">(</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">row,&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">column</font><font color="#000000">){</font><br />
+<a name="line.134"><font color="#808080">134</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>super</b></font><font color="#000000">(</font><font color="#2a00ff">&#34;Copy&nbsp;value&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.135"><font color="#808080">135</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">putValue</font><font color="#000000">(</font><font color="#000000">SHORT_DESCRIPTION,&nbsp;</font><br />
+<a name="line.136"><font color="#808080">136</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#2a00ff">&#34;Copies&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;cell&nbsp;to&nbsp;the&nbsp;clipboard.&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.137"><font color="#808080">137</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.row&nbsp;=&nbsp;row;</font><br />
+<a name="line.138"><font color="#808080">138</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.column&nbsp;=&nbsp;column;</font><br />
+<a name="line.139"><font color="#808080">139</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.140"><font color="#808080">140</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><br />
+<a name="line.141"><font color="#808080">141</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">actionPerformed</font><font color="#000000">(</font><font color="#000000">ActionEvent&nbsp;e</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.142"><font color="#808080">142</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Clipboard&nbsp;clipboard&nbsp;=&nbsp;Toolkit.getDefaultToolkit</font><font color="#000000">()</font><font color="#000000">.getSystemClipboard</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.143"><font color="#808080">143</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Object&nbsp;value&nbsp;=&nbsp;editor.getValueAt</font><font color="#000000">(</font><font color="#000000">row,&nbsp;column</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.144"><font color="#808080">144</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">String&nbsp;valStr;</font><br />
+<a name="line.145"><font color="#808080">145</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if</b></font><font color="#000000">(</font><font color="#000000">value&nbsp;</font><font color="#7f0055"><b>instanceof&nbsp;</b></font><font color="#000000">ParameterDisjunction</font><font color="#000000">){</font><br />
+<a name="line.146"><font color="#808080">146</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">valStr&nbsp;=&nbsp;</font><font color="#000000">((</font><font color="#000000">ParameterDisjunction</font><font color="#000000">)</font><font color="#000000">value</font><font color="#000000">)</font><font color="#000000">.getName</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.147"><font color="#808080">147</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><font color="#7f0055"><b>else&nbsp;if</b></font><font color="#000000">(</font><font color="#000000">value&nbsp;</font><font color="#7f0055"><b>instanceof&nbsp;</b></font><font color="#000000">Boolean</font><font color="#000000">){</font><br />
+<a name="line.148"><font color="#808080">148</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">valStr&nbsp;=&nbsp;</font><font color="#000000">((</font><font color="#000000">Boolean</font><font color="#000000">)</font><font color="#000000">value</font><font color="#000000">)&nbsp;</font><font color="#000000">?&nbsp;</font><font color="#2a00ff">&#34;Required&nbsp;parameter&#34;&nbsp;</font><font color="#000000">:&nbsp;</font><font color="#2a00ff">&#34;Optional&nbsp;parameter&#34;</font><font color="#000000">;</font><br />
+<a name="line.149"><font color="#808080">149</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><font color="#7f0055"><b>else</b></font><font color="#000000">{</font><br />
+<a name="line.150"><font color="#808080">150</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">valStr&nbsp;=&nbsp;value.toString</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.151"><font color="#808080">151</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.152"><font color="#808080">152</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">StringSelection&nbsp;data&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">StringSelection</font><font color="#000000">(</font><font color="#000000">valStr</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.153"><font color="#808080">153</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">clipboard.setContents</font><font color="#000000">(</font><font color="#000000">data,&nbsp;data</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.154"><font color="#808080">154</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.155"><font color="#808080">155</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.156"><font color="#808080">156</font>&nbsp;</a><font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+</body></html>

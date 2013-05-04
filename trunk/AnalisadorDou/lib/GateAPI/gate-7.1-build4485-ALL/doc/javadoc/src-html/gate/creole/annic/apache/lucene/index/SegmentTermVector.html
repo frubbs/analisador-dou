@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>gate/creole/annic/apache/lucene/index/SegmentTermVector.java</title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+  <!-- start headline -->
+   <tr>
+    <td colspan="2">
+     <center><font size="+2">
+      <code><b>
+SegmentTermVector.java
+      </b></code>
+     </font></center>
+    </td>
+   </tr>
+  <!-- end headline -->
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<a name="line.1"><font color="#808080">01</font>&nbsp;</a><font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">gate.creole.annic.apache.lucene.index;</font><br />
+<a name="line.2"><font color="#808080">02</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.io.IOException;</font><br />
+<a name="line.3"><font color="#808080">03</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.util.*;</font><br />
+<a name="line.4"><font color="#808080">04</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.5"><font color="#808080">05</font>&nbsp;</a><font color="#3f5fbf">/**</font><br />
+<a name="line.6"><font color="#808080">06</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.7"><font color="#808080">07</font>&nbsp;</a><font color="#7f0055"><b>class&nbsp;</b></font><font color="#000000">SegmentTermVector&nbsp;</font><font color="#7f0055"><b>implements&nbsp;</b></font><font color="#000000">TermFreqVector&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.8"><font color="#808080">08</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">String&nbsp;field;</font><br />
+<a name="line.9"><font color="#808080">09</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">String&nbsp;terms</font><font color="#000000">[]</font><font color="#000000">;</font><br />
+<a name="line.10"><font color="#808080">10</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">termFreqs</font><font color="#000000">[]</font><font color="#000000">;</font><br />
+<a name="line.11"><font color="#808080">11</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.12"><font color="#808080">12</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">SegmentTermVector</font><font color="#000000">(</font><font color="#000000">String&nbsp;field,&nbsp;String&nbsp;terms</font><font color="#000000">[]</font><font color="#000000">,&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">termFreqs</font><font color="#000000">[])&nbsp;{</font><br />
+<a name="line.13"><font color="#808080">13</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.field&nbsp;=&nbsp;field;</font><br />
+<a name="line.14"><font color="#808080">14</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.terms&nbsp;=&nbsp;terms;</font><br />
+<a name="line.15"><font color="#808080">15</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.termFreqs&nbsp;=&nbsp;termFreqs;</font><br />
+<a name="line.16"><font color="#808080">16</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.17"><font color="#808080">17</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.18"><font color="#808080">18</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.19"><font color="#808080">19</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.20"><font color="#808080">20</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@return&nbsp;</font><font color="#3f5fbf">The&nbsp;number&nbsp;of&nbsp;the&nbsp;field&nbsp;this&nbsp;vector&nbsp;is&nbsp;associated&nbsp;with</font><br />
+<a name="line.21"><font color="#808080">21</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.22"><font color="#808080">22</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">String&nbsp;getField</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.23"><font color="#808080">23</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">field;</font><br />
+<a name="line.24"><font color="#808080">24</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.25"><font color="#808080">25</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.26"><font color="#808080">26</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">String&nbsp;toString</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.27"><font color="#808080">27</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">StringBuffer&nbsp;sb&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">StringBuffer</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.28"><font color="#808080">28</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">sb.append</font><font color="#000000">(</font><font color="#990000">'{'</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.29"><font color="#808080">29</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">sb.append</font><font color="#000000">(</font><font color="#000000">field</font><font color="#000000">)</font><font color="#000000">.append</font><font color="#000000">(</font><font color="#2a00ff">&#34;:&nbsp;&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.30"><font color="#808080">30</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>for&nbsp;</b></font><font color="#000000">(</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">i=</font><font color="#990000">0</font><font color="#000000">;&nbsp;i&lt;terms.length;&nbsp;i++</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.31"><font color="#808080">31</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if&nbsp;</b></font><font color="#000000">(</font><font color="#000000">i&gt;</font><font color="#990000">0</font><font color="#000000">)&nbsp;</font><font color="#000000">sb.append</font><font color="#000000">(</font><font color="#2a00ff">&#34;,&nbsp;&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.32"><font color="#808080">32</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">sb.append</font><font color="#000000">(</font><font color="#000000">terms</font><font color="#000000">[</font><font color="#000000">i</font><font color="#000000">])</font><font color="#000000">.append</font><font color="#000000">(</font><font color="#990000">'/'</font><font color="#000000">)</font><font color="#000000">.append</font><font color="#000000">(</font><font color="#000000">termFreqs</font><font color="#000000">[</font><font color="#000000">i</font><font color="#000000">])</font><font color="#000000">;</font><br />
+<a name="line.33"><font color="#808080">33</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.34"><font color="#808080">34</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">sb.append</font><font color="#000000">(</font><font color="#990000">'}'</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.35"><font color="#808080">35</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">sb.toString</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.36"><font color="#808080">36</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.37"><font color="#808080">37</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.38"><font color="#808080">38</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">size</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.39"><font color="#808080">39</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">terms&nbsp;==&nbsp;</font><font color="#7f0055"><b>null&nbsp;</b></font><font color="#000000">?&nbsp;</font><font color="#990000">0&nbsp;</font><font color="#000000">:&nbsp;terms.length;</font><br />
+<a name="line.40"><font color="#808080">40</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.41"><font color="#808080">41</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.42"><font color="#808080">42</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">String&nbsp;</font><font color="#000000">[]&nbsp;</font><font color="#000000">getTerms</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.43"><font color="#808080">43</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">terms;</font><br />
+<a name="line.44"><font color="#808080">44</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.45"><font color="#808080">45</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.46"><font color="#808080">46</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>int</b></font><font color="#000000">[]&nbsp;</font><font color="#000000">getTermFrequencies</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.47"><font color="#808080">47</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">termFreqs;</font><br />
+<a name="line.48"><font color="#808080">48</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.49"><font color="#808080">49</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.50"><font color="#808080">50</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">indexOf</font><font color="#000000">(</font><font color="#000000">String&nbsp;termText</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.51"><font color="#808080">51</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">res&nbsp;=&nbsp;Arrays.binarySearch</font><font color="#000000">(</font><font color="#000000">terms,&nbsp;termText</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.52"><font color="#808080">52</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">res&nbsp;&gt;=&nbsp;</font><font color="#990000">0&nbsp;</font><font color="#000000">?&nbsp;res&nbsp;:&nbsp;-</font><font color="#990000">1</font><font color="#000000">;</font><br />
+<a name="line.53"><font color="#808080">53</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.54"><font color="#808080">54</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.55"><font color="#808080">55</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>int</b></font><font color="#000000">[]&nbsp;</font><font color="#000000">indexesOf</font><font color="#000000">(</font><font color="#000000">String&nbsp;</font><font color="#000000">[]&nbsp;</font><font color="#000000">termNumbers,&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">start,&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">len</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.56"><font color="#808080">56</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;TODO:&nbsp;there&nbsp;must&nbsp;be&nbsp;a&nbsp;more&nbsp;efficient&nbsp;way&nbsp;of&nbsp;doing&nbsp;this.</font><br />
+<a name="line.57"><font color="#808080">57</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;At&nbsp;least,&nbsp;we&nbsp;could&nbsp;advance&nbsp;the&nbsp;lower&nbsp;bound&nbsp;of&nbsp;the&nbsp;terms&nbsp;array</font><br />
+<a name="line.58"><font color="#808080">58</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as&nbsp;we&nbsp;find&nbsp;valid&nbsp;indexes.&nbsp;Also,&nbsp;it&nbsp;might&nbsp;be&nbsp;possible&nbsp;to&nbsp;leverage</font><br />
+<a name="line.59"><font color="#808080">59</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this&nbsp;even&nbsp;more&nbsp;by&nbsp;starting&nbsp;in&nbsp;the&nbsp;middle&nbsp;of&nbsp;the&nbsp;termNumbers&nbsp;array</font><br />
+<a name="line.60"><font color="#808080">60</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;thus&nbsp;dividing&nbsp;the&nbsp;terms&nbsp;array&nbsp;maybe&nbsp;in&nbsp;half&nbsp;with&nbsp;each&nbsp;found&nbsp;index.</font><br />
+<a name="line.61"><font color="#808080">61</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">res</font><font color="#000000">[]&nbsp;</font><font color="#000000">=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#7f0055"><b>int</b></font><font color="#000000">[</font><font color="#000000">len</font><font color="#000000">]</font><font color="#000000">;</font><br />
+<a name="line.62"><font color="#808080">62</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.63"><font color="#808080">63</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>for&nbsp;</b></font><font color="#000000">(</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">i=</font><font color="#990000">0</font><font color="#000000">;&nbsp;i&nbsp;&lt;&nbsp;len;&nbsp;i++</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.64"><font color="#808080">64</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">res</font><font color="#000000">[</font><font color="#000000">i</font><font color="#000000">]&nbsp;</font><font color="#000000">=&nbsp;indexOf</font><font color="#000000">(</font><font color="#000000">termNumbers</font><font color="#000000">[</font><font color="#000000">i</font><font color="#000000">])</font><font color="#000000">;</font><br />
+<a name="line.65"><font color="#808080">65</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.66"><font color="#808080">66</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">res;</font><br />
+<a name="line.67"><font color="#808080">67</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.68"><font color="#808080">68</font>&nbsp;</a><font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+</body></html>

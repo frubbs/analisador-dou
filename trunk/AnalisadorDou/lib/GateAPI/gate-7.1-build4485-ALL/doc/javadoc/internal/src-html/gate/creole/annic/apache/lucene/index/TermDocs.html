@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>gate/creole/annic/apache/lucene/index/TermDocs.java</title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+  <!-- start headline -->
+   <tr>
+    <td colspan="2">
+     <center><font size="+2">
+      <code><b>
+TermDocs.java
+      </b></code>
+     </font></center>
+    </td>
+   </tr>
+  <!-- end headline -->
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<a name="line.1"><font color="#808080">01</font>&nbsp;</a><font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">gate.creole.annic.apache.lucene.index;</font><br />
+<a name="line.2"><font color="#808080">02</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.3"><font color="#808080">03</font>&nbsp;</a><font color="#3f5fbf">/**</font><br />
+<a name="line.4"><font color="#808080">04</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;Copyright&nbsp;2004&nbsp;The&nbsp;Apache&nbsp;Software&nbsp;Foundation</font><br />
+<a name="line.5"><font color="#808080">05</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.6"><font color="#808080">06</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;Licensed&nbsp;under&nbsp;the&nbsp;Apache&nbsp;License,&nbsp;Version&nbsp;2.0&nbsp;(the&nbsp;&#34;License&#34;);</font><br />
+<a name="line.7"><font color="#808080">07</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;you&nbsp;may&nbsp;not&nbsp;use&nbsp;this&nbsp;file&nbsp;except&nbsp;in&nbsp;compliance&nbsp;with&nbsp;the&nbsp;License.</font><br />
+<a name="line.8"><font color="#808080">08</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;You&nbsp;may&nbsp;obtain&nbsp;a&nbsp;copy&nbsp;of&nbsp;the&nbsp;License&nbsp;at</font><br />
+<a name="line.9"><font color="#808080">09</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.10"><font color="#808080">10</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;http://www.apache.org/licenses/LICENSE-2.0</font><br />
+<a name="line.11"><font color="#808080">11</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.12"><font color="#808080">12</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;Unless&nbsp;required&nbsp;by&nbsp;applicable&nbsp;law&nbsp;or&nbsp;agreed&nbsp;to&nbsp;in&nbsp;writing,&nbsp;software</font><br />
+<a name="line.13"><font color="#808080">13</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;distributed&nbsp;under&nbsp;the&nbsp;License&nbsp;is&nbsp;distributed&nbsp;on&nbsp;an&nbsp;&#34;AS&nbsp;IS&#34;&nbsp;BASIS,</font><br />
+<a name="line.14"><font color="#808080">14</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;WITHOUT&nbsp;WARRANTIES&nbsp;OR&nbsp;CONDITIONS&nbsp;OF&nbsp;ANY&nbsp;KIND,&nbsp;either&nbsp;express&nbsp;or&nbsp;implied.</font><br />
+<a name="line.15"><font color="#808080">15</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;See&nbsp;the&nbsp;License&nbsp;for&nbsp;the&nbsp;specific&nbsp;language&nbsp;governing&nbsp;permissions&nbsp;and</font><br />
+<a name="line.16"><font color="#808080">16</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;limitations&nbsp;under&nbsp;the&nbsp;License.</font><br />
+<a name="line.17"><font color="#808080">17</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.18"><font color="#808080">18</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.19"><font color="#808080">19</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.io.IOException;</font><br />
+<a name="line.20"><font color="#808080">20</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.21"><font color="#808080">21</font>&nbsp;</a><font color="#3f5fbf">/**&nbsp;TermDocs&nbsp;provides&nbsp;an&nbsp;interface&nbsp;for&nbsp;enumerating&nbsp;&amp;lt;document,&nbsp;frequency&amp;gt;</font><br />
+<a name="line.22"><font color="#808080">22</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">pairs&nbsp;for&nbsp;a&nbsp;term.&nbsp;&nbsp;</font><font color="#7f7f9f">&lt;p&gt;&nbsp;</font><font color="#3f5fbf">The&nbsp;document&nbsp;portion&nbsp;names&nbsp;each&nbsp;document&nbsp;containing</font><br />
+<a name="line.23"><font color="#808080">23</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">the&nbsp;term.&nbsp;&nbsp;Documents&nbsp;are&nbsp;indicated&nbsp;by&nbsp;number.&nbsp;&nbsp;The&nbsp;frequency&nbsp;portion&nbsp;gives</font><br />
+<a name="line.24"><font color="#808080">24</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">the&nbsp;number&nbsp;of&nbsp;times&nbsp;the&nbsp;term&nbsp;occurred&nbsp;in&nbsp;each&nbsp;document.&nbsp;&nbsp;</font><font color="#7f7f9f">&lt;p&gt;&nbsp;</font><font color="#3f5fbf">The&nbsp;pairs&nbsp;are</font><br />
+<a name="line.25"><font color="#808080">25</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">ordered&nbsp;by&nbsp;document&nbsp;number.</font><br />
+<a name="line.26"><font color="#808080">26</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.27"><font color="#808080">27</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#7f9fbf">@see&nbsp;</font><font color="#3f5fbf">IndexReader#termDocs</font><br />
+<a name="line.28"><font color="#808080">28</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.29"><font color="#808080">29</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.30"><font color="#808080">30</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;interface&nbsp;</b></font><font color="#000000">TermDocs&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.31"><font color="#808080">31</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Sets&nbsp;this&nbsp;to&nbsp;the&nbsp;data&nbsp;for&nbsp;a&nbsp;term.</font><br />
+<a name="line.32"><font color="#808080">32</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;The&nbsp;enumeration&nbsp;is&nbsp;reset&nbsp;to&nbsp;the&nbsp;start&nbsp;of&nbsp;the&nbsp;data&nbsp;for&nbsp;this&nbsp;term.</font><br />
+<a name="line.33"><font color="#808080">33</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.34"><font color="#808080">34</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">seek</font><font color="#000000">(</font><font color="#000000">Term&nbsp;term</font><font color="#000000">)&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException;</font><br />
+<a name="line.35"><font color="#808080">35</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.36"><font color="#808080">36</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Sets&nbsp;this&nbsp;to&nbsp;the&nbsp;data&nbsp;for&nbsp;the&nbsp;current&nbsp;term&nbsp;in&nbsp;a&nbsp;</font><font color="#3f3fbf">{@link&nbsp;TermEnum}</font><font color="#3f5fbf">.</font><br />
+<a name="line.37"><font color="#808080">37</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;This&nbsp;may&nbsp;be&nbsp;optimized&nbsp;in&nbsp;some&nbsp;implementations.</font><br />
+<a name="line.38"><font color="#808080">38</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.39"><font color="#808080">39</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">seek</font><font color="#000000">(</font><font color="#000000">TermEnum&nbsp;termEnum</font><font color="#000000">)&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException;</font><br />
+<a name="line.40"><font color="#808080">40</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.41"><font color="#808080">41</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Returns&nbsp;the&nbsp;current&nbsp;document&nbsp;number.&nbsp;&nbsp;</font><font color="#7f7f9f">&lt;p&gt;&nbsp;</font><font color="#3f5fbf">This&nbsp;is&nbsp;invalid&nbsp;until&nbsp;</font><font color="#3f3fbf">{@link</font><br />
+<a name="line.42"><font color="#808080">42</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f3fbf">#next()}&nbsp;</font><font color="#3f5fbf">is&nbsp;called&nbsp;for&nbsp;the&nbsp;first&nbsp;time.*/</font><br />
+<a name="line.43"><font color="#808080">43</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">doc</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.44"><font color="#808080">44</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.45"><font color="#808080">45</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Returns&nbsp;the&nbsp;frequency&nbsp;of&nbsp;the&nbsp;term&nbsp;within&nbsp;the&nbsp;current&nbsp;document.&nbsp;&nbsp;</font><font color="#7f7f9f">&lt;p&gt;&nbsp;</font><font color="#3f5fbf">This</font><br />
+<a name="line.46"><font color="#808080">46</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">is&nbsp;invalid&nbsp;until&nbsp;</font><font color="#3f3fbf">{@link&nbsp;#next()}&nbsp;</font><font color="#3f5fbf">is&nbsp;called&nbsp;for&nbsp;the&nbsp;first&nbsp;time.*/</font><br />
+<a name="line.47"><font color="#808080">47</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">freq</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.48"><font color="#808080">48</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.49"><font color="#808080">49</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Moves&nbsp;to&nbsp;the&nbsp;next&nbsp;pair&nbsp;in&nbsp;the&nbsp;enumeration.&nbsp;&nbsp;</font><font color="#7f7f9f">&lt;p&gt;&nbsp;</font><font color="#3f5fbf">Returns&nbsp;true&nbsp;iff&nbsp;there&nbsp;is</font><br />
+<a name="line.50"><font color="#808080">50</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">such&nbsp;a&nbsp;next&nbsp;pair&nbsp;in&nbsp;the&nbsp;enumeration.&nbsp;*/</font><br />
+<a name="line.51"><font color="#808080">51</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>boolean&nbsp;</b></font><font color="#000000">next</font><font color="#000000">()&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException;</font><br />
+<a name="line.52"><font color="#808080">52</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.53"><font color="#808080">53</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Attempts&nbsp;to&nbsp;read&nbsp;multiple&nbsp;entries&nbsp;from&nbsp;the&nbsp;enumeration,&nbsp;up&nbsp;to&nbsp;length&nbsp;of</font><br />
+<a name="line.54"><font color="#808080">54</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;i&gt;</font><font color="#3f5fbf">docs</font><font color="#7f7f9f">&lt;/i&gt;</font><font color="#3f5fbf">.&nbsp;&nbsp;Document&nbsp;numbers&nbsp;are&nbsp;stored&nbsp;in&nbsp;</font><font color="#7f7f9f">&lt;i&gt;</font><font color="#3f5fbf">docs</font><font color="#7f7f9f">&lt;/i&gt;</font><font color="#3f5fbf">,&nbsp;and&nbsp;term</font><br />
+<a name="line.55"><font color="#808080">55</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;frequencies&nbsp;are&nbsp;stored&nbsp;in&nbsp;</font><font color="#7f7f9f">&lt;i&gt;</font><font color="#3f5fbf">freqs</font><font color="#7f7f9f">&lt;/i&gt;</font><font color="#3f5fbf">.&nbsp;&nbsp;The&nbsp;</font><font color="#7f7f9f">&lt;i&gt;</font><font color="#3f5fbf">freqs</font><font color="#7f7f9f">&lt;/i&gt;&nbsp;</font><font color="#3f5fbf">array&nbsp;must&nbsp;be&nbsp;as</font><br />
+<a name="line.56"><font color="#808080">56</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;long&nbsp;as&nbsp;the&nbsp;</font><font color="#7f7f9f">&lt;i&gt;</font><font color="#3f5fbf">docs</font><font color="#7f7f9f">&lt;/i&gt;&nbsp;</font><font color="#3f5fbf">array.</font><br />
+<a name="line.57"><font color="#808080">57</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.58"><font color="#808080">58</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;p&gt;</font><font color="#3f5fbf">Returns&nbsp;the&nbsp;number&nbsp;of&nbsp;entries&nbsp;read.&nbsp;&nbsp;Zero&nbsp;is&nbsp;only&nbsp;returned&nbsp;when&nbsp;the</font><br />
+<a name="line.59"><font color="#808080">59</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;stream&nbsp;has&nbsp;been&nbsp;exhausted.&nbsp;&nbsp;*/</font><br />
+<a name="line.60"><font color="#808080">60</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">read</font><font color="#000000">(</font><font color="#7f0055"><b>int</b></font><font color="#000000">[]&nbsp;</font><font color="#000000">docs,&nbsp;</font><font color="#7f0055"><b>int</b></font><font color="#000000">[]&nbsp;</font><font color="#000000">freqs</font><font color="#000000">)&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException;</font><br />
+<a name="line.61"><font color="#808080">61</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.62"><font color="#808080">62</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Skips&nbsp;entries&nbsp;to&nbsp;the&nbsp;first&nbsp;beyond&nbsp;the&nbsp;current&nbsp;whose&nbsp;document&nbsp;number&nbsp;is</font><br />
+<a name="line.63"><font color="#808080">63</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;greater&nbsp;than&nbsp;or&nbsp;equal&nbsp;to&nbsp;</font><font color="#7f7f9f">&lt;i&gt;</font><font color="#3f5fbf">target</font><font color="#7f7f9f">&lt;/i&gt;</font><font color="#3f5fbf">.&nbsp;</font><font color="#7f7f9f">&lt;p&gt;</font><font color="#3f5fbf">Returns&nbsp;true&nbsp;iff&nbsp;there&nbsp;is&nbsp;such</font><br />
+<a name="line.64"><font color="#808080">64</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;an&nbsp;entry.&nbsp;&nbsp;</font><font color="#7f7f9f">&lt;p&gt;</font><font color="#3f5fbf">Behaves&nbsp;as&nbsp;if&nbsp;written:&nbsp;</font><font color="#7f7f9f">&lt;pre&gt;</font><br />
+<a name="line.65"><font color="#808080">65</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;&nbsp;&nbsp;boolean&nbsp;skipTo(int&nbsp;target)&nbsp;{</font><br />
+<a name="line.66"><font color="#808080">66</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do&nbsp;{</font><br />
+<a name="line.67"><font color="#808080">67</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(!next())</font><br />
+<a name="line.68"><font color="#808080">68</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;false;</font><br />
+<a name="line.69"><font color="#808080">69</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;while&nbsp;(target&nbsp;&gt;&nbsp;doc());</font><br />
+<a name="line.70"><font color="#808080">70</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;true;</font><br />
+<a name="line.71"><font color="#808080">71</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;&nbsp;&nbsp;}</font><br />
+<a name="line.72"><font color="#808080">72</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;/pre&gt;</font><br />
+<a name="line.73"><font color="#808080">73</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Some&nbsp;implementations&nbsp;are&nbsp;considerably&nbsp;more&nbsp;efficient&nbsp;than&nbsp;that.</font><br />
+<a name="line.74"><font color="#808080">74</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.75"><font color="#808080">75</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>boolean&nbsp;</b></font><font color="#000000">skipTo</font><font color="#000000">(</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">target</font><font color="#000000">)&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException;</font><br />
+<a name="line.76"><font color="#808080">76</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.77"><font color="#808080">77</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Frees&nbsp;associated&nbsp;resources.&nbsp;*/</font><br />
+<a name="line.78"><font color="#808080">78</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">close</font><font color="#000000">()&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException;</font><br />
+<a name="line.79"><font color="#808080">79</font>&nbsp;</a><font color="#000000">}</font><br />
+<a name="line.80"><font color="#808080">80</font>&nbsp;</a><font color="#ffffff"></font><br />
+<font color="#ffffff"></font><font color="#ffffff">
+</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+</body></html>

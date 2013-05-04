@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>gate/creole/annic/test/AnnicIndexing.java</title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+  <!-- start headline -->
+   <tr>
+    <td colspan="2">
+     <center><font size="+2">
+      <code><b>
+AnnicIndexing.java
+      </b></code>
+     </font></center>
+    </td>
+   </tr>
+  <!-- end headline -->
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<a name="line.1"><font color="#808080">001</font>&nbsp;</a><font color="#3f7f5f">/*</font><br />
+<a name="line.2"><font color="#808080">002</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;AnnicIndexing.java</font><br />
+<a name="line.3"><font color="#808080">003</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.4"><font color="#808080">004</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Niraj&nbsp;Aswani,&nbsp;19/March/07</font><br />
+<a name="line.5"><font color="#808080">005</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.6"><font color="#808080">006</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;$Id:&nbsp;AnnicIndexing.html,v&nbsp;1.0&nbsp;2007/03/19&nbsp;16:22:01&nbsp;niraj&nbsp;Exp&nbsp;$</font><br />
+<a name="line.7"><font color="#808080">007</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*/</font><br />
+<a name="line.8"><font color="#808080">008</font>&nbsp;</a><font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">gate.creole.annic.test;</font><br />
+<a name="line.9"><font color="#808080">009</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.10"><font color="#808080">010</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.util.HashMap;</font><br />
+<a name="line.11"><font color="#808080">011</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.util.List;</font><br />
+<a name="line.12"><font color="#808080">012</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.util.ArrayList;</font><br />
+<a name="line.13"><font color="#808080">013</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.util.Map;</font><br />
+<a name="line.14"><font color="#808080">014</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.15"><font color="#808080">015</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.*;</font><br />
+<a name="line.16"><font color="#808080">016</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.annic.Constants;</font><br />
+<a name="line.17"><font color="#808080">017</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.annic.IndexException;</font><br />
+<a name="line.18"><font color="#808080">018</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.annic.lucene.LuceneIndexer;</font><br />
+<a name="line.19"><font color="#808080">019</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.20"><font color="#808080">020</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.io.IOException;</font><br />
+<a name="line.21"><font color="#808080">021</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.net.URL;</font><br />
+<a name="line.22"><font color="#808080">022</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.23"><font color="#808080">023</font>&nbsp;</a><font color="#3f5fbf">/**</font><br />
+<a name="line.24"><font color="#808080">024</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;The&nbsp;class&nbsp;is&nbsp;an&nbsp;example&nbsp;of&nbsp;how&nbsp;to&nbsp;index&nbsp;a&nbsp;corpus&nbsp;using&nbsp;the&nbsp;ANNIC</font><br />
+<a name="line.25"><font color="#808080">025</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;functionalities.&nbsp;The&nbsp;class&nbsp;is&nbsp;used&nbsp;by&nbsp;the&nbsp;TestAnnic.java.</font><br />
+<a name="line.26"><font color="#808080">026</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><br />
+<a name="line.27"><font color="#808080">027</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@author&nbsp;</font><font color="#3f5fbf">niraj</font><br />
+<a name="line.28"><font color="#808080">028</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><br />
+<a name="line.29"><font color="#808080">029</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.30"><font color="#808080">030</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">AnnicIndexing&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.31"><font color="#808080">031</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.32"><font color="#808080">032</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.33"><font color="#808080">033</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;serial&nbsp;version&nbsp;id</font><br />
+<a name="line.34"><font color="#808080">034</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.35"><font color="#808080">035</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;static&nbsp;final&nbsp;</b></font><font color="#7f0055"><b>long&nbsp;</b></font><font color="#000000">serialVersionUID&nbsp;=&nbsp;</font><font color="#990000">3688785860577212210L</font><font color="#000000">;</font><br />
+<a name="line.36"><font color="#808080">036</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.37"><font color="#808080">037</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.38"><font color="#808080">038</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Corpus&nbsp;to&nbsp;index.</font><br />
+<a name="line.39"><font color="#808080">039</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.40"><font color="#808080">040</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">gate.Corpus&nbsp;corpus;</font><br />
+<a name="line.41"><font color="#808080">041</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.42"><font color="#808080">042</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.43"><font color="#808080">043</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Features&nbsp;to&nbsp;exclude&nbsp;from&nbsp;index.</font><br />
+<a name="line.44"><font color="#808080">044</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.45"><font color="#808080">045</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">ArrayList&lt;String&gt;&nbsp;featuresToExclude&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">ArrayList&lt;String&gt;</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.46"><font color="#808080">046</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.47"><font color="#808080">047</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.48"><font color="#808080">048</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Where&nbsp;to&nbsp;store&nbsp;the&nbsp;index.</font><br />
+<a name="line.49"><font color="#808080">049</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.50"><font color="#808080">050</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">java.net.URL&nbsp;indexOutputDirectoryLocation;</font><br />
+<a name="line.51"><font color="#808080">051</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.52"><font color="#808080">052</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.53"><font color="#808080">053</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;AnnotationSet&nbsp;to&nbsp;index.</font><br />
+<a name="line.54"><font color="#808080">054</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.55"><font color="#808080">055</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">String&nbsp;annotationSetName&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;&#34;</font><font color="#000000">;</font><br />
+<a name="line.56"><font color="#808080">056</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.57"><font color="#808080">057</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.58"><font color="#808080">058</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Base&nbsp;Token&nbsp;Annotation&nbsp;Type&nbsp;e.g.&nbsp;Token</font><br />
+<a name="line.59"><font color="#808080">059</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.60"><font color="#808080">060</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">String&nbsp;baseTokenAnnotationType&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;&#34;</font><font color="#000000">;</font><br />
+<a name="line.61"><font color="#808080">061</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.62"><font color="#808080">062</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.63"><font color="#808080">063</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Index&nbsp;Unit&nbsp;Annotation&nbsp;type&nbsp;e.g.&nbsp;Sentence</font><br />
+<a name="line.64"><font color="#808080">064</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.65"><font color="#808080">065</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">String&nbsp;indexUnitAnnotationType&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;&#34;</font><font color="#000000">;</font><br />
+<a name="line.66"><font color="#808080">066</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.67"><font color="#808080">067</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.68"><font color="#808080">068</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Instance&nbsp;of&nbsp;a&nbsp;Lucene&nbsp;Indexer</font><br />
+<a name="line.69"><font color="#808080">069</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.70"><font color="#808080">070</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">LuceneIndexer&nbsp;indexer&nbsp;=&nbsp;</font><font color="#7f0055"><b>null</b></font><font color="#000000">;</font><br />
+<a name="line.71"><font color="#808080">071</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.72"><font color="#808080">072</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.73"><font color="#808080">073</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Constructor</font><br />
+<a name="line.74"><font color="#808080">074</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@throws&nbsp;</font><font color="#3f5fbf">IOException</font><br />
+<a name="line.75"><font color="#808080">075</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.76"><font color="#808080">076</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">AnnicIndexing</font><font color="#000000">()&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.77"><font color="#808080">077</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">corpus&nbsp;=&nbsp;</font><font color="#7f0055"><b>null</b></font><font color="#000000">;</font><br />
+<a name="line.78"><font color="#808080">078</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">annotationSetName&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;&#34;</font><font color="#000000">;</font><br />
+<a name="line.79"><font color="#808080">079</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">indexer&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">LuceneIndexer</font><font color="#000000">((</font><font color="#000000">URL</font><font color="#000000">)</font><font color="#7f0055"><b>null</b></font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.80"><font color="#808080">080</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.81"><font color="#808080">081</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.82"><font color="#808080">082</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.83"><font color="#808080">083</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.84"><font color="#808080">084</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;This&nbsp;method&nbsp;creates&nbsp;a&nbsp;lucene&nbsp;index.</font><br />
+<a name="line.85"><font color="#808080">085</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.86"><font color="#808080">086</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">execute</font><font color="#000000">()&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">ExecutionException&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.87"><font color="#808080">087</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>long&nbsp;</b></font><font color="#000000">start&nbsp;=&nbsp;System.currentTimeMillis</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.88"><font color="#808080">088</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>try&nbsp;</b></font><font color="#000000">{</font><br />
+<a name="line.89"><font color="#808080">089</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Map&nbsp;parameters&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">HashMap</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.90"><font color="#808080">090</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">ArrayList&lt;String&gt;&nbsp;toinclude&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">ArrayList&lt;String&gt;</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.91"><font color="#808080">091</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">toinclude.add</font><font color="#000000">(</font><font color="#000000">getAnnotationSetName</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.92"><font color="#808080">092</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">parameters.put</font><font color="#000000">(</font><font color="#000000">Constants.ANNOTATION_SETS_NAMES_TO_INCLUDE,&nbsp;toinclude</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.93"><font color="#808080">093</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">parameters.put</font><font color="#000000">(</font><font color="#000000">Constants.ANNOTATION_SETS_NAMES_TO_EXCLUDE,&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">ArrayList&lt;String&gt;</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.94"><font color="#808080">094</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">parameters.put</font><font color="#000000">(</font><font color="#000000">Constants.BASE_TOKEN_ANNOTATION_TYPE,&nbsp;getBaseTokenAnnotationType</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.95"><font color="#808080">095</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">parameters.put</font><font color="#000000">(</font><font color="#000000">Constants.FEATURES_TO_EXCLUDE,&nbsp;getFeaturesToExclude</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.96"><font color="#808080">096</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">parameters.put</font><font color="#000000">(</font><font color="#000000">Constants.FEATURES_TO_INCLUDE,&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">ArrayList&lt;String&gt;</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.97"><font color="#808080">097</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">parameters.put</font><font color="#000000">(</font><font color="#000000">Constants.INDEX_UNIT_ANNOTATION_TYPE,&nbsp;getIndexUnitAnnotationType</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.98"><font color="#808080">098</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">parameters.put</font><font color="#000000">(</font><font color="#000000">Constants.INDEX_LOCATION_URL,&nbsp;getIndexOutputDirectoryLocation</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.99"><font color="#808080">099</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">indexer.setCorpus</font><font color="#000000">(</font><font color="#000000">getCorpus</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.100"><font color="#808080">100</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">indexer.createIndex</font><font color="#000000">(</font><font color="#000000">parameters</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.101"><font color="#808080">101</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.102"><font color="#808080">102</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>catch</b></font><font color="#000000">(</font><font color="#000000">IndexException&nbsp;ie</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.103"><font color="#808080">103</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>throw&nbsp;new&nbsp;</b></font><font color="#000000">ExecutionException</font><font color="#000000">(</font><font color="#000000">ie</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.104"><font color="#808080">104</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.105"><font color="#808080">105</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.106"><font color="#808080">106</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.107"><font color="#808080">107</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.108"><font color="#808080">108</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Gets&nbsp;the&nbsp;location&nbsp;of&nbsp;index&nbsp;output&nbsp;directory</font><br />
+<a name="line.109"><font color="#808080">109</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.110"><font color="#808080">110</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">java.net.URL&nbsp;getIndexOutputDirectoryLocation</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.111"><font color="#808080">111</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">indexOutputDirectoryLocation;</font><br />
+<a name="line.112"><font color="#808080">112</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.113"><font color="#808080">113</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.114"><font color="#808080">114</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.115"><font color="#808080">115</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Sets&nbsp;the&nbsp;location&nbsp;of&nbsp;index&nbsp;output&nbsp;directory</font><br />
+<a name="line.116"><font color="#808080">116</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">dir</font><br />
+<a name="line.117"><font color="#808080">117</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.118"><font color="#808080">118</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">setIndexOutputDirectoryLocation</font><font color="#000000">(</font><font color="#000000">java.net.URL&nbsp;dir</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.119"><font color="#808080">119</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">indexOutputDirectoryLocation&nbsp;=&nbsp;dir;</font><br />
+<a name="line.120"><font color="#808080">120</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.121"><font color="#808080">121</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.122"><font color="#808080">122</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.123"><font color="#808080">123</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Gets&nbsp;the&nbsp;annotation&nbsp;set&nbsp;name&nbsp;to&nbsp;be&nbsp;indexed</font><br />
+<a name="line.124"><font color="#808080">124</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.125"><font color="#808080">125</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">String&nbsp;getAnnotationSetName</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.126"><font color="#808080">126</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">annotationSetName;</font><br />
+<a name="line.127"><font color="#808080">127</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.128"><font color="#808080">128</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.129"><font color="#808080">129</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.130"><font color="#808080">130</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Sets&nbsp;the&nbsp;annotation&nbsp;set&nbsp;name</font><br />
+<a name="line.131"><font color="#808080">131</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">annotationSetName</font><br />
+<a name="line.132"><font color="#808080">132</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.133"><font color="#808080">133</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">setAnnotationSetName</font><font color="#000000">(</font><font color="#000000">String&nbsp;annotationSetName</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.134"><font color="#808080">134</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if</b></font><font color="#000000">(</font><font color="#000000">annotationSetName&nbsp;!=&nbsp;</font><font color="#7f0055"><b>null&nbsp;</b></font><font color="#000000">&amp;&amp;&nbsp;annotationSetName.trim</font><font color="#000000">()</font><font color="#000000">.equals</font><font color="#000000">(</font><font color="#2a00ff">&#34;&#34;</font><font color="#000000">))&nbsp;{</font><br />
+<a name="line.135"><font color="#808080">135</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">annotationSetName&nbsp;=&nbsp;</font><font color="#7f0055"><b>null</b></font><font color="#000000">;</font><br />
+<a name="line.136"><font color="#808080">136</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.137"><font color="#808080">137</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.138"><font color="#808080">138</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.annotationSetName&nbsp;=&nbsp;annotationSetName;</font><br />
+<a name="line.139"><font color="#808080">139</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.140"><font color="#808080">140</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.141"><font color="#808080">141</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.142"><font color="#808080">142</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Gets&nbsp;the&nbsp;base&nbsp;token&nbsp;annotation&nbsp;type</font><br />
+<a name="line.143"><font color="#808080">143</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.144"><font color="#808080">144</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">String&nbsp;getBaseTokenAnnotationType</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.145"><font color="#808080">145</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;this</b></font><font color="#000000">.baseTokenAnnotationType;</font><br />
+<a name="line.146"><font color="#808080">146</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.147"><font color="#808080">147</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.148"><font color="#808080">148</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.149"><font color="#808080">149</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Sets&nbsp;the&nbsp;base&nbsp;token&nbsp;annotation&nbsp;type</font><br />
+<a name="line.150"><font color="#808080">150</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">baseTokenAnnotationType</font><br />
+<a name="line.151"><font color="#808080">151</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.152"><font color="#808080">152</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">setBaseTokenAnnotationType</font><font color="#000000">(</font><font color="#000000">String&nbsp;baseTokenAnnotationType</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.153"><font color="#808080">153</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.baseTokenAnnotationType&nbsp;=&nbsp;baseTokenAnnotationType;</font><br />
+<a name="line.154"><font color="#808080">154</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.155"><font color="#808080">155</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.156"><font color="#808080">156</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.157"><font color="#808080">157</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Sets&nbsp;the&nbsp;corpus&nbsp;to&nbsp;index</font><br />
+<a name="line.158"><font color="#808080">158</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">corpus</font><br />
+<a name="line.159"><font color="#808080">159</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.160"><font color="#808080">160</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">setCorpus</font><font color="#000000">(</font><font color="#000000">gate.Corpus&nbsp;corpus</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.161"><font color="#808080">161</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.corpus&nbsp;=&nbsp;corpus;</font><br />
+<a name="line.162"><font color="#808080">162</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.163"><font color="#808080">163</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.164"><font color="#808080">164</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.165"><font color="#808080">165</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Gets&nbsp;the&nbsp;corpus&nbsp;to&nbsp;index</font><br />
+<a name="line.166"><font color="#808080">166</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.167"><font color="#808080">167</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">gate.Corpus&nbsp;getCorpus</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.168"><font color="#808080">168</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;this</b></font><font color="#000000">.corpus;</font><br />
+<a name="line.169"><font color="#808080">169</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.170"><font color="#808080">170</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.171"><font color="#808080">171</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.172"><font color="#808080">172</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Gets&nbsp;the&nbsp;features&nbsp;of&nbsp;annotation&nbsp;to&nbsp;be&nbsp;excluded&nbsp;from&nbsp;being&nbsp;indexed</font><br />
+<a name="line.173"><font color="#808080">173</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.174"><font color="#808080">174</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">List&nbsp;getFeaturesToExclude</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.175"><font color="#808080">175</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">featuresToExclude;</font><br />
+<a name="line.176"><font color="#808080">176</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.177"><font color="#808080">177</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.178"><font color="#808080">178</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.179"><font color="#808080">179</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Sets&nbsp;the&nbsp;features&nbsp;of&nbsp;annotations&nbsp;to&nbsp;be&nbsp;excluded&nbsp;from&nbsp;being&nbsp;indexed</font><br />
+<a name="line.180"><font color="#808080">180</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">featuresToExclude</font><br />
+<a name="line.181"><font color="#808080">181</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.182"><font color="#808080">182</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">setFeaturesToExclude</font><font color="#000000">(</font><font color="#000000">ArrayList&lt;String&gt;&nbsp;featuresToExclude</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.183"><font color="#808080">183</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.featuresToExclude&nbsp;=&nbsp;featuresToExclude;</font><br />
+<a name="line.184"><font color="#808080">184</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.185"><font color="#808080">185</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.186"><font color="#808080">186</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.187"><font color="#808080">187</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Gets&nbsp;the&nbsp;Index&nbsp;Unit&nbsp;Annotation&nbsp;type.</font><br />
+<a name="line.188"><font color="#808080">188</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.189"><font color="#808080">189</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">String&nbsp;getIndexUnitAnnotationType</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.190"><font color="#808080">190</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">indexUnitAnnotationType;</font><br />
+<a name="line.191"><font color="#808080">191</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.192"><font color="#808080">192</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.193"><font color="#808080">193</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.194"><font color="#808080">194</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Sets&nbsp;the&nbsp;Index&nbsp;Unit&nbsp;annotation&nbsp;type.</font><br />
+<a name="line.195"><font color="#808080">195</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">indexUnitAnnotationType</font><br />
+<a name="line.196"><font color="#808080">196</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.197"><font color="#808080">197</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">setIndexUnitAnnotationType</font><font color="#000000">(</font><font color="#000000">String&nbsp;indexUnitAnnotationType</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.198"><font color="#808080">198</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.indexUnitAnnotationType&nbsp;=&nbsp;indexUnitAnnotationType;</font><br />
+<a name="line.199"><font color="#808080">199</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.200"><font color="#808080">200</font>&nbsp;</a><font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+</body></html>

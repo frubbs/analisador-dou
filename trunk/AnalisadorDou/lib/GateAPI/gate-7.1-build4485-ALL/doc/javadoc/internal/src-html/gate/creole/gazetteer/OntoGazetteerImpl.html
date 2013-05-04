@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>gate/creole/gazetteer/OntoGazetteerImpl.java</title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+  <!-- start headline -->
+   <tr>
+    <td colspan="2">
+     <center><font size="+2">
+      <code><b>
+OntoGazetteerImpl.java
+      </b></code>
+     </font></center>
+    </td>
+   </tr>
+  <!-- end headline -->
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<a name="line.1"><font color="#808080">001</font>&nbsp;</a><font color="#3f7f5f">/*</font><br />
+<a name="line.2"><font color="#808080">002</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;OntoGazetteerImpl.java</font><br />
+<a name="line.3"><font color="#808080">003</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.4"><font color="#808080">004</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;Copyright&nbsp;(c)&nbsp;2002,&nbsp;The&nbsp;University&nbsp;of&nbsp;Sheffield.</font><br />
+<a name="line.5"><font color="#808080">005</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.6"><font color="#808080">006</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;This&nbsp;file&nbsp;is&nbsp;part&nbsp;of&nbsp;GATE&nbsp;(see&nbsp;http://gate.ac.uk/),&nbsp;and&nbsp;is&nbsp;free</font><br />
+<a name="line.7"><font color="#808080">007</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;software,&nbsp;licenced&nbsp;under&nbsp;the&nbsp;GNU&nbsp;Library&nbsp;General&nbsp;Public&nbsp;License,</font><br />
+<a name="line.8"><font color="#808080">008</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;Version&nbsp;2,&nbsp;June1991.</font><br />
+<a name="line.9"><font color="#808080">009</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.10"><font color="#808080">010</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;A&nbsp;copy&nbsp;of&nbsp;this&nbsp;licence&nbsp;is&nbsp;included&nbsp;in&nbsp;the&nbsp;distribution&nbsp;in&nbsp;the&nbsp;file</font><br />
+<a name="line.11"><font color="#808080">011</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;licence.html,&nbsp;and&nbsp;is&nbsp;also&nbsp;available&nbsp;at&nbsp;http://gate.ac.uk/gate/licence.html.</font><br />
+<a name="line.12"><font color="#808080">012</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.13"><font color="#808080">013</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;borislav&nbsp;popov&nbsp;02/2002</font><br />
+<a name="line.14"><font color="#808080">014</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.15"><font color="#808080">015</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*/</font><br />
+<a name="line.16"><font color="#808080">016</font>&nbsp;</a><font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">gate.creole.gazetteer;</font><br />
+<a name="line.17"><font color="#808080">017</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.18"><font color="#808080">018</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.*;</font><br />
+<a name="line.19"><font color="#808080">019</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.ExecutionException;</font><br />
+<a name="line.20"><font color="#808080">020</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.ResourceInstantiationException;</font><br />
+<a name="line.21"><font color="#808080">021</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.22"><font color="#808080">022</font>&nbsp;</a><font color="#3f5fbf">/**&nbsp;OntoGazetteerImpl&nbsp;</font><font color="#7f7f9f">&lt;br&gt;</font><br />
+<a name="line.23"><font color="#808080">023</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;&nbsp;An&nbsp;ontology-aware&nbsp;gazetteer,&nbsp;producing&nbsp;additional&nbsp;annotations</font><br />
+<a name="line.24"><font color="#808080">024</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;&nbsp;with&nbsp;features&nbsp;[class]&nbsp;and&nbsp;[ontology].</font><br />
+<a name="line.25"><font color="#808080">025</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.26"><font color="#808080">026</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">OntoGazetteerImpl&nbsp;</font><font color="#7f0055"><b>extends&nbsp;</b></font><font color="#000000">AbstractOntoGazetteer&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.27"><font color="#808080">027</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.28"><font color="#808080">028</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">OntoGazetteerImpl</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.29"><font color="#808080">029</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.30"><font color="#808080">030</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.31"><font color="#808080">031</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">java.util.Set&nbsp;lookup</font><font color="#000000">(</font><font color="#000000">String&nbsp;singleItem</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.32"><font color="#808080">032</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">gaz.lookup</font><font color="#000000">(</font><font color="#000000">singleItem</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.33"><font color="#808080">033</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.34"><font color="#808080">034</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.35"><font color="#808080">035</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Initialize&nbsp;this&nbsp;onto&nbsp;gazetteer</font><br />
+<a name="line.36"><font color="#808080">036</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;&nbsp;</font><font color="#7f9fbf">@return&nbsp;</font><font color="#3f5fbf">.*/</font><br />
+<a name="line.37"><font color="#808080">037</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">Resource&nbsp;init</font><font color="#000000">()&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">ResourceInstantiationException&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.38"><font color="#808080">038</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>try&nbsp;</b></font><font color="#000000">{</font><br />
+<a name="line.39"><font color="#808080">039</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">checkParameters</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.40"><font color="#808080">040</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.41"><font color="#808080">041</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;load&nbsp;gazetteer&nbsp;class&nbsp;from&nbsp;GATE&nbsp;classloader</font><br />
+<a name="line.42"><font color="#808080">042</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Class&nbsp;cl&nbsp;=&nbsp;Class.forName</font><font color="#000000">(</font><font color="#000000">gazetteerName,&nbsp;true,&nbsp;Gate.getClassLoader</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.43"><font color="#808080">043</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.44"><font color="#808080">044</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">FeatureMap&nbsp;params&nbsp;=&nbsp;Factory.newFeatureMap</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.45"><font color="#808080">045</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.46"><font color="#808080">046</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">mappingDefinition&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">MappingDefinition</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.47"><font color="#808080">047</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">mappingDefinition.setURL</font><font color="#000000">(</font><font color="#000000">mappingURL</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.48"><font color="#808080">048</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">mappingDefinition.load</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.49"><font color="#808080">049</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.50"><font color="#808080">050</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">params.put</font><font color="#000000">(</font><font color="#2a00ff">&#34;caseSensitive&#34;</font><font color="#000000">,caseSensitive</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.51"><font color="#808080">051</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">params.put</font><font color="#000000">(</font><font color="#2a00ff">&#34;listsURL&#34;</font><font color="#000000">,listsURL</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.52"><font color="#808080">052</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">params.put</font><font color="#000000">(</font><font color="#2a00ff">&#34;encoding&#34;</font><font color="#000000">,encoding</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.53"><font color="#808080">053</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">params.put</font><font color="#000000">(</font><font color="#2a00ff">&#34;mappingDefinition&#34;</font><font color="#000000">,mappingDefinition</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.54"><font color="#808080">054</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">gaz&nbsp;=&nbsp;</font><font color="#000000">(</font><font color="#000000">Gazetteer</font><font color="#000000">)</font><font color="#000000">Factory.createResource</font><font color="#000000">(</font><font color="#000000">cl.getName</font><font color="#000000">()</font><font color="#000000">,params</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.55"><font color="#808080">055</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.56"><font color="#808080">056</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#7f0055"><b>catch&nbsp;</b></font><font color="#000000">(</font><font color="#000000">ClassNotFoundException&nbsp;e</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.57"><font color="#808080">057</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>throw&nbsp;new&nbsp;</b></font><font color="#000000">RuntimeException</font><font color="#000000">(</font><font color="#2a00ff">&#34;ClassNotFoundException&nbsp;:&nbsp;&#34;</font><font color="#000000">+e.getMessage</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.58"><font color="#808080">058</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#7f0055"><b>catch&nbsp;</b></font><font color="#000000">(</font><font color="#000000">InvalidFormatException&nbsp;e</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.59"><font color="#808080">059</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>throw&nbsp;new&nbsp;</b></font><font color="#000000">ResourceInstantiationException</font><font color="#000000">(</font><font color="#000000">e</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.60"><font color="#808080">060</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.61"><font color="#808080">061</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;this</b></font><font color="#000000">;</font><br />
+<a name="line.62"><font color="#808080">062</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;init</font><br />
+<a name="line.63"><font color="#808080">063</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.64"><font color="#808080">064</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Executes&nbsp;this&nbsp;onto&nbsp;gazetteer&nbsp;over&nbsp;a&nbsp;pre-set&nbsp;document</font><br />
+<a name="line.65"><font color="#808080">065</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;&nbsp;</font><font color="#7f9fbf">@throws&nbsp;</font><font color="#3f5fbf">ExecutionException&nbsp;if&nbsp;something&nbsp;goes&nbsp;wrong&nbsp;with&nbsp;the&nbsp;execution&nbsp;*/</font><br />
+<a name="line.66"><font color="#808080">066</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">execute</font><font color="#000000">()</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">ExecutionException&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.67"><font color="#808080">067</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if&nbsp;</b></font><font color="#000000">(</font><font color="#7f0055"><b>null&nbsp;</b></font><font color="#000000">==&nbsp;gaz</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.68"><font color="#808080">068</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>throw&nbsp;new&nbsp;</b></font><font color="#000000">ExecutionException</font><font color="#000000">(</font><font color="#2a00ff">&#34;gazetteer&nbsp;not&nbsp;initialized&nbsp;(null).&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.69"><font color="#808080">069</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.70"><font color="#808080">070</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.71"><font color="#808080">071</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">gaz.setDocument</font><font color="#000000">(</font><font color="#000000">document</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.72"><font color="#808080">072</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">gaz.setAnnotationSetName</font><font color="#000000">(</font><font color="#000000">annotationSetName</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.73"><font color="#808080">073</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">gaz.setEncoding</font><font color="#000000">(</font><font color="#000000">encoding</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.74"><font color="#808080">074</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">gaz.setCorpus</font><font color="#000000">(</font><font color="#000000">corpus</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.75"><font color="#808080">075</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">gaz.execute</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.76"><font color="#808080">076</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;execute</font><br />
+<a name="line.77"><font color="#808080">077</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.78"><font color="#808080">078</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.79"><font color="#808080">079</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Checks&nbsp;the&nbsp;parameters&nbsp;set&nbsp;to&nbsp;this&nbsp;gazetteer</font><br />
+<a name="line.80"><font color="#808080">080</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@throws&nbsp;</font><font color="#3f5fbf">ResourceInstantiationException&nbsp;if&nbsp;something&nbsp;goes&nbsp;wrong</font><br />
+<a name="line.81"><font color="#808080">081</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.82"><font color="#808080">082</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">checkParameters</font><font color="#000000">()&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">ResourceInstantiationException&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.83"><font color="#808080">083</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>boolean&nbsp;</b></font><font color="#000000">set&nbsp;=&nbsp;</font><font color="#7f0055"><b>null</b></font><font color="#000000">!=gazetteerName;</font><br />
+<a name="line.84"><font color="#808080">084</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">set&nbsp;&amp;=&nbsp;</font><font color="#7f0055"><b>null</b></font><font color="#000000">!=listsURL;</font><br />
+<a name="line.85"><font color="#808080">085</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">set&amp;=</font><font color="#7f0055"><b>null</b></font><font color="#000000">!=mappingURL;</font><br />
+<a name="line.86"><font color="#808080">086</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if&nbsp;</b></font><font color="#000000">(</font><font color="#000000">!set</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.87"><font color="#808080">087</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>throw&nbsp;new&nbsp;</b></font><font color="#000000">ResourceInstantiationException</font><font color="#000000">(</font><font color="#2a00ff">&#34;some&nbsp;parameters&nbsp;are&nbsp;not&nbsp;set&nbsp;(e.g.gazetteerName,&#34;</font><br />
+<a name="line.88"><font color="#808080">088</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">+</font><font color="#2a00ff">&#34;listURL,mappingDefinition,&nbsp;document&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.89"><font color="#808080">089</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.90"><font color="#808080">090</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.91"><font color="#808080">091</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;checkParameters</font><br />
+<a name="line.92"><font color="#808080">092</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.93"><font color="#808080">093</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.94"><font color="#808080">094</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Removes&nbsp;a&nbsp;single&nbsp;string&nbsp;item&nbsp;from&nbsp;the&nbsp;gazetteer&nbsp;model</font><br />
+<a name="line.95"><font color="#808080">095</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">singleItem&nbsp;removes&nbsp;a&nbsp;string&nbsp;item&nbsp;from&nbsp;the&nbsp;gazetteer&nbsp;model</font><br />
+<a name="line.96"><font color="#808080">096</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@return&nbsp;</font><font color="#3f5fbf">true&nbsp;if&nbsp;the&nbsp;string&nbsp;is&nbsp;removed&nbsp;from&nbsp;the&nbsp;model,&nbsp;otherwise&nbsp;-&nbsp;false</font><br />
+<a name="line.97"><font color="#808080">097</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.98"><font color="#808080">098</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>boolean&nbsp;</b></font><font color="#000000">remove</font><font color="#000000">(</font><font color="#000000">String&nbsp;singleItem</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.99"><font color="#808080">099</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">gaz.remove</font><font color="#000000">(</font><font color="#000000">singleItem</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.100"><font color="#808080">100</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.101"><font color="#808080">101</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.102"><font color="#808080">102</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.103"><font color="#808080">103</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Adds&nbsp;a&nbsp;string&nbsp;item&nbsp;to&nbsp;the&nbsp;model&nbsp;and&nbsp;associates&nbsp;it&nbsp;with&nbsp;a&nbsp;Lookup</font><br />
+<a name="line.104"><font color="#808080">104</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">singleItem&nbsp;the&nbsp;string&nbsp;item&nbsp;to&nbsp;be&nbsp;added</font><br />
+<a name="line.105"><font color="#808080">105</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">lookup&nbsp;the&nbsp;lookup&nbsp;to&nbsp;be&nbsp;associated&nbsp;with&nbsp;the&nbsp;string&nbsp;item</font><br />
+<a name="line.106"><font color="#808080">106</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@return&nbsp;</font><font color="#3f5fbf">true&nbsp;if&nbsp;the&nbsp;item&nbsp;has&nbsp;been&nbsp;added,&nbsp;otherwise&nbsp;-&nbsp;false.</font><br />
+<a name="line.107"><font color="#808080">107</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.108"><font color="#808080">108</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>boolean&nbsp;</b></font><font color="#000000">add</font><font color="#000000">(</font><font color="#000000">String&nbsp;singleItem,&nbsp;Lookup&nbsp;lookup</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.109"><font color="#808080">109</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">gaz.add</font><font color="#000000">(</font><font color="#000000">singleItem,lookup</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.110"><font color="#808080">110</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.111"><font color="#808080">111</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.112"><font color="#808080">112</font>&nbsp;</a><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;OntoGazetteerImpl</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+</body></html>

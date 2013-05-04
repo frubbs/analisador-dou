@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>gate/jape/Rule.java</title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+  <!-- start headline -->
+   <tr>
+    <td colspan="2">
+     <center><font size="+2">
+      <code><b>
+Rule.java
+      </b></code>
+     </font></center>
+    </td>
+   </tr>
+  <!-- end headline -->
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<a name="line.1"><font color="#808080">001</font>&nbsp;</a><font color="#3f7f5f">/*</font><br />
+<a name="line.2"><font color="#808080">002</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Rule.java&nbsp;-&nbsp;transducer&nbsp;class</font><br />
+<a name="line.3"><font color="#808080">003</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.4"><font color="#808080">004</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Copyright&nbsp;(c)&nbsp;1995-2012,&nbsp;The&nbsp;University&nbsp;of&nbsp;Sheffield.&nbsp;See&nbsp;the&nbsp;file</font><br />
+<a name="line.5"><font color="#808080">005</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;COPYRIGHT.txt&nbsp;in&nbsp;the&nbsp;software&nbsp;or&nbsp;at&nbsp;http://gate.ac.uk/gate/COPYRIGHT.txt</font><br />
+<a name="line.6"><font color="#808080">006</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.7"><font color="#808080">007</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;This&nbsp;file&nbsp;is&nbsp;part&nbsp;of&nbsp;GATE&nbsp;(see&nbsp;http://gate.ac.uk/),&nbsp;and&nbsp;is&nbsp;free</font><br />
+<a name="line.8"><font color="#808080">008</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;software,&nbsp;licenced&nbsp;under&nbsp;the&nbsp;GNU&nbsp;Library&nbsp;General&nbsp;Public&nbsp;License,</font><br />
+<a name="line.9"><font color="#808080">009</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Version&nbsp;2,&nbsp;June&nbsp;1991&nbsp;(in&nbsp;the&nbsp;distribution&nbsp;as&nbsp;file&nbsp;licence.html,</font><br />
+<a name="line.10"><font color="#808080">010</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;and&nbsp;also&nbsp;available&nbsp;at&nbsp;http://gate.ac.uk/gate/licence.html).</font><br />
+<a name="line.11"><font color="#808080">011</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.12"><font color="#808080">012</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Hamish&nbsp;Cunningham,&nbsp;24/07/98</font><br />
+<a name="line.13"><font color="#808080">013</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.14"><font color="#808080">014</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;$Id:&nbsp;Rule.java&nbsp;15762&nbsp;2012-05-10&nbsp;16:07:00Z&nbsp;ian_roberts&nbsp;$</font><br />
+<a name="line.15"><font color="#808080">015</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*/</font><br />
+<a name="line.16"><font color="#808080">016</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.17"><font color="#808080">017</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.18"><font color="#808080">018</font>&nbsp;</a><font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">gate.jape;</font><br />
+<a name="line.19"><font color="#808080">019</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.20"><font color="#808080">020</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.AnnotationSet;</font><br />
+<a name="line.21"><font color="#808080">021</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.Document;</font><br />
+<a name="line.22"><font color="#808080">022</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.event.ProgressListener;</font><br />
+<a name="line.23"><font color="#808080">023</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.event.StatusListener;</font><br />
+<a name="line.24"><font color="#808080">024</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.util.GateClassLoader;</font><br />
+<a name="line.25"><font color="#808080">025</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.util.Out;</font><br />
+<a name="line.26"><font color="#808080">026</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.util.Strings;</font><br />
+<a name="line.27"><font color="#808080">027</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.28"><font color="#808080">028</font>&nbsp;</a><font color="#3f5fbf">/**</font><br />
+<a name="line.29"><font color="#808080">029</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;A&nbsp;CPSL&nbsp;rule.&nbsp;Has&nbsp;an&nbsp;LHS,&nbsp;RHS&nbsp;and&nbsp;a&nbsp;name,&nbsp;and&nbsp;a&nbsp;priority.</font><br />
+<a name="line.30"><font color="#808080">030</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.31"><font color="#808080">031</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">Rule&nbsp;</font><font color="#7f0055"><b>extends&nbsp;</b></font><font color="#000000">Transducer</font><br />
+<a name="line.32"><font color="#808080">032</font>&nbsp;</a><font color="#7f0055"><b>implements&nbsp;</b></font><font color="#000000">JapeConstants,&nbsp;java.io.Serializable</font><br />
+<a name="line.33"><font color="#808080">033</font>&nbsp;</a><font color="#000000">{</font><br />
+<a name="line.34"><font color="#808080">034</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Debug&nbsp;flag&nbsp;*/</font><br />
+<a name="line.35"><font color="#808080">035</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;static&nbsp;final&nbsp;</b></font><font color="#7f0055"><b>boolean&nbsp;</b></font><font color="#000000">DEBUG&nbsp;=&nbsp;</font><font color="#7f0055"><b>false</b></font><font color="#000000">;</font><br />
+<a name="line.36"><font color="#808080">036</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.37"><font color="#808080">037</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Construction&nbsp;*/</font><br />
+<a name="line.38"><font color="#808080">038</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">Rule</font><font color="#000000">(</font><br />
+<a name="line.39"><font color="#808080">039</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">String&nbsp;name,&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">position,&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">priority,</font><br />
+<a name="line.40"><font color="#808080">040</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">LeftHandSide&nbsp;lhs,&nbsp;RightHandSide&nbsp;rhs</font><br />
+<a name="line.41"><font color="#808080">041</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.42"><font color="#808080">042</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.name&nbsp;=&nbsp;name;</font><br />
+<a name="line.43"><font color="#808080">043</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.position&nbsp;=&nbsp;position;</font><br />
+<a name="line.44"><font color="#808080">044</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.priority&nbsp;=&nbsp;priority;</font><br />
+<a name="line.45"><font color="#808080">045</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.lhs&nbsp;=&nbsp;lhs;</font><br />
+<a name="line.46"><font color="#808080">046</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.rhs&nbsp;=&nbsp;rhs;</font><br />
+<a name="line.47"><font color="#808080">047</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;Construction</font><br />
+<a name="line.48"><font color="#808080">048</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><br />
+<a name="line.49"><font color="#808080">049</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Copy&nbsp;constructor&nbsp;*/</font><br />
+<a name="line.50"><font color="#808080">050</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">Rule</font><font color="#000000">(</font><font color="#000000">Rule&nbsp;existingRule</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.51"><font color="#808080">051</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.name&nbsp;=&nbsp;existingRule.name;</font><br />
+<a name="line.52"><font color="#808080">052</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.position&nbsp;=&nbsp;existingRule.position;</font><br />
+<a name="line.53"><font color="#808080">053</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.priority&nbsp;=&nbsp;existingRule.priority;</font><br />
+<a name="line.54"><font color="#808080">054</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.lhs&nbsp;=&nbsp;existingRule.lhs;</font><br />
+<a name="line.55"><font color="#808080">055</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.rhs&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">RightHandSide</font><font color="#000000">(</font><font color="#000000">existingRule.rhs</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.56"><font color="#808080">056</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.57"><font color="#808080">057</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.58"><font color="#808080">058</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;The&nbsp;LHS&nbsp;or&nbsp;pattern&nbsp;of&nbsp;the&nbsp;rule.&nbsp;*/</font><br />
+<a name="line.59"><font color="#808080">059</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">LeftHandSide&nbsp;lhs;</font><br />
+<a name="line.60"><font color="#808080">060</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.61"><font color="#808080">061</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;The&nbsp;RHS&nbsp;or&nbsp;action&nbsp;of&nbsp;the&nbsp;rule.&nbsp;*/</font><br />
+<a name="line.62"><font color="#808080">062</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">RightHandSide&nbsp;rhs;</font><br />
+<a name="line.63"><font color="#808080">063</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.64"><font color="#808080">064</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;The&nbsp;priority&nbsp;of&nbsp;the&nbsp;rule.&nbsp;*/</font><br />
+<a name="line.65"><font color="#808080">065</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">priority;</font><br />
+<a name="line.66"><font color="#808080">066</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.67"><font color="#808080">067</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Get&nbsp;the&nbsp;rule&nbsp;priority.&nbsp;*/</font><br />
+<a name="line.68"><font color="#808080">068</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">getPriority</font><font color="#000000">()&nbsp;{&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">priority;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.69"><font color="#808080">069</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.70"><font color="#808080">070</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;The&nbsp;rule's&nbsp;position&nbsp;in&nbsp;sequence&nbsp;(e.g.&nbsp;order&nbsp;in&nbsp;file).&nbsp;*/</font><br />
+<a name="line.71"><font color="#808080">071</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">position;</font><br />
+<a name="line.72"><font color="#808080">072</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.73"><font color="#808080">073</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Get&nbsp;the&nbsp;rule's&nbsp;position&nbsp;in&nbsp;sequence&nbsp;(e.g.&nbsp;order&nbsp;in&nbsp;file).&nbsp;*/</font><br />
+<a name="line.74"><font color="#808080">074</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">getPosition</font><font color="#000000">()&nbsp;{&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">position;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.75"><font color="#808080">075</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.76"><font color="#808080">076</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;If&nbsp;we're&nbsp;pending&nbsp;(have&nbsp;matched),&nbsp;get&nbsp;the&nbsp;position&nbsp;we&nbsp;want&nbsp;to&nbsp;fire&nbsp;in,</font><br />
+<a name="line.77"><font color="#808080">077</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;else&nbsp;-1.</font><br />
+<a name="line.78"><font color="#808080">078</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.79"><font color="#808080">079</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">pending</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.80"><font color="#808080">080</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">pendingPosition;</font><br />
+<a name="line.81"><font color="#808080">081</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;pending</font><br />
+<a name="line.82"><font color="#808080">082</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.83"><font color="#808080">083</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;If&nbsp;we&nbsp;matched&nbsp;but&nbsp;didn't&nbsp;fire&nbsp;yet,&nbsp;this&nbsp;is&nbsp;our&nbsp;pending&nbsp;position.&nbsp;*/</font><br />
+<a name="line.84"><font color="#808080">084</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">pendingPosition&nbsp;=&nbsp;-</font><font color="#990000">1</font><font color="#000000">;</font><br />
+<a name="line.85"><font color="#808080">085</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.86"><font color="#808080">086</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Flag&nbsp;for&nbsp;end&nbsp;of&nbsp;document&nbsp;during&nbsp;getNextMatch.&nbsp;*/</font><br />
+<a name="line.87"><font color="#808080">087</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#7f0055"><b>boolean&nbsp;</b></font><font color="#000000">weFinished&nbsp;=&nbsp;</font><font color="#7f0055"><b>false</b></font><font color="#000000">;</font><br />
+<a name="line.88"><font color="#808080">088</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.89"><font color="#808080">089</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Have&nbsp;we&nbsp;hit&nbsp;the&nbsp;end&nbsp;of&nbsp;the&nbsp;document&nbsp;without&nbsp;matching?&nbsp;*/</font><br />
+<a name="line.90"><font color="#808080">090</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>boolean&nbsp;</b></font><font color="#000000">finished</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.91"><font color="#808080">091</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">weFinished;</font><br />
+<a name="line.92"><font color="#808080">092</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;finished</font><br />
+<a name="line.93"><font color="#808080">093</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.94"><font color="#808080">094</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Finish:&nbsp;replace&nbsp;dynamic&nbsp;data&nbsp;structures&nbsp;with&nbsp;Java&nbsp;arrays;&nbsp;called</font><br />
+<a name="line.95"><font color="#808080">095</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;after&nbsp;parsing.&nbsp;WARNING:</font><br />
+<a name="line.96"><font color="#808080">096</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;bad&nbsp;choice&nbsp;of&nbsp;names:&nbsp;this&nbsp;is&nbsp;not&nbsp;related&nbsp;to&nbsp;the&nbsp;weFinished</font><br />
+<a name="line.97"><font color="#808080">097</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;member&nbsp;or&nbsp;the&nbsp;finished&nbsp;method!</font><br />
+<a name="line.98"><font color="#808080">098</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.99"><font color="#808080">099</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">finish</font><font color="#000000">(</font><font color="#000000">GateClassLoader&nbsp;classloader</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.100"><font color="#808080">100</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">lhs.finish</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.101"><font color="#808080">101</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;finish</font><br />
+<a name="line.102"><font color="#808080">102</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.103"><font color="#808080">103</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.104"><font color="#808080">104</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.105"><font color="#808080">105</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.106"><font color="#808080">106</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Apply&nbsp;the&nbsp;RHS&nbsp;of&nbsp;this&nbsp;rule&nbsp;(LHS&nbsp;must&nbsp;have&nbsp;been&nbsp;matched&nbsp;first).&nbsp;*/</font><br />
+<a name="line.107"><font color="#808080">107</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">transduce</font><font color="#000000">(</font><font color="#000000">Document&nbsp;doc,&nbsp;AnnotationSet&nbsp;inputAS,</font><br />
+<a name="line.108"><font color="#808080">108</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">AnnotationSet&nbsp;outputAS</font><font color="#000000">)&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">JapeException&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.109"><font color="#808080">109</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;the&nbsp;righthand&nbsp;side&nbsp;does&nbsp;the&nbsp;transduction,&nbsp;using&nbsp;bindings&nbsp;from&nbsp;lhs&nbsp;*/</font><br />
+<a name="line.110"><font color="#808080">110</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if</b></font><font color="#000000">(</font><font color="#000000">DEBUG</font><font color="#000000">)&nbsp;</font><font color="#000000">Out.println</font><font color="#000000">(</font><font color="#2a00ff">&#34;applying&nbsp;rule&nbsp;&#34;&nbsp;</font><font color="#000000">+&nbsp;name</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.111"><font color="#808080">111</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;&nbsp;&nbsp;&nbsp;rhs.transduce(doc);</font><br />
+<a name="line.112"><font color="#808080">112</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">/*Debug.pr(</font><br />
+<a name="line.113"><font color="#808080">113</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">this,&nbsp;&#34;Rule.transduce:&nbsp;annotations&nbsp;after&nbsp;transduction:&nbsp;&#34;&nbsp;+</font><br />
+<a name="line.114"><font color="#808080">114</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">doc.selectAnnotations(&#34;Name&#34;,&nbsp;new&nbsp;FeatureMap()).toString()&nbsp;+</font><br />
+<a name="line.115"><font color="#808080">115</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">Debug.getNl()</font><br />
+<a name="line.116"><font color="#808080">116</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">);*/</font><br />
+<a name="line.117"><font color="#808080">117</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.118"><font color="#808080">118</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;clear&nbsp;the&nbsp;caches&nbsp;of&nbsp;matched&nbsp;annotations&nbsp;in&nbsp;the&nbsp;LHS</font><br />
+<a name="line.119"><font color="#808080">119</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;&nbsp;&nbsp;&nbsp;reset();</font><br />
+<a name="line.120"><font color="#808080">120</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//Debug.pr(this,&nbsp;&#34;LHS&nbsp;after&nbsp;reset:&nbsp;&#34;&nbsp;+&nbsp;lhs.toString());</font><br />
+<a name="line.121"><font color="#808080">121</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.122"><font color="#808080">122</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;transduce</font><br />
+<a name="line.123"><font color="#808080">123</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.124"><font color="#808080">124</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.125"><font color="#808080">125</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;For&nbsp;debugging.&nbsp;*/</font><br />
+<a name="line.126"><font color="#808080">126</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;public&nbsp;String&nbsp;getName()&nbsp;{&nbsp;return&nbsp;name;&nbsp;}</font><br />
+<a name="line.127"><font color="#808080">127</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.128"><font color="#808080">128</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Clean&nbsp;up&nbsp;(delete&nbsp;action&nbsp;class&nbsp;files,&nbsp;for&nbsp;e.g.).&nbsp;*/</font><br />
+<a name="line.129"><font color="#808080">129</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">cleanUp</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.130"><font color="#808080">130</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">RightHandSide.cleanUp</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.131"><font color="#808080">131</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;cleanUp</font><br />
+<a name="line.132"><font color="#808080">132</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.133"><font color="#808080">133</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.134"><font color="#808080">134</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Create&nbsp;a&nbsp;string&nbsp;representation&nbsp;of&nbsp;the&nbsp;object.&nbsp;*/</font><br />
+<a name="line.135"><font color="#808080">135</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">String&nbsp;toString</font><font color="#000000">()&nbsp;{&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">toString</font><font color="#000000">(</font><font color="#2a00ff">&#34;&#34;</font><font color="#000000">)</font><font color="#000000">;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.136"><font color="#808080">136</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.137"><font color="#808080">137</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Create&nbsp;a&nbsp;string&nbsp;representation&nbsp;of&nbsp;the&nbsp;object.&nbsp;*/</font><br />
+<a name="line.138"><font color="#808080">138</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">String&nbsp;toString</font><font color="#000000">(</font><font color="#000000">String&nbsp;pad</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.139"><font color="#808080">139</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">String&nbsp;newline&nbsp;=&nbsp;Strings.getNl</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.140"><font color="#808080">140</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">String&nbsp;newPad&nbsp;=&nbsp;Strings.addPadding</font><font color="#000000">(</font><font color="#000000">pad,&nbsp;INDENT_PADDING</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.141"><font color="#808080">141</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.142"><font color="#808080">142</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">StringBuffer&nbsp;buf&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">StringBuffer</font><font color="#000000">(</font><br />
+<a name="line.143"><font color="#808080">143</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">pad&nbsp;+&nbsp;</font><font color="#2a00ff">&#34;Rule:&nbsp;name(&#34;&nbsp;</font><font color="#000000">+&nbsp;name&nbsp;+&nbsp;</font><font color="#2a00ff">&#34;);&nbsp;position(&#34;&nbsp;</font><font color="#000000">+&nbsp;position&nbsp;+&nbsp;</font><font color="#2a00ff">&#34;);&nbsp;priority(&#34;&nbsp;</font><font color="#000000">+</font><br />
+<a name="line.144"><font color="#808080">144</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">priority&nbsp;+&nbsp;</font><font color="#2a00ff">&#34;);&nbsp;pendingPosition(&#34;&nbsp;</font><font color="#000000">+&nbsp;pendingPosition&nbsp;+&nbsp;</font><font color="#2a00ff">&#34;);&nbsp;&#34;&nbsp;</font><font color="#000000">+</font><br />
+<a name="line.145"><font color="#808080">145</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#2a00ff">&#34;weFinished(&#34;&nbsp;</font><font color="#000000">+&nbsp;weFinished&nbsp;+&nbsp;</font><font color="#2a00ff">&#34;);&nbsp;lhs(&#34;&nbsp;</font><font color="#000000">+&nbsp;newline&nbsp;+</font><br />
+<a name="line.146"><font color="#808080">146</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">lhs.toString</font><font color="#000000">(</font><font color="#000000">newPad</font><font color="#000000">)&nbsp;</font><font color="#000000">+&nbsp;newline&nbsp;+&nbsp;pad&nbsp;+&nbsp;</font><font color="#2a00ff">&#34;);&nbsp;rhs(&#34;&nbsp;</font><font color="#000000">+&nbsp;newline&nbsp;+</font><br />
+<a name="line.147"><font color="#808080">147</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">rhs.toString</font><font color="#000000">(</font><font color="#000000">newPad</font><font color="#000000">)&nbsp;</font><font color="#000000">+&nbsp;newline&nbsp;+&nbsp;pad&nbsp;+&nbsp;</font><font color="#2a00ff">&#34;);&#34;</font><br />
+<a name="line.148"><font color="#808080">148</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.149"><font color="#808080">149</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.150"><font color="#808080">150</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">buf.append</font><font color="#000000">(</font><font color="#000000">newline&nbsp;+&nbsp;pad&nbsp;+&nbsp;</font><font color="#2a00ff">&#34;)&nbsp;Rule.&#34;&nbsp;</font><font color="#000000">+&nbsp;newline</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.151"><font color="#808080">151</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.152"><font color="#808080">152</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">buf.toString</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.153"><font color="#808080">153</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;toString</font><br />
+<a name="line.154"><font color="#808080">154</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.155"><font color="#808080">155</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">//needed&nbsp;by&nbsp;FSM</font><br />
+<a name="line.156"><font color="#808080">156</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">LeftHandSide&nbsp;getLHS</font><font color="#000000">(){</font><br />
+<a name="line.157"><font color="#808080">157</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">lhs;</font><br />
+<a name="line.158"><font color="#808080">158</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.159"><font color="#808080">159</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">RightHandSide&nbsp;getRHS</font><font color="#000000">(){</font><br />
+<a name="line.160"><font color="#808080">160</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">rhs;</font><br />
+<a name="line.161"><font color="#808080">161</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.162"><font color="#808080">162</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.163"><font color="#808080">163</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">//StatusReporter&nbsp;VOID&nbsp;Implementation</font><br />
+<a name="line.164"><font color="#808080">164</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">addStatusListener</font><font color="#000000">(</font><font color="#000000">StatusListener&nbsp;listener</font><font color="#000000">){}</font><br />
+<a name="line.165"><font color="#808080">165</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">removeStatusListener</font><font color="#000000">(</font><font color="#000000">StatusListener&nbsp;listener</font><font color="#000000">){}</font><br />
+<a name="line.166"><font color="#808080">166</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.167"><font color="#808080">167</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">//ProcessProgressReporter&nbsp;VOID&nbsp;implementation</font><br />
+<a name="line.168"><font color="#808080">168</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">addProcessProgressListener</font><font color="#000000">(</font><font color="#000000">ProgressListener&nbsp;listener</font><font color="#000000">){}</font><br />
+<a name="line.169"><font color="#808080">169</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">removeProcessProgressListener</font><font color="#000000">(</font><font color="#000000">ProgressListener&nbsp;listener</font><font color="#000000">){}</font><br />
+<a name="line.170"><font color="#808080">170</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">//ProcessProgressReporter&nbsp;implementation&nbsp;ends&nbsp;here</font><br />
+<a name="line.171"><font color="#808080">171</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.172"><font color="#808080">172</font>&nbsp;</a><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;class&nbsp;Rule</font><br />
+<a name="line.173"><font color="#808080">173</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.174"><font color="#808080">174</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.175"><font color="#808080">175</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;$Log$</font><br />
+<a name="line.176"><font color="#808080">176</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.17&nbsp;&nbsp;2005/01/11&nbsp;13:51:36&nbsp;&nbsp;ian</font><br />
+<a name="line.177"><font color="#808080">177</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Updating&nbsp;copyrights&nbsp;to&nbsp;1998-2005&nbsp;in&nbsp;preparation&nbsp;for&nbsp;v3.0</font><br />
+<a name="line.178"><font color="#808080">178</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.179"><font color="#808080">179</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.16&nbsp;&nbsp;2004/07/21&nbsp;17:10:08&nbsp;&nbsp;akshay</font><br />
+<a name="line.180"><font color="#808080">180</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Changed&nbsp;copyright&nbsp;from&nbsp;1998-2001&nbsp;to&nbsp;1998-2004</font><br />
+<a name="line.181"><font color="#808080">181</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.182"><font color="#808080">182</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.15&nbsp;&nbsp;2004/03/25&nbsp;13:23:04&nbsp;&nbsp;valyt</font><br />
+<a name="line.183"><font color="#808080">183</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;</font><br />
+<a name="line.184"><font color="#808080">184</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Style:&nbsp;static&nbsp;access&nbsp;to&nbsp;static&nbsp;members</font><br />
+<a name="line.185"><font color="#808080">185</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.186"><font color="#808080">186</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.14&nbsp;&nbsp;2004/03/25&nbsp;13:01:14&nbsp;&nbsp;valyt</font><br />
+<a name="line.187"><font color="#808080">187</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Imports&nbsp;optimisation&nbsp;throughout&nbsp;the&nbsp;Java&nbsp;sources</font><br />
+<a name="line.188"><font color="#808080">188</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;(to&nbsp;get&nbsp;rid&nbsp;of&nbsp;annoying&nbsp;warnings&nbsp;in&nbsp;Eclipse)</font><br />
+<a name="line.189"><font color="#808080">189</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.190"><font color="#808080">190</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.13&nbsp;&nbsp;2001/09/13&nbsp;12:09:50&nbsp;&nbsp;kalina</font><br />
+<a name="line.191"><font color="#808080">191</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Removed&nbsp;completely&nbsp;the&nbsp;use&nbsp;of&nbsp;jgl.objectspace.Array&nbsp;and&nbsp;such.</font><br />
+<a name="line.192"><font color="#808080">192</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Instead&nbsp;all&nbsp;sources&nbsp;now&nbsp;use&nbsp;the&nbsp;new&nbsp;Collections,&nbsp;typically&nbsp;ArrayList.</font><br />
+<a name="line.193"><font color="#808080">193</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;I&nbsp;ran&nbsp;the&nbsp;tests&nbsp;and&nbsp;I&nbsp;ran&nbsp;some&nbsp;documents&nbsp;and&nbsp;compared&nbsp;with&nbsp;keys.</font><br />
+<a name="line.194"><font color="#808080">194</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;JAPE&nbsp;seems&nbsp;to&nbsp;work&nbsp;well&nbsp;(that's&nbsp;where&nbsp;it&nbsp;all&nbsp;was).&nbsp;If&nbsp;there&nbsp;are&nbsp;problems</font><br />
+<a name="line.195"><font color="#808080">195</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;maybe&nbsp;look&nbsp;at&nbsp;those&nbsp;new&nbsp;structures&nbsp;first.</font><br />
+<a name="line.196"><font color="#808080">196</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.197"><font color="#808080">197</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.12&nbsp;&nbsp;2001/03/06&nbsp;20:11:14&nbsp;&nbsp;valyt</font><br />
+<a name="line.198"><font color="#808080">198</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.199"><font color="#808080">199</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;&lt;b&gt;&lt;em&gt;&lt;strong&gt;DOCUMENTATION&lt;/&gt;&lt;/&gt;&lt;/&gt;&nbsp;for&nbsp;most&nbsp;of&nbsp;the&nbsp;GUI&nbsp;classes.</font><br />
+<a name="line.200"><font color="#808080">200</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.201"><font color="#808080">201</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Cleaned&nbsp;up&nbsp;some&nbsp;obsolete&nbsp;classes</font><br />
+<a name="line.202"><font color="#808080">202</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.203"><font color="#808080">203</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.11&nbsp;&nbsp;2001/02/20&nbsp;12:25:49&nbsp;&nbsp;valyt</font><br />
+<a name="line.204"><font color="#808080">204</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.205"><font color="#808080">205</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Fixed&nbsp;the&nbsp;Jpae&nbsp;priorities&nbsp;bug</font><br />
+<a name="line.206"><font color="#808080">206</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.207"><font color="#808080">207</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.10&nbsp;&nbsp;2001/01/21&nbsp;20:51:31&nbsp;&nbsp;valyt</font><br />
+<a name="line.208"><font color="#808080">208</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Added&nbsp;the&nbsp;DocumentEditor&nbsp;class&nbsp;and&nbsp;the&nbsp;necessary&nbsp;changes&nbsp;to&nbsp;the&nbsp;gate&nbsp;API</font><br />
+<a name="line.209"><font color="#808080">209</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.210"><font color="#808080">210</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.9&nbsp;&nbsp;2000/11/08&nbsp;16:35:03&nbsp;&nbsp;hamish</font><br />
+<a name="line.211"><font color="#808080">211</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;formatting</font><br />
+<a name="line.212"><font color="#808080">212</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.213"><font color="#808080">213</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.8&nbsp;&nbsp;2000/10/26&nbsp;10:45:31&nbsp;&nbsp;oana</font><br />
+<a name="line.214"><font color="#808080">214</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Modified&nbsp;in&nbsp;the&nbsp;code&nbsp;style</font><br />
+<a name="line.215"><font color="#808080">215</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.216"><font color="#808080">216</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.7&nbsp;&nbsp;2000/10/16&nbsp;16:44:34&nbsp;&nbsp;oana</font><br />
+<a name="line.217"><font color="#808080">217</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Changed&nbsp;the&nbsp;comment&nbsp;of&nbsp;DEBUG&nbsp;variable</font><br />
+<a name="line.218"><font color="#808080">218</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.219"><font color="#808080">219</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.6&nbsp;&nbsp;2000/10/10&nbsp;15:36:37&nbsp;&nbsp;oana</font><br />
+<a name="line.220"><font color="#808080">220</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Changed&nbsp;System.out&nbsp;in&nbsp;Out&nbsp;and&nbsp;System.err&nbsp;in&nbsp;Err;</font><br />
+<a name="line.221"><font color="#808080">221</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Added&nbsp;the&nbsp;DEBUG&nbsp;variable&nbsp;seted&nbsp;on&nbsp;false;</font><br />
+<a name="line.222"><font color="#808080">222</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Added&nbsp;in&nbsp;the&nbsp;header&nbsp;the&nbsp;licence;</font><br />
+<a name="line.223"><font color="#808080">223</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.224"><font color="#808080">224</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.5&nbsp;&nbsp;2000/07/04&nbsp;14:37:39&nbsp;&nbsp;valyt</font><br />
+<a name="line.225"><font color="#808080">225</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Added&nbsp;some&nbsp;support&nbsp;for&nbsp;Jape-ing&nbsp;in&nbsp;a&nbsp;different&nbsp;annotations&nbsp;et&nbsp;than&nbsp;the&nbsp;default&nbsp;one;</font><br />
+<a name="line.226"><font color="#808080">226</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Changed&nbsp;the&nbsp;L&amp;F&nbsp;for&nbsp;the&nbsp;JapeGUI&nbsp;to&nbsp;the&nbsp;System&nbsp;default</font><br />
+<a name="line.227"><font color="#808080">227</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.228"><font color="#808080">228</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.4&nbsp;&nbsp;2000/07/03&nbsp;21:00:59&nbsp;&nbsp;valyt</font><br />
+<a name="line.229"><font color="#808080">229</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Added&nbsp;StatusBar&nbsp;and&nbsp;ProgressBar&nbsp;support&nbsp;for&nbsp;tokenisation&nbsp;&amp;&nbsp;Jape&nbsp;transduction</font><br />
+<a name="line.230"><font color="#808080">230</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;(it&nbsp;looks&nbsp;great&nbsp;:)&nbsp;)</font><br />
+<a name="line.231"><font color="#808080">231</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.232"><font color="#808080">232</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.3&nbsp;&nbsp;2000/05/05&nbsp;12:51:12&nbsp;&nbsp;valyt</font><br />
+<a name="line.233"><font color="#808080">233</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Got&nbsp;rid&nbsp;of&nbsp;deprecation&nbsp;warnings</font><br />
+<a name="line.234"><font color="#808080">234</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.235"><font color="#808080">235</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.2&nbsp;&nbsp;2000/04/14&nbsp;18:02:46&nbsp;&nbsp;valyt</font><br />
+<a name="line.236"><font color="#808080">236</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Added&nbsp;some&nbsp;gate.fsm&nbsp;classes</font><br />
+<a name="line.237"><font color="#808080">237</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;added&nbsp;some&nbsp;accessor&nbsp;function&nbsp;in&nbsp;old&nbsp;jape&nbsp;classes</font><br />
+<a name="line.238"><font color="#808080">238</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.239"><font color="#808080">239</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.1&nbsp;&nbsp;2000/02/23&nbsp;13:46:11&nbsp;&nbsp;hamish</font><br />
+<a name="line.240"><font color="#808080">240</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;added</font><br />
+<a name="line.241"><font color="#808080">241</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.242"><font color="#808080">242</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.1.1.1&nbsp;&nbsp;1999/02/03&nbsp;16:23:02&nbsp;&nbsp;hamish</font><br />
+<a name="line.243"><font color="#808080">243</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;added&nbsp;gate2</font><br />
+<a name="line.244"><font color="#808080">244</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.245"><font color="#808080">245</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.16&nbsp;&nbsp;1998/11/01&nbsp;21:21:40&nbsp;&nbsp;hamish</font><br />
+<a name="line.246"><font color="#808080">246</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;use&nbsp;Java&nbsp;arrays&nbsp;in&nbsp;transduction&nbsp;where&nbsp;possible</font><br />
+<a name="line.247"><font color="#808080">247</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.248"><font color="#808080">248</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.15&nbsp;&nbsp;1998/10/30&nbsp;14:06:46&nbsp;&nbsp;hamish</font><br />
+<a name="line.249"><font color="#808080">249</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;added&nbsp;getTransducer</font><br />
+<a name="line.250"><font color="#808080">250</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.251"><font color="#808080">251</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.14&nbsp;&nbsp;1998/10/29&nbsp;12:16:13&nbsp;&nbsp;hamish</font><br />
+<a name="line.252"><font color="#808080">252</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;changed&nbsp;reset&nbsp;to&nbsp;not&nbsp;do&nbsp;lhs&nbsp;if&nbsp;weFinished&nbsp;&nbsp;-&nbsp;coz</font><br />
+<a name="line.253"><font color="#808080">253</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;there&nbsp;should&nbsp;be&nbsp;no&nbsp;state&nbsp;cached&nbsp;if&nbsp;the&nbsp;last&nbsp;try&nbsp;failed</font><br />
+<a name="line.254"><font color="#808080">254</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.255"><font color="#808080">255</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.13&nbsp;&nbsp;1998/10/01&nbsp;16:06:37&nbsp;&nbsp;hamish</font><br />
+<a name="line.256"><font color="#808080">256</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;new&nbsp;appelt&nbsp;transduction&nbsp;style,&nbsp;replacing&nbsp;buggy&nbsp;version</font><br />
+<a name="line.257"><font color="#808080">257</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.258"><font color="#808080">258</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.12&nbsp;&nbsp;1998/09/18&nbsp;13:36:00&nbsp;&nbsp;hamish</font><br />
+<a name="line.259"><font color="#808080">259</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;made&nbsp;Transducer&nbsp;a&nbsp;class</font><br />
+<a name="line.260"><font color="#808080">260</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.261"><font color="#808080">261</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.11&nbsp;&nbsp;1998/08/19&nbsp;20:21:43&nbsp;&nbsp;hamish</font><br />
+<a name="line.262"><font color="#808080">262</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;new&nbsp;RHS&nbsp;assignment&nbsp;expression&nbsp;stuff&nbsp;added</font><br />
+<a name="line.263"><font color="#808080">263</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.264"><font color="#808080">264</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.10&nbsp;&nbsp;1998/08/12&nbsp;19:05:48&nbsp;&nbsp;hamish</font><br />
+<a name="line.265"><font color="#808080">265</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;fixed&nbsp;multi-part&nbsp;CG&nbsp;bug;&nbsp;set&nbsp;reset&nbsp;to&nbsp;real&nbsp;reset&nbsp;and&nbsp;fixed&nbsp;multi-doc&nbsp;bug</font><br />
+<a name="line.266"><font color="#808080">266</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.267"><font color="#808080">267</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.9&nbsp;&nbsp;1998/08/12&nbsp;15:39:43&nbsp;&nbsp;hamish</font><br />
+<a name="line.268"><font color="#808080">268</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;added&nbsp;padding&nbsp;toString&nbsp;methods</font><br />
+<a name="line.269"><font color="#808080">269</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.270"><font color="#808080">270</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.8&nbsp;&nbsp;1998/08/10&nbsp;14:16:39&nbsp;&nbsp;hamish</font><br />
+<a name="line.271"><font color="#808080">271</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;fixed&nbsp;consumeblock&nbsp;bug&nbsp;and&nbsp;added&nbsp;batch.java</font><br />
+<a name="line.272"><font color="#808080">272</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.273"><font color="#808080">273</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.7&nbsp;&nbsp;1998/08/03&nbsp;21:44:58&nbsp;&nbsp;hamish</font><br />
+<a name="line.274"><font color="#808080">274</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;moved&nbsp;parser&nbsp;classes&nbsp;to&nbsp;gate.jape.parser</font><br />
+<a name="line.275"><font color="#808080">275</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.276"><font color="#808080">276</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.6&nbsp;&nbsp;1998/08/03&nbsp;19:51:27&nbsp;&nbsp;hamish</font><br />
+<a name="line.277"><font color="#808080">277</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;rollback&nbsp;added</font><br />
+<a name="line.278"><font color="#808080">278</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.279"><font color="#808080">279</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.5&nbsp;&nbsp;1998/07/31&nbsp;16:50:19&nbsp;&nbsp;mks</font><br />
+<a name="line.280"><font color="#808080">280</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;RHS&nbsp;compilation&nbsp;works;&nbsp;it&nbsp;runs&nbsp;-&nbsp;and&nbsp;falls&nbsp;over...</font><br />
+<a name="line.281"><font color="#808080">281</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.282"><font color="#808080">282</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.4&nbsp;&nbsp;1998/07/31&nbsp;13:12:27&nbsp;&nbsp;mks</font><br />
+<a name="line.283"><font color="#808080">283</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;done&nbsp;RHS&nbsp;stuff,&nbsp;not&nbsp;tested</font><br />
+<a name="line.284"><font color="#808080">284</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.285"><font color="#808080">285</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.3&nbsp;&nbsp;1998/07/30&nbsp;11:05:25&nbsp;&nbsp;mks</font><br />
+<a name="line.286"><font color="#808080">286</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;more&nbsp;jape</font><br />
+<a name="line.287"><font color="#808080">287</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.288"><font color="#808080">288</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.2&nbsp;&nbsp;1998/07/29&nbsp;11:07:11&nbsp;&nbsp;hamish</font><br />
+<a name="line.289"><font color="#808080">289</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;first&nbsp;compiling&nbsp;version</font><br />
+<a name="line.290"><font color="#808080">290</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.291"><font color="#808080">291</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.1.1.1&nbsp;&nbsp;1998/07/28&nbsp;16:37:46&nbsp;&nbsp;hamish</font><br />
+<a name="line.292"><font color="#808080">292</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;gate2&nbsp;lives</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+</body></html>

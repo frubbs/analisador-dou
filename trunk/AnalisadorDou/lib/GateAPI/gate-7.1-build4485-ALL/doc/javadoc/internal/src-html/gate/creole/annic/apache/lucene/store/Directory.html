@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>gate/creole/annic/apache/lucene/store/Directory.java</title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+  <!-- start headline -->
+   <tr>
+    <td colspan="2">
+     <center><font size="+2">
+      <code><b>
+Directory.java
+      </b></code>
+     </font></center>
+    </td>
+   </tr>
+  <!-- end headline -->
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<a name="line.1"><font color="#808080">01</font>&nbsp;</a><font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">gate.creole.annic.apache.lucene.store;</font><br />
+<a name="line.2"><font color="#808080">02</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.3"><font color="#808080">03</font>&nbsp;</a><font color="#3f5fbf">/**</font><br />
+<a name="line.4"><font color="#808080">04</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;Copyright&nbsp;2004&nbsp;The&nbsp;Apache&nbsp;Software&nbsp;Foundation</font><br />
+<a name="line.5"><font color="#808080">05</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.6"><font color="#808080">06</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;Licensed&nbsp;under&nbsp;the&nbsp;Apache&nbsp;License,&nbsp;Version&nbsp;2.0&nbsp;(the&nbsp;&#34;License&#34;);</font><br />
+<a name="line.7"><font color="#808080">07</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;you&nbsp;may&nbsp;not&nbsp;use&nbsp;this&nbsp;file&nbsp;except&nbsp;in&nbsp;compliance&nbsp;with&nbsp;the&nbsp;License.</font><br />
+<a name="line.8"><font color="#808080">08</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;You&nbsp;may&nbsp;obtain&nbsp;a&nbsp;copy&nbsp;of&nbsp;the&nbsp;License&nbsp;at</font><br />
+<a name="line.9"><font color="#808080">09</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.10"><font color="#808080">10</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;http://www.apache.org/licenses/LICENSE-2.0</font><br />
+<a name="line.11"><font color="#808080">11</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.12"><font color="#808080">12</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;Unless&nbsp;required&nbsp;by&nbsp;applicable&nbsp;law&nbsp;or&nbsp;agreed&nbsp;to&nbsp;in&nbsp;writing,&nbsp;software</font><br />
+<a name="line.13"><font color="#808080">13</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;distributed&nbsp;under&nbsp;the&nbsp;License&nbsp;is&nbsp;distributed&nbsp;on&nbsp;an&nbsp;&#34;AS&nbsp;IS&#34;&nbsp;BASIS,</font><br />
+<a name="line.14"><font color="#808080">14</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;WITHOUT&nbsp;WARRANTIES&nbsp;OR&nbsp;CONDITIONS&nbsp;OF&nbsp;ANY&nbsp;KIND,&nbsp;either&nbsp;express&nbsp;or&nbsp;implied.</font><br />
+<a name="line.15"><font color="#808080">15</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;See&nbsp;the&nbsp;License&nbsp;for&nbsp;the&nbsp;specific&nbsp;language&nbsp;governing&nbsp;permissions&nbsp;and</font><br />
+<a name="line.16"><font color="#808080">16</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;limitations&nbsp;under&nbsp;the&nbsp;License.</font><br />
+<a name="line.17"><font color="#808080">17</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.18"><font color="#808080">18</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.19"><font color="#808080">19</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.io.IOException;</font><br />
+<a name="line.20"><font color="#808080">20</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.21"><font color="#808080">21</font>&nbsp;</a><font color="#3f5fbf">/**&nbsp;A&nbsp;Directory&nbsp;is&nbsp;a&nbsp;flat&nbsp;list&nbsp;of&nbsp;files.&nbsp;&nbsp;Files&nbsp;may&nbsp;be&nbsp;written&nbsp;once,&nbsp;when&nbsp;they</font><br />
+<a name="line.22"><font color="#808080">22</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;are&nbsp;created.&nbsp;&nbsp;Once&nbsp;a&nbsp;file&nbsp;is&nbsp;created&nbsp;it&nbsp;may&nbsp;only&nbsp;be&nbsp;opened&nbsp;for&nbsp;read,&nbsp;or</font><br />
+<a name="line.23"><font color="#808080">23</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;deleted.&nbsp;&nbsp;Random&nbsp;access&nbsp;is&nbsp;permitted&nbsp;both&nbsp;when&nbsp;reading&nbsp;and&nbsp;writing.</font><br />
+<a name="line.24"><font color="#808080">24</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.25"><font color="#808080">25</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;p&gt;&nbsp;</font><font color="#3f5fbf">Java's&nbsp;i/o&nbsp;APIs&nbsp;not&nbsp;used&nbsp;directly,&nbsp;but&nbsp;rather&nbsp;all&nbsp;i/o&nbsp;is</font><br />
+<a name="line.26"><font color="#808080">26</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;through&nbsp;this&nbsp;API.&nbsp;&nbsp;This&nbsp;permits&nbsp;things&nbsp;such&nbsp;as:&nbsp;</font><font color="#7f7f9f">&lt;ul&gt;</font><br />
+<a name="line.27"><font color="#808080">27</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;li&gt;&nbsp;</font><font color="#3f5fbf">implementation&nbsp;of&nbsp;RAM-based&nbsp;indices;</font><br />
+<a name="line.28"><font color="#808080">28</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;li&gt;&nbsp;</font><font color="#3f5fbf">implementation&nbsp;of&nbsp;an&nbsp;index&nbsp;as&nbsp;a&nbsp;single&nbsp;file;</font><br />
+<a name="line.29"><font color="#808080">29</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;/ul&gt;</font><br />
+<a name="line.30"><font color="#808080">30</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.31"><font color="#808080">31</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@author&nbsp;</font><font color="#3f5fbf">Doug&nbsp;Cutting</font><br />
+<a name="line.32"><font color="#808080">32</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.33"><font color="#808080">33</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;abstract&nbsp;class&nbsp;</b></font><font color="#000000">Directory&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.34"><font color="#808080">34</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Returns&nbsp;an&nbsp;array&nbsp;of&nbsp;strings,&nbsp;one&nbsp;for&nbsp;each&nbsp;file&nbsp;in&nbsp;the&nbsp;directory.&nbsp;*/</font><br />
+<a name="line.35"><font color="#808080">35</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;abstract&nbsp;</b></font><font color="#000000">String</font><font color="#000000">[]&nbsp;</font><font color="#000000">list</font><font color="#000000">()</font><br />
+<a name="line.36"><font color="#808080">36</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException;</font><br />
+<a name="line.37"><font color="#808080">37</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.38"><font color="#808080">38</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Returns&nbsp;true&nbsp;iff&nbsp;a&nbsp;file&nbsp;with&nbsp;the&nbsp;given&nbsp;name&nbsp;exists.&nbsp;*/</font><br />
+<a name="line.39"><font color="#808080">39</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;abstract&nbsp;</b></font><font color="#7f0055"><b>boolean&nbsp;</b></font><font color="#000000">fileExists</font><font color="#000000">(</font><font color="#000000">String&nbsp;name</font><font color="#000000">)</font><br />
+<a name="line.40"><font color="#808080">40</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException;</font><br />
+<a name="line.41"><font color="#808080">41</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.42"><font color="#808080">42</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Returns&nbsp;the&nbsp;time&nbsp;the&nbsp;named&nbsp;file&nbsp;was&nbsp;last&nbsp;modified.&nbsp;*/</font><br />
+<a name="line.43"><font color="#808080">43</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;abstract&nbsp;</b></font><font color="#7f0055"><b>long&nbsp;</b></font><font color="#000000">fileModified</font><font color="#000000">(</font><font color="#000000">String&nbsp;name</font><font color="#000000">)</font><br />
+<a name="line.44"><font color="#808080">44</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException;</font><br />
+<a name="line.45"><font color="#808080">45</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.46"><font color="#808080">46</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Set&nbsp;the&nbsp;modified&nbsp;time&nbsp;of&nbsp;an&nbsp;existing&nbsp;file&nbsp;to&nbsp;now.&nbsp;*/</font><br />
+<a name="line.47"><font color="#808080">47</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;abstract&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">touchFile</font><font color="#000000">(</font><font color="#000000">String&nbsp;name</font><font color="#000000">)</font><br />
+<a name="line.48"><font color="#808080">48</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException;</font><br />
+<a name="line.49"><font color="#808080">49</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.50"><font color="#808080">50</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Removes&nbsp;an&nbsp;existing&nbsp;file&nbsp;in&nbsp;the&nbsp;directory.&nbsp;*/</font><br />
+<a name="line.51"><font color="#808080">51</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;abstract&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">deleteFile</font><font color="#000000">(</font><font color="#000000">String&nbsp;name</font><font color="#000000">)</font><br />
+<a name="line.52"><font color="#808080">52</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException;</font><br />
+<a name="line.53"><font color="#808080">53</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.54"><font color="#808080">54</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Renames&nbsp;an&nbsp;existing&nbsp;file&nbsp;in&nbsp;the&nbsp;directory.</font><br />
+<a name="line.55"><font color="#808080">55</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">If&nbsp;a&nbsp;file&nbsp;already&nbsp;exists&nbsp;with&nbsp;the&nbsp;new&nbsp;name,&nbsp;then&nbsp;it&nbsp;is&nbsp;replaced.</font><br />
+<a name="line.56"><font color="#808080">56</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">This&nbsp;replacement&nbsp;should&nbsp;be&nbsp;atomic.&nbsp;*/</font><br />
+<a name="line.57"><font color="#808080">57</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;abstract&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">renameFile</font><font color="#000000">(</font><font color="#000000">String&nbsp;from,&nbsp;String&nbsp;to</font><font color="#000000">)</font><br />
+<a name="line.58"><font color="#808080">58</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException;</font><br />
+<a name="line.59"><font color="#808080">59</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.60"><font color="#808080">60</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Returns&nbsp;the&nbsp;length&nbsp;of&nbsp;a&nbsp;file&nbsp;in&nbsp;the&nbsp;directory.&nbsp;*/</font><br />
+<a name="line.61"><font color="#808080">61</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;abstract&nbsp;</b></font><font color="#7f0055"><b>long&nbsp;</b></font><font color="#000000">fileLength</font><font color="#000000">(</font><font color="#000000">String&nbsp;name</font><font color="#000000">)</font><br />
+<a name="line.62"><font color="#808080">62</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException;</font><br />
+<a name="line.63"><font color="#808080">63</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.64"><font color="#808080">64</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Creates&nbsp;a&nbsp;new,&nbsp;empty&nbsp;file&nbsp;in&nbsp;the&nbsp;directory&nbsp;with&nbsp;the&nbsp;given&nbsp;name.</font><br />
+<a name="line.65"><font color="#808080">65</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">Returns&nbsp;a&nbsp;stream&nbsp;writing&nbsp;this&nbsp;file.&nbsp;*/</font><br />
+<a name="line.66"><font color="#808080">66</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;abstract&nbsp;</b></font><font color="#000000">OutputStream&nbsp;createFile</font><font color="#000000">(</font><font color="#000000">String&nbsp;name</font><font color="#000000">)</font><br />
+<a name="line.67"><font color="#808080">67</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException;</font><br />
+<a name="line.68"><font color="#808080">68</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.69"><font color="#808080">69</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Returns&nbsp;a&nbsp;stream&nbsp;reading&nbsp;an&nbsp;existing&nbsp;file.&nbsp;*/</font><br />
+<a name="line.70"><font color="#808080">70</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;abstract&nbsp;</b></font><font color="#000000">InputStream&nbsp;openFile</font><font color="#000000">(</font><font color="#000000">String&nbsp;name</font><font color="#000000">)</font><br />
+<a name="line.71"><font color="#808080">71</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException;</font><br />
+<a name="line.72"><font color="#808080">72</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.73"><font color="#808080">73</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Construct&nbsp;a&nbsp;</font><font color="#3f3fbf">{@link&nbsp;Lock}</font><font color="#3f5fbf">.</font><br />
+<a name="line.74"><font color="#808080">74</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">name&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;lock&nbsp;file</font><br />
+<a name="line.75"><font color="#808080">75</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.76"><font color="#808080">76</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;abstract&nbsp;</b></font><font color="#000000">Lock&nbsp;makeLock</font><font color="#000000">(</font><font color="#000000">String&nbsp;name</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.77"><font color="#808080">77</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.78"><font color="#808080">78</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Closes&nbsp;the&nbsp;store.&nbsp;*/</font><br />
+<a name="line.79"><font color="#808080">79</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;abstract&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">close</font><font color="#000000">()</font><br />
+<a name="line.80"><font color="#808080">80</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException;</font><br />
+<a name="line.81"><font color="#808080">81</font>&nbsp;</a><font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+</body></html>
