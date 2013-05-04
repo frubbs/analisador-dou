@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>gate/util/spring/FeatureMapFactoryBean.java</title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+  <!-- start headline -->
+   <tr>
+    <td colspan="2">
+     <center><font size="+2">
+      <code><b>
+FeatureMapFactoryBean.java
+      </b></code>
+     </font></center>
+    </td>
+   </tr>
+  <!-- end headline -->
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<a name="line.1"><font color="#808080">01</font>&nbsp;</a><font color="#3f7f5f">/*</font><br />
+<a name="line.2"><font color="#808080">02</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;FeatureMapFactoryBean.java</font><br />
+<a name="line.3"><font color="#808080">03</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.4"><font color="#808080">04</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Copyright&nbsp;(c)&nbsp;1995-2012,&nbsp;The&nbsp;University&nbsp;of&nbsp;Sheffield.&nbsp;See&nbsp;the&nbsp;file</font><br />
+<a name="line.5"><font color="#808080">05</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;COPYRIGHT.txt&nbsp;in&nbsp;the&nbsp;software&nbsp;or&nbsp;at&nbsp;http://gate.ac.uk/gate/COPYRIGHT.txt</font><br />
+<a name="line.6"><font color="#808080">06</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.7"><font color="#808080">07</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;This&nbsp;file&nbsp;is&nbsp;part&nbsp;of&nbsp;GATE&nbsp;(see&nbsp;http://gate.ac.uk/),&nbsp;and&nbsp;is&nbsp;free</font><br />
+<a name="line.8"><font color="#808080">08</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;software,&nbsp;licenced&nbsp;under&nbsp;the&nbsp;GNU&nbsp;Library&nbsp;General&nbsp;Public&nbsp;License,</font><br />
+<a name="line.9"><font color="#808080">09</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Version&nbsp;2,&nbsp;June&nbsp;1991&nbsp;(in&nbsp;the&nbsp;distribution&nbsp;as&nbsp;file&nbsp;licence.html,</font><br />
+<a name="line.10"><font color="#808080">10</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;and&nbsp;also&nbsp;available&nbsp;at&nbsp;http://gate.ac.uk/gate/licence.html).</font><br />
+<a name="line.11"><font color="#808080">11</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.12"><font color="#808080">12</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Ian&nbsp;Roberts,&nbsp;22/Jan/2008</font><br />
+<a name="line.13"><font color="#808080">13</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.14"><font color="#808080">14</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;$Id:&nbsp;FeatureMapFactoryBean.java&nbsp;15333&nbsp;2012-02-07&nbsp;13:18:33Z&nbsp;ian_roberts&nbsp;$</font><br />
+<a name="line.15"><font color="#808080">15</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*/</font><br />
+<a name="line.16"><font color="#808080">16</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.17"><font color="#808080">17</font>&nbsp;</a><font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">gate.util.spring;</font><br />
+<a name="line.18"><font color="#808080">18</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.19"><font color="#808080">19</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.Factory;</font><br />
+<a name="line.20"><font color="#808080">20</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.FeatureMap;</font><br />
+<a name="line.21"><font color="#808080">21</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.22"><font color="#808080">22</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.io.IOException;</font><br />
+<a name="line.23"><font color="#808080">23</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.util.Map;</font><br />
+<a name="line.24"><font color="#808080">24</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.25"><font color="#808080">25</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">org.springframework.beans.factory.FactoryBean;</font><br />
+<a name="line.26"><font color="#808080">26</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">org.springframework.core.io.Resource;</font><br />
+<a name="line.27"><font color="#808080">27</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.28"><font color="#808080">28</font>&nbsp;</a><font color="#3f5fbf">/**</font><br />
+<a name="line.29"><font color="#808080">29</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;Spring&nbsp;FactoryBean&nbsp;to&nbsp;create&nbsp;a&nbsp;FeatureMap&nbsp;from&nbsp;a&nbsp;source&nbsp;Map</font><br />
+<a name="line.30"><font color="#808080">30</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;(typically&nbsp;one&nbsp;created&nbsp;with&nbsp;a&nbsp;&amp;lt;map&amp;gt;&nbsp;element&nbsp;in&nbsp;a&nbsp;spring&nbsp;config</font><br />
+<a name="line.31"><font color="#808080">31</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;file).&nbsp;Values&nbsp;in&nbsp;the&nbsp;source&nbsp;map&nbsp;whose&nbsp;type&nbsp;is&nbsp;Spring&nbsp;&#34;Resource&#34;&nbsp;are</font><br />
+<a name="line.32"><font color="#808080">32</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;converted&nbsp;to&nbsp;URLs&nbsp;in&nbsp;the&nbsp;feature&nbsp;map&nbsp;(file:&nbsp;URLs&nbsp;if&nbsp;possible).&nbsp;If&nbsp;you</font><br />
+<a name="line.33"><font color="#808080">33</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;are&nbsp;defining&nbsp;the&nbsp;source&nbsp;map&nbsp;inline&nbsp;(as&nbsp;opposed&nbsp;to&nbsp;ref-ing&nbsp;another</font><br />
+<a name="line.34"><font color="#808080">34</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;bean)&nbsp;the&nbsp;following&nbsp;shorthand&nbsp;is&nbsp;available.</font><br />
+<a name="line.35"><font color="#808080">35</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><br />
+<a name="line.36"><font color="#808080">36</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;pre&gt;</font><br />
+<a name="line.37"><font color="#808080">37</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;&amp;lt;gate:feature-map&amp;gt;</font><br />
+<a name="line.38"><font color="#808080">38</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;&nbsp;&nbsp;&amp;lt;entry&nbsp;key=&amp;quot;kind&amp;quot;&nbsp;value=&amp;quot;word&amp;quot;&nbsp;/&amp;gt;</font><br />
+<a name="line.39"><font color="#808080">39</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;&amp;lt;/gate:feature-map&amp;gt;</font><br />
+<a name="line.40"><font color="#808080">40</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;/pre&gt;</font><br />
+<a name="line.41"><font color="#808080">41</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><br />
+<a name="line.42"><font color="#808080">42</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;The&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">entry</font><font color="#7f7f9f">&lt;/code&gt;&nbsp;</font><font color="#3f5fbf">elements&nbsp;follow&nbsp;the&nbsp;same&nbsp;pattern&nbsp;as&nbsp;those&nbsp;in</font><br />
+<a name="line.43"><font color="#808080">43</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;a&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">&amp;lt;map&amp;gt;</font><font color="#7f7f9f">&lt;/code&gt;&nbsp;</font><font color="#3f5fbf">element&nbsp;in&nbsp;normal&nbsp;Spring&nbsp;configuration.</font><br />
+<a name="line.44"><font color="#808080">44</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;See&nbsp;</font><font color="#3f3fbf">{@link&nbsp;Init}&nbsp;</font><font color="#3f5fbf">for&nbsp;an&nbsp;example&nbsp;of&nbsp;how&nbsp;to&nbsp;include&nbsp;the</font><br />
+<a name="line.45"><font color="#808080">45</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">gate</font><font color="#7f7f9f">&lt;/code&gt;&nbsp;</font><font color="#3f5fbf">namespace.</font><br />
+<a name="line.46"><font color="#808080">46</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.47"><font color="#808080">47</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">FeatureMapFactoryBean&nbsp;</font><font color="#7f0055"><b>extends&nbsp;</b></font><font color="#000000">GateAwareObject&nbsp;</font><font color="#7f0055"><b>implements</b></font><br />
+<a name="line.48"><font color="#808080">48</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">FactoryBean&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.49"><font color="#808080">49</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.50"><font color="#808080">50</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">Map&lt;Object,&nbsp;Object&gt;&nbsp;sourceMap;</font><br />
+<a name="line.51"><font color="#808080">51</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.52"><font color="#808080">52</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">setSourceMap</font><font color="#000000">(</font><font color="#000000">Map&lt;Object,&nbsp;Object&gt;&nbsp;sourceMap</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.53"><font color="#808080">53</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.sourceMap&nbsp;=&nbsp;sourceMap;</font><br />
+<a name="line.54"><font color="#808080">54</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.55"><font color="#808080">55</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.56"><font color="#808080">56</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">Object&nbsp;getObject</font><font color="#000000">()&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.57"><font color="#808080">57</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">ensureGateInit</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.58"><font color="#808080">58</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">FeatureMap&nbsp;fm&nbsp;=&nbsp;Factory.newFeatureMap</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.59"><font color="#808080">59</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if</b></font><font color="#000000">(</font><font color="#000000">sourceMap&nbsp;!=&nbsp;</font><font color="#7f0055"><b>null</b></font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.60"><font color="#808080">60</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>for</b></font><font color="#000000">(</font><font color="#000000">Map.Entry&lt;Object,&nbsp;Object&gt;&nbsp;entry&nbsp;:&nbsp;sourceMap.entrySet</font><font color="#000000">())&nbsp;{</font><br />
+<a name="line.61"><font color="#808080">61</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Object&nbsp;key&nbsp;=&nbsp;entry.getKey</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.62"><font color="#808080">62</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Object&nbsp;value&nbsp;=&nbsp;entry.getValue</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.63"><font color="#808080">63</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.64"><font color="#808080">64</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;convert&nbsp;Spring&nbsp;resources&nbsp;to&nbsp;URLs</font><br />
+<a name="line.65"><font color="#808080">65</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if</b></font><font color="#000000">(</font><font color="#000000">value&nbsp;</font><font color="#7f0055"><b>instanceof&nbsp;</b></font><font color="#000000">Resource</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.66"><font color="#808080">66</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">value&nbsp;=&nbsp;SpringFactory.resourceToUrl</font><font color="#000000">((</font><font color="#000000">Resource</font><font color="#000000">)</font><font color="#000000">value</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.67"><font color="#808080">67</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.68"><font color="#808080">68</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.69"><font color="#808080">69</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">fm.put</font><font color="#000000">(</font><font color="#000000">key,&nbsp;value</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.70"><font color="#808080">70</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.71"><font color="#808080">71</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.72"><font color="#808080">72</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.73"><font color="#808080">73</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">fm;</font><br />
+<a name="line.74"><font color="#808080">74</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.75"><font color="#808080">75</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.76"><font color="#808080">76</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">Class&nbsp;getObjectType</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.77"><font color="#808080">77</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">gate.FeatureMap.</font><font color="#7f0055"><b>class</b></font><font color="#000000">;</font><br />
+<a name="line.78"><font color="#808080">78</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.79"><font color="#808080">79</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.80"><font color="#808080">80</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>boolean&nbsp;</b></font><font color="#000000">isSingleton</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.81"><font color="#808080">81</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;false</b></font><font color="#000000">;</font><br />
+<a name="line.82"><font color="#808080">82</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.83"><font color="#808080">83</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.84"><font color="#808080">84</font>&nbsp;</a><font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+</body></html>

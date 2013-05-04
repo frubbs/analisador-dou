@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>gate/creole/annic/apache/lucene/search/SortComparator.java</title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+  <!-- start headline -->
+   <tr>
+    <td colspan="2">
+     <center><font size="+2">
+      <code><b>
+SortComparator.java
+      </b></code>
+     </font></center>
+    </td>
+   </tr>
+  <!-- end headline -->
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<a name="line.1"><font color="#808080">01</font>&nbsp;</a><font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">gate.creole.annic.apache.lucene.search;</font><br />
+<a name="line.2"><font color="#808080">02</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.3"><font color="#808080">03</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.annic.apache.lucene.index.IndexReader;</font><br />
+<a name="line.4"><font color="#808080">04</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.annic.apache.lucene.index.Term;</font><br />
+<a name="line.5"><font color="#808080">05</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.annic.apache.lucene.index.TermDocs;</font><br />
+<a name="line.6"><font color="#808080">06</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.annic.apache.lucene.index.TermEnum;</font><br />
+<a name="line.7"><font color="#808080">07</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.8"><font color="#808080">08</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.io.IOException;</font><br />
+<a name="line.9"><font color="#808080">09</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.io.Serializable;</font><br />
+<a name="line.10"><font color="#808080">10</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.11"><font color="#808080">11</font>&nbsp;</a><font color="#3f5fbf">/**</font><br />
+<a name="line.12"><font color="#808080">12</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;Abstract&nbsp;base&nbsp;class&nbsp;for&nbsp;sorting&nbsp;hits&nbsp;returned&nbsp;by&nbsp;a&nbsp;Query.</font><br />
+<a name="line.13"><font color="#808080">13</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.14"><font color="#808080">14</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;p&gt;</font><font color="#3f5fbf">This&nbsp;class&nbsp;should&nbsp;only&nbsp;be&nbsp;used&nbsp;if&nbsp;the&nbsp;other&nbsp;SortField</font><br />
+<a name="line.15"><font color="#808080">15</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;types&nbsp;(SCORE,&nbsp;DOC,&nbsp;STRING,&nbsp;INT,&nbsp;FLOAT)&nbsp;do&nbsp;not&nbsp;provide&nbsp;an</font><br />
+<a name="line.16"><font color="#808080">16</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;adequate&nbsp;sorting.&nbsp;&nbsp;It&nbsp;maintains&nbsp;an&nbsp;internal&nbsp;cache&nbsp;of&nbsp;values&nbsp;which</font><br />
+<a name="line.17"><font color="#808080">17</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;could&nbsp;be&nbsp;quite&nbsp;large.&nbsp;&nbsp;The&nbsp;cache&nbsp;is&nbsp;an&nbsp;array&nbsp;of&nbsp;Comparable,</font><br />
+<a name="line.18"><font color="#808080">18</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;one&nbsp;for&nbsp;each&nbsp;document&nbsp;in&nbsp;the&nbsp;index.&nbsp;&nbsp;There&nbsp;is&nbsp;a&nbsp;distinct</font><br />
+<a name="line.19"><font color="#808080">19</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;Comparable&nbsp;for&nbsp;each&nbsp;unique&nbsp;term&nbsp;in&nbsp;the&nbsp;field&nbsp;-&nbsp;if</font><br />
+<a name="line.20"><font color="#808080">20</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;some&nbsp;documents&nbsp;have&nbsp;the&nbsp;same&nbsp;term&nbsp;in&nbsp;the&nbsp;field,&nbsp;the&nbsp;cache</font><br />
+<a name="line.21"><font color="#808080">21</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;array&nbsp;will&nbsp;have&nbsp;entries&nbsp;which&nbsp;reference&nbsp;the&nbsp;same&nbsp;Comparable.</font><br />
+<a name="line.22"><font color="#808080">22</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.23"><font color="#808080">23</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;p&gt;</font><font color="#3f5fbf">Created:&nbsp;Apr&nbsp;21,&nbsp;2004&nbsp;5:08:38&nbsp;PM</font><br />
+<a name="line.24"><font color="#808080">24</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.25"><font color="#808080">25</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@author&nbsp;&nbsp;</font><font color="#3f5fbf">Tim&nbsp;Jones</font><br />
+<a name="line.26"><font color="#808080">26</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@version&nbsp;</font><font color="#3f5fbf">$Id:&nbsp;SortComparator.java&nbsp;529&nbsp;2004-10-05&nbsp;11:55:26Z&nbsp;niraj&nbsp;$</font><br />
+<a name="line.27"><font color="#808080">27</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@since&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">1.4</font><br />
+<a name="line.28"><font color="#808080">28</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.29"><font color="#808080">29</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;abstract&nbsp;class&nbsp;</b></font><font color="#000000">SortComparator</font><br />
+<a name="line.30"><font color="#808080">30</font>&nbsp;</a><font color="#7f0055"><b>implements&nbsp;</b></font><font color="#000000">SortComparatorSource&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.31"><font color="#808080">31</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.32"><font color="#808080">32</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;inherit&nbsp;javadocs</font><br />
+<a name="line.33"><font color="#808080">33</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">ScoreDocComparator&nbsp;newComparator&nbsp;</font><font color="#000000">(</font><font color="#7f0055"><b>final&nbsp;</b></font><font color="#000000">IndexReader&nbsp;reader,&nbsp;</font><font color="#7f0055"><b>final&nbsp;</b></font><font color="#000000">String&nbsp;fieldname</font><font color="#000000">)</font><br />
+<a name="line.34"><font color="#808080">34</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.35"><font color="#808080">35</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>final&nbsp;</b></font><font color="#000000">String&nbsp;field&nbsp;=&nbsp;fieldname.intern</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.36"><font color="#808080">36</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;new&nbsp;</b></font><font color="#000000">ScoreDocComparator</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.37"><font color="#808080">37</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>protected&nbsp;</b></font><font color="#000000">Comparable</font><font color="#000000">[]&nbsp;</font><font color="#000000">cachedValues&nbsp;=&nbsp;FieldCache.DEFAULT.getCustom&nbsp;</font><font color="#000000">(</font><font color="#000000">reader,&nbsp;field,&nbsp;SortComparator.</font><font color="#7f0055"><b>this</b></font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.38"><font color="#808080">38</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.39"><font color="#808080">39</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">compare&nbsp;</font><font color="#000000">(</font><font color="#000000">ScoreDoc&nbsp;i,&nbsp;ScoreDoc&nbsp;j</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.40"><font color="#808080">40</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">cachedValues</font><font color="#000000">[</font><font color="#000000">i.doc</font><font color="#000000">]</font><font color="#000000">.compareTo&nbsp;</font><font color="#000000">(</font><font color="#000000">cachedValues</font><font color="#000000">[</font><font color="#000000">j.doc</font><font color="#000000">])</font><font color="#000000">;</font><br />
+<a name="line.41"><font color="#808080">41</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.42"><font color="#808080">42</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.43"><font color="#808080">43</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">Comparable&nbsp;sortValue&nbsp;</font><font color="#000000">(</font><font color="#000000">ScoreDoc&nbsp;i</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.44"><font color="#808080">44</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">cachedValues</font><font color="#000000">[</font><font color="#000000">i.doc</font><font color="#000000">]</font><font color="#000000">;</font><br />
+<a name="line.45"><font color="#808080">45</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.46"><font color="#808080">46</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.47"><font color="#808080">47</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">sortType</font><font color="#000000">(){</font><br />
+<a name="line.48"><font color="#808080">48</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">SortField.CUSTOM;</font><br />
+<a name="line.49"><font color="#808080">49</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.50"><font color="#808080">50</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><font color="#000000">;</font><br />
+<a name="line.51"><font color="#808080">51</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.52"><font color="#808080">52</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.53"><font color="#808080">53</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.54"><font color="#808080">54</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Returns&nbsp;an&nbsp;object&nbsp;which,&nbsp;when&nbsp;sorted&nbsp;according&nbsp;to&nbsp;natural&nbsp;order,</font><br />
+<a name="line.55"><font color="#808080">55</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;will&nbsp;order&nbsp;the&nbsp;Term&nbsp;values&nbsp;in&nbsp;the&nbsp;correct&nbsp;order.</font><br />
+<a name="line.56"><font color="#808080">56</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;p&gt;</font><font color="#3f5fbf">For&nbsp;example,&nbsp;if&nbsp;the&nbsp;Terms&nbsp;contained&nbsp;integer&nbsp;values,&nbsp;this&nbsp;method</font><br />
+<a name="line.57"><font color="#808080">57</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;would&nbsp;return&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">new&nbsp;Integer(termtext)</font><font color="#7f7f9f">&lt;/code&gt;</font><font color="#3f5fbf">.&nbsp;&nbsp;Note&nbsp;that&nbsp;this</font><br />
+<a name="line.58"><font color="#808080">58</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;might&nbsp;not&nbsp;always&nbsp;be&nbsp;the&nbsp;most&nbsp;efficient&nbsp;implementation&nbsp;-&nbsp;for&nbsp;this</font><br />
+<a name="line.59"><font color="#808080">59</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;particular&nbsp;example,&nbsp;a&nbsp;better&nbsp;implementation&nbsp;might&nbsp;be&nbsp;to&nbsp;make&nbsp;a</font><br />
+<a name="line.60"><font color="#808080">60</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;ScoreDocLookupComparator&nbsp;that&nbsp;uses&nbsp;an&nbsp;internal&nbsp;lookup&nbsp;table&nbsp;of&nbsp;int.</font><br />
+<a name="line.61"><font color="#808080">61</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">termtext&nbsp;The&nbsp;textual&nbsp;value&nbsp;of&nbsp;the&nbsp;term.</font><br />
+<a name="line.62"><font color="#808080">62</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@return&nbsp;</font><font color="#3f5fbf">An&nbsp;object&nbsp;representing&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">termtext</font><font color="#7f7f9f">&lt;/code&gt;&nbsp;</font><font color="#3f5fbf">that&nbsp;sorts&nbsp;according&nbsp;to&nbsp;the&nbsp;natural&nbsp;order&nbsp;of&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">termtext</font><font color="#7f7f9f">&lt;/code&gt;</font><font color="#3f5fbf">.</font><br />
+<a name="line.63"><font color="#808080">63</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@see&nbsp;</font><font color="#3f5fbf">Comparable</font><br />
+<a name="line.64"><font color="#808080">64</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@see&nbsp;</font><font color="#3f5fbf">ScoreDocComparator</font><br />
+<a name="line.65"><font color="#808080">65</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.66"><font color="#808080">66</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>protected&nbsp;abstract&nbsp;</b></font><font color="#000000">Comparable&nbsp;getComparable&nbsp;</font><font color="#000000">(</font><font color="#000000">String&nbsp;termtext</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.67"><font color="#808080">67</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.68"><font color="#808080">68</font>&nbsp;</a><font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+</body></html>

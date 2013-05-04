@@ -1,0 +1,479 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>gate/jape/MultiPhaseTransducer.java</title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+  <!-- start headline -->
+   <tr>
+    <td colspan="2">
+     <center><font size="+2">
+      <code><b>
+MultiPhaseTransducer.java
+      </b></code>
+     </font></center>
+    </td>
+   </tr>
+  <!-- end headline -->
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<a name="line.1"><font color="#808080">001</font>&nbsp;</a><font color="#3f7f5f">/*</font><br />
+<a name="line.2"><font color="#808080">002</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;MultiPhaseTransducer.java&nbsp;-&nbsp;transducer&nbsp;class</font><br />
+<a name="line.3"><font color="#808080">003</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.4"><font color="#808080">004</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Copyright&nbsp;(c)&nbsp;1995-2012,&nbsp;The&nbsp;University&nbsp;of&nbsp;Sheffield.&nbsp;See&nbsp;the&nbsp;file</font><br />
+<a name="line.5"><font color="#808080">005</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;COPYRIGHT.txt&nbsp;in&nbsp;the&nbsp;software&nbsp;or&nbsp;at&nbsp;http://gate.ac.uk/gate/COPYRIGHT.txt</font><br />
+<a name="line.6"><font color="#808080">006</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.7"><font color="#808080">007</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;This&nbsp;file&nbsp;is&nbsp;part&nbsp;of&nbsp;GATE&nbsp;(see&nbsp;http://gate.ac.uk/),&nbsp;and&nbsp;is&nbsp;free</font><br />
+<a name="line.8"><font color="#808080">008</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;software,&nbsp;licenced&nbsp;under&nbsp;the&nbsp;GNU&nbsp;Library&nbsp;General&nbsp;Public&nbsp;License,</font><br />
+<a name="line.9"><font color="#808080">009</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Version&nbsp;2,&nbsp;June&nbsp;1991&nbsp;(in&nbsp;the&nbsp;distribution&nbsp;as&nbsp;file&nbsp;licence.html,</font><br />
+<a name="line.10"><font color="#808080">010</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;and&nbsp;also&nbsp;available&nbsp;at&nbsp;http://gate.ac.uk/gate/licence.html).</font><br />
+<a name="line.11"><font color="#808080">011</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.12"><font color="#808080">012</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Hamish&nbsp;Cunningham,&nbsp;24/07/98</font><br />
+<a name="line.13"><font color="#808080">013</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.14"><font color="#808080">014</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;$Id:&nbsp;MultiPhaseTransducer.java&nbsp;15614&nbsp;2012-03-22&nbsp;10:45:19Z&nbsp;markagreenwood&nbsp;$</font><br />
+<a name="line.15"><font color="#808080">015</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*/</font><br />
+<a name="line.16"><font color="#808080">016</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.17"><font color="#808080">017</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.18"><font color="#808080">018</font>&nbsp;</a><font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">gate.jape;</font><br />
+<a name="line.19"><font color="#808080">019</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.20"><font color="#808080">020</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.AnnotationSet;</font><br />
+<a name="line.21"><font color="#808080">021</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.Controller;</font><br />
+<a name="line.22"><font color="#808080">022</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.Document;</font><br />
+<a name="line.23"><font color="#808080">023</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.ExecutionException;</font><br />
+<a name="line.24"><font color="#808080">024</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.ExecutionInterruptedException;</font><br />
+<a name="line.25"><font color="#808080">025</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.ontology.Ontology;</font><br />
+<a name="line.26"><font color="#808080">026</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.event.ProgressListener;</font><br />
+<a name="line.27"><font color="#808080">027</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.event.StatusListener;</font><br />
+<a name="line.28"><font color="#808080">028</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.util.Benchmark;</font><br />
+<a name="line.29"><font color="#808080">029</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.util.Err;</font><br />
+<a name="line.30"><font color="#808080">030</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.util.GateClassLoader;</font><br />
+<a name="line.31"><font color="#808080">031</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.util.Strings;</font><br />
+<a name="line.32"><font color="#808080">032</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.33"><font color="#808080">033</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.util.ArrayList;</font><br />
+<a name="line.34"><font color="#808080">034</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.util.Iterator;</font><br />
+<a name="line.35"><font color="#808080">035</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.36"><font color="#808080">036</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.37"><font color="#808080">037</font>&nbsp;</a><font color="#3f5fbf">/**</font><br />
+<a name="line.38"><font color="#808080">038</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Represents&nbsp;a&nbsp;complete&nbsp;CPSL&nbsp;grammar,&nbsp;with&nbsp;a&nbsp;phase&nbsp;name,&nbsp;options&nbsp;and</font><br />
+<a name="line.39"><font color="#808080">039</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;rule&nbsp;set&nbsp;(accessible&nbsp;by&nbsp;name&nbsp;and&nbsp;by&nbsp;sequence).</font><br />
+<a name="line.40"><font color="#808080">040</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Implements&nbsp;a&nbsp;transduce&nbsp;method&nbsp;taking&nbsp;a&nbsp;Document&nbsp;as&nbsp;input.</font><br />
+<a name="line.41"><font color="#808080">041</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Constructs&nbsp;from&nbsp;String&nbsp;or&nbsp;File.</font><br />
+<a name="line.42"><font color="#808080">042</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.43"><font color="#808080">043</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">MultiPhaseTransducer&nbsp;</font><font color="#7f0055"><b>extends&nbsp;</b></font><font color="#000000">Transducer</font><br />
+<a name="line.44"><font color="#808080">044</font>&nbsp;</a><font color="#7f0055"><b>implements&nbsp;</b></font><font color="#000000">JapeConstants,&nbsp;java.io.Serializable</font><br />
+<a name="line.45"><font color="#808080">045</font>&nbsp;</a><font color="#000000">{</font><br />
+<a name="line.46"><font color="#808080">046</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;static&nbsp;final&nbsp;</b></font><font color="#7f0055"><b>long&nbsp;</b></font><font color="#000000">serialVersionUID&nbsp;=&nbsp;-</font><font color="#990000">1817675404943909246L</font><font color="#000000">;</font><br />
+<a name="line.47"><font color="#808080">047</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.48"><font color="#808080">048</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Debug&nbsp;flag&nbsp;*/</font><br />
+<a name="line.49"><font color="#808080">049</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;static&nbsp;final&nbsp;</b></font><font color="#7f0055"><b>boolean&nbsp;</b></font><font color="#000000">DEBUG&nbsp;=&nbsp;</font><font color="#7f0055"><b>false</b></font><font color="#000000">;</font><br />
+<a name="line.50"><font color="#808080">050</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.51"><font color="#808080">051</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Construction&nbsp;from&nbsp;name.&nbsp;*/</font><br />
+<a name="line.52"><font color="#808080">052</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">MultiPhaseTransducer</font><font color="#000000">(</font><font color="#000000">String&nbsp;name</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.53"><font color="#808080">053</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.54"><font color="#808080">054</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">setName</font><font color="#000000">(</font><font color="#000000">name</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.55"><font color="#808080">055</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;constr&nbsp;from&nbsp;name</font><br />
+<a name="line.56"><font color="#808080">056</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.57"><font color="#808080">057</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.58"><font color="#808080">058</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Notifies&nbsp;this&nbsp;PR&nbsp;that&nbsp;it&nbsp;should&nbsp;stop&nbsp;its&nbsp;execution&nbsp;as&nbsp;soon&nbsp;as&nbsp;possible.</font><br />
+<a name="line.59"><font color="#808080">059</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.60"><font color="#808080">060</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;synchronized&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">interrupt</font><font color="#000000">(){</font><br />
+<a name="line.61"><font color="#808080">061</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">interrupted&nbsp;=&nbsp;</font><font color="#7f0055"><b>true</b></font><font color="#000000">;</font><br />
+<a name="line.62"><font color="#808080">062</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Iterator&nbsp;phasesIter&nbsp;=&nbsp;phases.iterator</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.63"><font color="#808080">063</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>while</b></font><font color="#000000">(</font><font color="#000000">phasesIter.hasNext</font><font color="#000000">()){</font><br />
+<a name="line.64"><font color="#808080">064</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">((</font><font color="#000000">Transducer</font><font color="#000000">)</font><font color="#000000">phasesIter.next</font><font color="#000000">())</font><font color="#000000">.interrupt</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.65"><font color="#808080">065</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.66"><font color="#808080">066</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.67"><font color="#808080">067</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.68"><font color="#808080">068</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.69"><font color="#808080">069</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Anonymous&nbsp;construction&nbsp;*/</font><br />
+<a name="line.70"><font color="#808080">070</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">MultiPhaseTransducer</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.71"><font color="#808080">071</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">phases&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">ArrayList</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.72"><font color="#808080">072</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;anon&nbsp;construction</font><br />
+<a name="line.73"><font color="#808080">073</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.74"><font color="#808080">074</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Set&nbsp;the&nbsp;name.&nbsp;*/</font><br />
+<a name="line.75"><font color="#808080">075</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">setName</font><font color="#000000">(</font><font color="#000000">String&nbsp;name</font><font color="#000000">)&nbsp;{&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.name&nbsp;=&nbsp;name;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.76"><font color="#808080">076</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.77"><font color="#808080">077</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;The&nbsp;SinglePhaseTransducers&nbsp;that&nbsp;make&nbsp;up&nbsp;this&nbsp;one.</font><br />
+<a name="line.78"><font color="#808080">078</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Keyed&nbsp;by&nbsp;their&nbsp;phase&nbsp;names.</font><br />
+<a name="line.79"><font color="#808080">079</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.80"><font color="#808080">080</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">ArrayList&nbsp;phases;</font><br />
+<a name="line.81"><font color="#808080">081</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.82"><font color="#808080">082</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.83"><font color="#808080">083</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.84"><font color="#808080">084</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Sets&nbsp;the&nbsp;ontology&nbsp;used&nbsp;by&nbsp;this&nbsp;transducer;</font><br />
+<a name="line.85"><font color="#808080">085</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">ontology&nbsp;an&nbsp;</font><font color="#3f3fbf">{@link&nbsp;gate.creole.ontology.Ontology}&nbsp;</font><font color="#3f5fbf">value;</font><br />
+<a name="line.86"><font color="#808080">086</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.87"><font color="#808080">087</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">setOntology</font><font color="#000000">(</font><font color="#000000">Ontology&nbsp;ontology</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.88"><font color="#808080">088</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>super</b></font><font color="#000000">.setOntology</font><font color="#000000">(</font><font color="#000000">ontology</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.89"><font color="#808080">089</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Iterator&nbsp;phasesIter&nbsp;=&nbsp;phases.iterator</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.90"><font color="#808080">090</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>while</b></font><font color="#000000">(</font><font color="#000000">phasesIter.hasNext</font><font color="#000000">()){</font><br />
+<a name="line.91"><font color="#808080">091</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">((</font><font color="#000000">Transducer</font><font color="#000000">)</font><font color="#000000">phasesIter.next</font><font color="#000000">())</font><font color="#000000">.setOntology</font><font color="#000000">(</font><font color="#000000">ontology</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.92"><font color="#808080">092</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.93"><font color="#808080">093</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.94"><font color="#808080">094</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.95"><font color="#808080">095</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Add&nbsp;phase.&nbsp;*/</font><br />
+<a name="line.96"><font color="#808080">096</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">addPhase</font><font color="#000000">(</font><font color="#000000">String&nbsp;name,&nbsp;Transducer&nbsp;phase</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.97"><font color="#808080">097</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//Debug.pr(this,&nbsp;&#34;MPT:&nbsp;adding&nbsp;&#34;&nbsp;+&nbsp;name&nbsp;+&nbsp;Debug.getNl());</font><br />
+<a name="line.98"><font color="#808080">098</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">phases.add</font><font color="#000000">(</font><font color="#000000">phase</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.99"><font color="#808080">099</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;addPhase</font><br />
+<a name="line.100"><font color="#808080">100</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.101"><font color="#808080">101</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Change&nbsp;the&nbsp;phase&nbsp;order&nbsp;to&nbsp;the&nbsp;one&nbsp;specified&nbsp;in&nbsp;a&nbsp;list&nbsp;of&nbsp;names.&nbsp;*/</font><br />
+<a name="line.102"><font color="#808080">102</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">orderPhases</font><font color="#000000">(</font><font color="#000000">String</font><font color="#000000">[]&nbsp;</font><font color="#000000">phaseNames</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.103"><font color="#808080">103</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Err.println</font><font color="#000000">(</font><font color="#2a00ff">&#34;oops:&nbsp;MPT.orderPhases&nbsp;not&nbsp;done&nbsp;yet&nbsp;:-(&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.104"><font color="#808080">104</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">/*</font><br />
+<a name="line.105"><font color="#808080">105</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;for&nbsp;each&nbsp;phaseName</font><br />
+<a name="line.106"><font color="#808080">106</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;&nbsp;&nbsp;destructively&nbsp;get&nbsp;the&nbsp;phase&nbsp;and&nbsp;add&nbsp;to&nbsp;new&nbsp;array&nbsp;map</font><br />
+<a name="line.107"><font color="#808080">107</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;errors:&nbsp;any&nbsp;phaseName&nbsp;not&nbsp;in&nbsp;phases,</font><br />
+<a name="line.108"><font color="#808080">108</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">HashMap&nbsp;newPhaseMap&nbsp;=&nbsp;new&nbsp;HashMap();</font><br />
+<a name="line.109"><font color="#808080">109</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">for(int&nbsp;i=0;&nbsp;i&lt;phaseNames.length;&nbsp;i++)&nbsp;{</font><br />
+<a name="line.110"><font color="#808080">110</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">Transducer&nbsp;t&nbsp;=&nbsp;(Transducer)&nbsp;phases.remove(phaseNames[i]);</font><br />
+<a name="line.111"><font color="#808080">111</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">if(t&nbsp;==&nbsp;null)&nbsp;{</font><br />
+<a name="line.112"><font color="#808080">112</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;ERROR</font><br />
+<a name="line.113"><font color="#808080">113</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">}</font><br />
+<a name="line.114"><font color="#808080">114</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">else&nbsp;{</font><br />
+<a name="line.115"><font color="#808080">115</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">newPhaseMap.add(t);</font><br />
+<a name="line.116"><font color="#808080">116</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">}</font><br />
+<a name="line.117"><font color="#808080">117</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">}</font><br />
+<a name="line.118"><font color="#808080">118</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">phases&nbsp;=&nbsp;newPhaseMap;</font><br />
+<a name="line.119"><font color="#808080">119</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">*/</font><br />
+<a name="line.120"><font color="#808080">120</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;orderPhases</font><br />
+<a name="line.121"><font color="#808080">121</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.122"><font color="#808080">122</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.123"><font color="#808080">123</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Finish:&nbsp;replace&nbsp;dynamic&nbsp;data&nbsp;structures&nbsp;with&nbsp;Java&nbsp;arrays;&nbsp;called</font><br />
+<a name="line.124"><font color="#808080">124</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;after&nbsp;parsing.</font><br />
+<a name="line.125"><font color="#808080">125</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.126"><font color="#808080">126</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">finish</font><font color="#000000">(</font><font color="#000000">GateClassLoader&nbsp;classloader</font><font color="#000000">){</font><br />
+<a name="line.127"><font color="#808080">127</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>for</b></font><font color="#000000">(</font><font color="#000000">Iterator&nbsp;i&nbsp;=&nbsp;phases.iterator</font><font color="#000000">()</font><font color="#000000">;&nbsp;i.hasNext</font><font color="#000000">()</font><font color="#000000">;&nbsp;</font><font color="#000000">)</font><br />
+<a name="line.128"><font color="#808080">128</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">((</font><font color="#000000">Transducer</font><font color="#000000">)&nbsp;</font><font color="#000000">i.next</font><font color="#000000">())</font><font color="#000000">.finish</font><font color="#000000">(</font><font color="#000000">classloader</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.129"><font color="#808080">129</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;finish</font><br />
+<a name="line.130"><font color="#808080">130</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.131"><font color="#808080">131</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.132"><font color="#808080">132</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Transduce&nbsp;the&nbsp;document&nbsp;by&nbsp;running&nbsp;each&nbsp;phase&nbsp;in&nbsp;turn.&nbsp;*/</font><br />
+<a name="line.133"><font color="#808080">133</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">transduce</font><font color="#000000">(</font><font color="#000000">Document&nbsp;doc,&nbsp;AnnotationSet&nbsp;input,</font><br />
+<a name="line.134"><font color="#808080">134</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">AnnotationSet&nbsp;output</font><font color="#000000">)&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">JapeException,</font><br />
+<a name="line.135"><font color="#808080">135</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">ExecutionException&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.136"><font color="#808080">136</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">interrupted&nbsp;=&nbsp;</font><font color="#7f0055"><b>false</b></font><font color="#000000">;</font><br />
+<a name="line.137"><font color="#808080">137</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">ProgressListener&nbsp;pListener&nbsp;=&nbsp;</font><font color="#7f0055"><b>null</b></font><font color="#000000">;</font><br />
+<a name="line.138"><font color="#808080">138</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">StatusListener&nbsp;sListener&nbsp;=&nbsp;</font><font color="#7f0055"><b>null</b></font><font color="#000000">;</font><br />
+<a name="line.139"><font color="#808080">139</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">pListener&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">ProgressListener</font><font color="#000000">(){</font><br />
+<a name="line.140"><font color="#808080">140</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">processFinished</font><font color="#000000">(){</font><br />
+<a name="line.141"><font color="#808080">141</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">donePhases&nbsp;++;</font><br />
+<a name="line.142"><font color="#808080">142</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if</b></font><font color="#000000">(</font><font color="#000000">donePhases&nbsp;==&nbsp;phasesCnt</font><font color="#000000">)&nbsp;</font><font color="#000000">fireProcessFinished</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.143"><font color="#808080">143</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.144"><font color="#808080">144</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.145"><font color="#808080">145</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">progressChanged</font><font color="#000000">(</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">i</font><font color="#000000">){</font><br />
+<a name="line.146"><font color="#808080">146</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">value&nbsp;=&nbsp;</font><font color="#000000">(</font><font color="#000000">donePhases&nbsp;*&nbsp;</font><font color="#990000">100&nbsp;</font><font color="#000000">+&nbsp;i</font><font color="#000000">)</font><font color="#000000">/phasesCnt;</font><br />
+<a name="line.147"><font color="#808080">147</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">fireProgressChanged</font><font color="#000000">(</font><font color="#000000">value</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.148"><font color="#808080">148</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.149"><font color="#808080">149</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.150"><font color="#808080">150</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">phasesCnt&nbsp;=&nbsp;phases.size</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.151"><font color="#808080">151</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">donePhases&nbsp;=&nbsp;</font><font color="#990000">0</font><font color="#000000">;</font><br />
+<a name="line.152"><font color="#808080">152</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><font color="#000000">;</font><br />
+<a name="line.153"><font color="#808080">153</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.154"><font color="#808080">154</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">sListener&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">StatusListener</font><font color="#000000">(){</font><br />
+<a name="line.155"><font color="#808080">155</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">statusChanged</font><font color="#000000">(</font><font color="#000000">String&nbsp;text</font><font color="#000000">){</font><br />
+<a name="line.156"><font color="#808080">156</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">fireStatusChanged</font><font color="#000000">(</font><font color="#000000">text</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.157"><font color="#808080">157</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.158"><font color="#808080">158</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><font color="#000000">;</font><br />
+<a name="line.159"><font color="#808080">159</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.160"><font color="#808080">160</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>for</b></font><font color="#000000">(</font><font color="#000000">Iterator&nbsp;i&nbsp;=&nbsp;phases.iterator</font><font color="#000000">()</font><font color="#000000">;&nbsp;i.hasNext</font><font color="#000000">()</font><font color="#000000">;&nbsp;</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.161"><font color="#808080">161</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Transducer&nbsp;t&nbsp;=&nbsp;</font><font color="#000000">(</font><font color="#000000">Transducer</font><font color="#000000">)&nbsp;</font><font color="#000000">i.next</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.162"><font color="#808080">162</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.163"><font color="#808080">163</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if</b></font><font color="#000000">(</font><font color="#000000">isInterrupted</font><font color="#000000">())&nbsp;</font><font color="#7f0055"><b>throw&nbsp;new&nbsp;</b></font><font color="#000000">ExecutionInterruptedException</font><font color="#000000">(</font><br />
+<a name="line.164"><font color="#808080">164</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#2a00ff">&#34;The&nbsp;execution&nbsp;of&nbsp;the&nbsp;\&#34;&#34;&nbsp;</font><font color="#000000">+&nbsp;getName</font><font color="#000000">()&nbsp;</font><font color="#000000">+</font><br />
+<a name="line.165"><font color="#808080">165</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#2a00ff">&#34;\&#34;&nbsp;Jape&nbsp;transducer&nbsp;has&nbsp;been&nbsp;abruptly&nbsp;interrupted!&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.166"><font color="#808080">166</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.167"><font color="#808080">167</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>try&nbsp;</b></font><font color="#000000">{</font><br />
+<a name="line.168"><font color="#808080">168</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">fireStatusChanged</font><font color="#000000">(</font><font color="#2a00ff">&#34;Transducing&nbsp;&#34;&nbsp;</font><font color="#000000">+&nbsp;doc.getName</font><font color="#000000">()&nbsp;</font><font color="#000000">+</font><br />
+<a name="line.169"><font color="#808080">169</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#2a00ff">&#34;&nbsp;(Phase:&nbsp;&#34;&nbsp;</font><font color="#000000">+&nbsp;t.getName</font><font color="#000000">()&nbsp;</font><font color="#000000">+&nbsp;</font><font color="#2a00ff">&#34;)...&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.170"><font color="#808080">170</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">String&nbsp;savedBenchmarkID&nbsp;=&nbsp;</font><font color="#7f0055"><b>null</b></font><font color="#000000">;</font><br />
+<a name="line.171"><font color="#808080">171</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">String&nbsp;phaseBenchmarkID&nbsp;=&nbsp;</font><font color="#7f0055"><b>null</b></font><font color="#000000">;</font><br />
+<a name="line.172"><font color="#808080">172</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if</b></font><font color="#000000">(</font><font color="#000000">Benchmark.isBenchmarkingEnabled</font><font color="#000000">())&nbsp;{</font><br />
+<a name="line.173"><font color="#808080">173</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">savedBenchmarkID&nbsp;=&nbsp;t.getBenchmarkId</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.174"><font color="#808080">174</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.benchmarkFeatures.put</font><font color="#000000">(</font><font color="#000000">Benchmark.DOCUMENT_NAME_FEATURE,&nbsp;doc.getName</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.175"><font color="#808080">175</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">phaseBenchmarkID&nbsp;=&nbsp;Benchmark.createBenchmarkId</font><font color="#000000">(</font><font color="#2a00ff">&#34;phase__&#34;&nbsp;</font><font color="#000000">+&nbsp;t.getName</font><font color="#000000">()</font><font color="#000000">,&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.getBenchmarkId</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.176"><font color="#808080">176</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">t.setBenchmarkId</font><font color="#000000">(</font><font color="#000000">phaseBenchmarkID</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.177"><font color="#808080">177</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.178"><font color="#808080">178</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>long&nbsp;</b></font><font color="#000000">startTime&nbsp;=&nbsp;Benchmark.startPoint</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.179"><font color="#808080">179</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">t.addProgressListener</font><font color="#000000">(</font><font color="#000000">pListener</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.180"><font color="#808080">180</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">t.addStatusListener</font><font color="#000000">(</font><font color="#000000">sListener</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.181"><font color="#808080">181</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.182"><font color="#808080">182</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">t.setActionContext</font><font color="#000000">(</font><font color="#000000">actionContext</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.183"><font color="#808080">183</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">t.transduce</font><font color="#000000">(</font><font color="#000000">doc,&nbsp;input,&nbsp;output</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.184"><font color="#808080">184</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">t.removeProgressListener</font><font color="#000000">(</font><font color="#000000">pListener</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.185"><font color="#808080">185</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">t.removeStatusListener</font><font color="#000000">(</font><font color="#000000">sListener</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.186"><font color="#808080">186</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if</b></font><font color="#000000">(</font><font color="#000000">Benchmark.isBenchmarkingEnabled</font><font color="#000000">())&nbsp;{</font><br />
+<a name="line.187"><font color="#808080">187</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Benchmark.checkPoint</font><font color="#000000">(</font><font color="#000000">startTime,&nbsp;phaseBenchmarkID,&nbsp;this,&nbsp;benchmarkFeatures</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.188"><font color="#808080">188</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">t.setBenchmarkId</font><font color="#000000">(</font><font color="#000000">savedBenchmarkID</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.189"><font color="#808080">189</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.190"><font color="#808080">190</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">fireStatusChanged</font><font color="#000000">(</font><font color="#2a00ff">&#34;&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.191"><font color="#808080">191</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#7f0055"><b>catch</b></font><font color="#000000">(</font><font color="#000000">JapeException&nbsp;e</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.192"><font color="#808080">192</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">String&nbsp;location&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;phase&nbsp;&#34;&nbsp;</font><font color="#000000">+&nbsp;t.getName</font><font color="#000000">()&nbsp;</font><font color="#000000">+&nbsp;</font><font color="#2a00ff">&#34;,&nbsp;document&nbsp;&#34;&nbsp;</font><font color="#000000">+&nbsp;doc.getName</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.193"><font color="#808080">193</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">e.setLocation</font><font color="#000000">(</font><font color="#000000">location</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.194"><font color="#808080">194</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>throw&nbsp;</b></font><font color="#000000">e;</font><br />
+<a name="line.195"><font color="#808080">195</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.196"><font color="#808080">196</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.197"><font color="#808080">197</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.198"><font color="#808080">198</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">cleanUp</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.199"><font color="#808080">199</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;transduce</font><br />
+<a name="line.200"><font color="#808080">200</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.201"><font color="#808080">201</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">setEnableDebugging</font><font color="#000000">(</font><font color="#7f0055"><b>boolean&nbsp;</b></font><font color="#000000">enableDebugging</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.202"><font color="#808080">202</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.enableDebugging&nbsp;=&nbsp;enableDebugging;</font><br />
+<a name="line.203"><font color="#808080">203</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//propagate</font><br />
+<a name="line.204"><font color="#808080">204</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>for</b></font><font color="#000000">(</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">i&nbsp;=&nbsp;</font><font color="#990000">0</font><font color="#000000">;&nbsp;i&nbsp;&lt;&nbsp;phases.size</font><font color="#000000">()</font><font color="#000000">;&nbsp;i++</font><font color="#000000">){</font><br />
+<a name="line.205"><font color="#808080">205</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">((</font><font color="#000000">Transducer</font><font color="#000000">)</font><font color="#000000">phases.get</font><font color="#000000">(</font><font color="#000000">i</font><font color="#000000">))</font><font color="#000000">.setEnableDebugging</font><font color="#000000">(</font><font color="#000000">enableDebugging</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.206"><font color="#808080">206</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.207"><font color="#808080">207</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.208"><font color="#808080">208</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.209"><font color="#808080">209</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.210"><font color="#808080">210</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Ask&nbsp;each&nbsp;phase&nbsp;to&nbsp;clean&nbsp;up&nbsp;(delete&nbsp;action&nbsp;class&nbsp;files,&nbsp;for&nbsp;e.g.).&nbsp;*/</font><br />
+<a name="line.211"><font color="#808080">211</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">cleanUp</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.212"><font color="#808080">212</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.213"><font color="#808080">213</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>for</b></font><font color="#000000">(</font><font color="#000000">Iterator&nbsp;i&nbsp;=&nbsp;phases.iterator</font><font color="#000000">()</font><font color="#000000">;&nbsp;i.hasNext</font><font color="#000000">()</font><font color="#000000">;&nbsp;</font><font color="#000000">)</font><br />
+<a name="line.214"><font color="#808080">214</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">((</font><font color="#000000">Transducer</font><font color="#000000">)&nbsp;</font><font color="#000000">i.next</font><font color="#000000">())</font><font color="#000000">.cleanUp</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.215"><font color="#808080">215</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><br />
+<a name="line.216"><font color="#808080">216</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">benchmarkFeatures.remove</font><font color="#000000">(</font><font color="#000000">Benchmark.DOCUMENT_NAME_FEATURE</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.217"><font color="#808080">217</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.218"><font color="#808080">218</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;cleanUp</font><br />
+<a name="line.219"><font color="#808080">219</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.220"><font color="#808080">220</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Create&nbsp;a&nbsp;string&nbsp;representation&nbsp;of&nbsp;the&nbsp;object.&nbsp;*/</font><br />
+<a name="line.221"><font color="#808080">221</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">String&nbsp;toString</font><font color="#000000">()&nbsp;{&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">toString</font><font color="#000000">(</font><font color="#2a00ff">&#34;&#34;</font><font color="#000000">)</font><font color="#000000">;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.222"><font color="#808080">222</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.223"><font color="#808080">223</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Create&nbsp;a&nbsp;string&nbsp;representation&nbsp;of&nbsp;the&nbsp;object.&nbsp;*/</font><br />
+<a name="line.224"><font color="#808080">224</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">String&nbsp;toString</font><font color="#000000">(</font><font color="#000000">String&nbsp;pad</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.225"><font color="#808080">225</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">String&nbsp;newline&nbsp;=&nbsp;Strings.getNl</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.226"><font color="#808080">226</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.227"><font color="#808080">227</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">StringBuffer&nbsp;buf&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">StringBuffer</font><font color="#000000">(</font><br />
+<a name="line.228"><font color="#808080">228</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">pad&nbsp;+&nbsp;</font><font color="#2a00ff">&#34;MPT:&nbsp;name(&#34;&nbsp;</font><font color="#000000">+&nbsp;name&nbsp;+&nbsp;</font><font color="#2a00ff">&#34;);&nbsp;phases(&#34;&nbsp;</font><font color="#000000">+&nbsp;newline&nbsp;+&nbsp;pad</font><br />
+<a name="line.229"><font color="#808080">229</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.230"><font color="#808080">230</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.231"><font color="#808080">231</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>for</b></font><font color="#000000">(</font><font color="#000000">Iterator&nbsp;i&nbsp;=&nbsp;phases.iterator</font><font color="#000000">()</font><font color="#000000">;&nbsp;i.hasNext</font><font color="#000000">()</font><font color="#000000">;&nbsp;</font><font color="#000000">)</font><br />
+<a name="line.232"><font color="#808080">232</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">buf.append</font><font color="#000000">(</font><br />
+<a name="line.233"><font color="#808080">233</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">((</font><font color="#000000">Transducer</font><font color="#000000">)&nbsp;</font><font color="#000000">i.next</font><font color="#000000">())</font><font color="#000000">.toString</font><font color="#000000">(</font><br />
+<a name="line.234"><font color="#808080">234</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Strings.addPadding</font><font color="#000000">(</font><font color="#000000">pad,&nbsp;INDENT_PADDING</font><font color="#000000">)</font><br />
+<a name="line.235"><font color="#808080">235</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">)&nbsp;</font><font color="#000000">+&nbsp;</font><font color="#2a00ff">&#34;&nbsp;&#34;</font><br />
+<a name="line.236"><font color="#808080">236</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.237"><font color="#808080">237</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.238"><font color="#808080">238</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">buf.append</font><font color="#000000">(</font><font color="#000000">newline&nbsp;+&nbsp;pad&nbsp;+&nbsp;</font><font color="#2a00ff">&#34;).&#34;&nbsp;</font><font color="#000000">+&nbsp;newline</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.239"><font color="#808080">239</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.240"><font color="#808080">240</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">buf.toString</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.241"><font color="#808080">241</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;toString</font><br />
+<a name="line.242"><font color="#808080">242</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.243"><font color="#808080">243</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">//needed&nbsp;by&nbsp;FSM</font><br />
+<a name="line.244"><font color="#808080">244</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">ArrayList&nbsp;getPhases</font><font color="#000000">(){&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">phases;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.245"><font color="#808080">245</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><br />
+<a name="line.246"><font color="#808080">246</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.247"><font color="#808080">247</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Sets&nbsp;the&nbsp;phases</font><br />
+<a name="line.248"><font color="#808080">248</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">phases</font><br />
+<a name="line.249"><font color="#808080">249</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.250"><font color="#808080">250</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">setPhases</font><font color="#000000">(</font><font color="#000000">ArrayList&nbsp;phases</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.251"><font color="#808080">251</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.phases&nbsp;=&nbsp;phases;</font><br />
+<a name="line.252"><font color="#808080">252</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.253"><font color="#808080">253</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.254"><font color="#808080">254</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#646464">@Override</font><br />
+<a name="line.255"><font color="#808080">255</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">runControllerExecutionStartedBlock</font><font color="#000000">(</font><br />
+<a name="line.256"><font color="#808080">256</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">ActionContext&nbsp;ac,&nbsp;Controller&nbsp;c,&nbsp;Ontology&nbsp;o</font><font color="#000000">)&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">ExecutionException&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.257"><font color="#808080">257</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>for</b></font><font color="#000000">(</font><font color="#000000">Iterator&nbsp;i&nbsp;=&nbsp;phases.iterator</font><font color="#000000">()</font><font color="#000000">;&nbsp;i.hasNext</font><font color="#000000">()</font><font color="#000000">;&nbsp;</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.258"><font color="#808080">258</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Transducer&nbsp;t&nbsp;=&nbsp;</font><font color="#000000">(</font><font color="#000000">Transducer</font><font color="#000000">)&nbsp;</font><font color="#000000">i.next</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.259"><font color="#808080">259</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">t.runControllerExecutionStartedBlock</font><font color="#000000">(</font><font color="#000000">ac,&nbsp;c,&nbsp;o</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.260"><font color="#808080">260</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.261"><font color="#808080">261</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.262"><font color="#808080">262</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#646464">@Override</font><br />
+<a name="line.263"><font color="#808080">263</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">runControllerExecutionFinishedBlock</font><font color="#000000">(</font><br />
+<a name="line.264"><font color="#808080">264</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">ActionContext&nbsp;ac,&nbsp;Controller&nbsp;c,&nbsp;Ontology&nbsp;o</font><font color="#000000">)&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">ExecutionException&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.265"><font color="#808080">265</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>for</b></font><font color="#000000">(</font><font color="#000000">Iterator&nbsp;i&nbsp;=&nbsp;phases.iterator</font><font color="#000000">()</font><font color="#000000">;&nbsp;i.hasNext</font><font color="#000000">()</font><font color="#000000">;&nbsp;</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.266"><font color="#808080">266</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Transducer&nbsp;t&nbsp;=&nbsp;</font><font color="#000000">(</font><font color="#000000">Transducer</font><font color="#000000">)&nbsp;</font><font color="#000000">i.next</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.267"><font color="#808080">267</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">t.runControllerExecutionFinishedBlock</font><font color="#000000">(</font><font color="#000000">ac,&nbsp;c,&nbsp;o</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.268"><font color="#808080">268</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.269"><font color="#808080">269</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.270"><font color="#808080">270</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#646464">@Override</font><br />
+<a name="line.271"><font color="#808080">271</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">runControllerExecutionAbortedBlock</font><font color="#000000">(</font><br />
+<a name="line.272"><font color="#808080">272</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">ActionContext&nbsp;ac,&nbsp;Controller&nbsp;c,&nbsp;Throwable&nbsp;throwable,&nbsp;Ontology&nbsp;o</font><font color="#000000">)&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">ExecutionException&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.273"><font color="#808080">273</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>for</b></font><font color="#000000">(</font><font color="#000000">Iterator&nbsp;i&nbsp;=&nbsp;phases.iterator</font><font color="#000000">()</font><font color="#000000">;&nbsp;i.hasNext</font><font color="#000000">()</font><font color="#000000">;&nbsp;</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.274"><font color="#808080">274</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Transducer&nbsp;t&nbsp;=&nbsp;</font><font color="#000000">(</font><font color="#000000">Transducer</font><font color="#000000">)&nbsp;</font><font color="#000000">i.next</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.275"><font color="#808080">275</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">t.runControllerExecutionAbortedBlock</font><font color="#000000">(</font><font color="#000000">ac,&nbsp;c,throwable,&nbsp;o</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.276"><font color="#808080">276</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.277"><font color="#808080">277</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.278"><font color="#808080">278</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.279"><font color="#808080">279</font>&nbsp;</a><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;class&nbsp;MultiPhaseTransducer</font><br />
+<a name="line.280"><font color="#808080">280</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.281"><font color="#808080">281</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.282"><font color="#808080">282</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.283"><font color="#808080">283</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;$Log$</font><br />
+<a name="line.284"><font color="#808080">284</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.28&nbsp;&nbsp;2005/10/07&nbsp;16:06:47&nbsp;&nbsp;nirajaswani</font><br />
+<a name="line.285"><font color="#808080">285</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Transducer&nbsp;Serialization&nbsp;added</font><br />
+<a name="line.286"><font color="#808080">286</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.287"><font color="#808080">287</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.27&nbsp;&nbsp;2005/01/11&nbsp;13:51:36&nbsp;&nbsp;ian</font><br />
+<a name="line.288"><font color="#808080">288</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Updating&nbsp;copyrights&nbsp;to&nbsp;1998-2005&nbsp;in&nbsp;preparation&nbsp;for&nbsp;v3.0</font><br />
+<a name="line.289"><font color="#808080">289</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.290"><font color="#808080">290</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.26&nbsp;&nbsp;2004/07/21&nbsp;17:10:08&nbsp;&nbsp;akshay</font><br />
+<a name="line.291"><font color="#808080">291</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Changed&nbsp;copyright&nbsp;from&nbsp;1998-2001&nbsp;to&nbsp;1998-2004</font><br />
+<a name="line.292"><font color="#808080">292</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.293"><font color="#808080">293</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.25&nbsp;&nbsp;2004/03/25&nbsp;13:01:13&nbsp;&nbsp;valyt</font><br />
+<a name="line.294"><font color="#808080">294</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Imports&nbsp;optimisation&nbsp;throughout&nbsp;the&nbsp;Java&nbsp;sources</font><br />
+<a name="line.295"><font color="#808080">295</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;(to&nbsp;get&nbsp;rid&nbsp;of&nbsp;annoying&nbsp;warnings&nbsp;in&nbsp;Eclipse)</font><br />
+<a name="line.296"><font color="#808080">296</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.297"><font color="#808080">297</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.24&nbsp;&nbsp;2003/11/14&nbsp;12:45:47&nbsp;&nbsp;valyt</font><br />
+<a name="line.298"><font color="#808080">298</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;enableDebugging&nbsp;parameter</font><br />
+<a name="line.299"><font color="#808080">299</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.300"><font color="#808080">300</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.23&nbsp;&nbsp;2002/05/14&nbsp;09:43:17&nbsp;&nbsp;valyt</font><br />
+<a name="line.301"><font color="#808080">301</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.302"><font color="#808080">302</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Ontology&nbsp;Aware&nbsp;JAPE&nbsp;transducers</font><br />
+<a name="line.303"><font color="#808080">303</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.304"><font color="#808080">304</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.22&nbsp;&nbsp;2002/03/13&nbsp;11:19:37&nbsp;&nbsp;valyt</font><br />
+<a name="line.305"><font color="#808080">305</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.306"><font color="#808080">306</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;bug&nbsp;fix:&nbsp;doc.getSourceURL()&nbsp;replaced&nbsp;by&nbsp;doc.getName()</font><br />
+<a name="line.307"><font color="#808080">307</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.308"><font color="#808080">308</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.21&nbsp;&nbsp;2002/02/26&nbsp;13:27:12&nbsp;&nbsp;valyt</font><br />
+<a name="line.309"><font color="#808080">309</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.310"><font color="#808080">310</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Error&nbsp;messages&nbsp;from&nbsp;the&nbsp;compiler</font><br />
+<a name="line.311"><font color="#808080">311</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.312"><font color="#808080">312</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.20&nbsp;&nbsp;2001/09/28&nbsp;15:45:23&nbsp;&nbsp;valyt</font><br />
+<a name="line.313"><font color="#808080">313</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.314"><font color="#808080">314</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;All&nbsp;the&nbsp;PRs&nbsp;are&nbsp;now&nbsp;more&nbsp;or&nbsp;less&nbsp;interruptible</font><br />
+<a name="line.315"><font color="#808080">315</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.316"><font color="#808080">316</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;THE&nbsp;STOP&nbsp;BUTTON&nbsp;shows&nbsp;its&nbsp;face&nbsp;when&nbsp;needed.</font><br />
+<a name="line.317"><font color="#808080">317</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.318"><font color="#808080">318</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.19&nbsp;&nbsp;2001/09/25&nbsp;12:04:03&nbsp;&nbsp;kalina</font><br />
+<a name="line.319"><font color="#808080">319</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;I&nbsp;commented&nbsp;out&nbsp;temporarily&nbsp;the&nbsp;no&nbsp;events&nbsp;in&nbsp;batch&nbsp;mode&nbsp;code&nbsp;as&nbsp;it&nbsp;was</font><br />
+<a name="line.320"><font color="#808080">320</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;not&nbsp;working&nbsp;completely&nbsp;correctly,&nbsp;so&nbsp;I&nbsp;want&nbsp;to&nbsp;reinstate&nbsp;it&nbsp;only&nbsp;after</font><br />
+<a name="line.321"><font color="#808080">321</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;it's&nbsp;fully&nbsp;functional.&nbsp;All&nbsp;tests&nbsp;seems&nbsp;OK&nbsp;on&nbsp;a&nbsp;clean&nbsp;version&nbsp;(well,&nbsp;same</font><br />
+<a name="line.322"><font color="#808080">322</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;mistakes&nbsp;as&nbsp;today&nbsp;due&nbsp;to&nbsp;the&nbsp;feature&nbsp;comparison&nbsp;stuff).</font><br />
+<a name="line.323"><font color="#808080">323</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.324"><font color="#808080">324</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.18&nbsp;&nbsp;2001/09/13&nbsp;12:09:50&nbsp;&nbsp;kalina</font><br />
+<a name="line.325"><font color="#808080">325</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Removed&nbsp;completely&nbsp;the&nbsp;use&nbsp;of&nbsp;jgl.objectspace.Array&nbsp;and&nbsp;such.</font><br />
+<a name="line.326"><font color="#808080">326</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Instead&nbsp;all&nbsp;sources&nbsp;now&nbsp;use&nbsp;the&nbsp;new&nbsp;Collections,&nbsp;typically&nbsp;ArrayList.</font><br />
+<a name="line.327"><font color="#808080">327</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;I&nbsp;ran&nbsp;the&nbsp;tests&nbsp;and&nbsp;I&nbsp;ran&nbsp;some&nbsp;documents&nbsp;and&nbsp;compared&nbsp;with&nbsp;keys.</font><br />
+<a name="line.328"><font color="#808080">328</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;JAPE&nbsp;seems&nbsp;to&nbsp;work&nbsp;well&nbsp;(that's&nbsp;where&nbsp;it&nbsp;all&nbsp;was).&nbsp;If&nbsp;there&nbsp;are&nbsp;problems</font><br />
+<a name="line.329"><font color="#808080">329</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;maybe&nbsp;look&nbsp;at&nbsp;those&nbsp;new&nbsp;structures&nbsp;first.</font><br />
+<a name="line.330"><font color="#808080">330</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.331"><font color="#808080">331</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.17&nbsp;&nbsp;2001/09/12&nbsp;15:24:44&nbsp;&nbsp;kalina</font><br />
+<a name="line.332"><font color="#808080">332</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Made&nbsp;the&nbsp;batchMode&nbsp;flag&nbsp;in&nbsp;Main&nbsp;public.&nbsp;This&nbsp;is&nbsp;now&nbsp;checked&nbsp;before</font><br />
+<a name="line.333"><font color="#808080">333</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;events&nbsp;are&nbsp;fired&nbsp;and&nbsp;listeners&nbsp;created.&nbsp;No&nbsp;bugs&nbsp;in&nbsp;tests&nbsp;or&nbsp;anywhere&nbsp;else</font><br />
+<a name="line.334"><font color="#808080">334</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;yet.&nbsp;To&nbsp;disable&nbsp;events,&nbsp;set&nbsp;batchMode&nbsp;to&nbsp;true&nbsp;in&nbsp;your&nbsp;batch&nbsp;code.&nbsp;By&nbsp;default</font><br />
+<a name="line.335"><font color="#808080">335</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;it&nbsp;is&nbsp;false,&nbsp;because&nbsp;some&nbsp;batch&nbsp;code&nbsp;e.g.,&nbsp;MUSE,&nbsp;use&nbsp;events&nbsp;for&nbsp;progress</font><br />
+<a name="line.336"><font color="#808080">336</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;indication.&nbsp;Not&nbsp;having&nbsp;events&nbsp;does&nbsp;give&nbsp;some&nbsp;small&nbsp;performance&nbsp;gains,&nbsp;but</font><br />
+<a name="line.337"><font color="#808080">337</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;not&nbsp;much.</font><br />
+<a name="line.338"><font color="#808080">338</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.339"><font color="#808080">339</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.16&nbsp;&nbsp;2001/05/17&nbsp;11:50:41&nbsp;&nbsp;valyt</font><br />
+<a name="line.340"><font color="#808080">340</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.341"><font color="#808080">341</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;&nbsp;&nbsp;Factory&nbsp;now&nbsp;handles&nbsp;Runtime&nbsp;parameters&nbsp;as&nbsp;well&nbsp;as&nbsp;inittime&nbsp;ones.</font><br />
+<a name="line.342"><font color="#808080">342</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.343"><font color="#808080">343</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;&nbsp;&nbsp;There&nbsp;is&nbsp;a&nbsp;new&nbsp;rule&nbsp;application&nbsp;style&nbsp;Appelt-shortest</font><br />
+<a name="line.344"><font color="#808080">344</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.345"><font color="#808080">345</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.15&nbsp;&nbsp;2001/05/16&nbsp;19:03:45&nbsp;&nbsp;valyt</font><br />
+<a name="line.346"><font color="#808080">346</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.347"><font color="#808080">347</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Added&nbsp;a&nbsp;new&nbsp;option&nbsp;for&nbsp;jape&nbsp;in&nbsp;order&nbsp;to&nbsp;allow&nbsp;the&nbsp;use&nbsp;of&nbsp;the&nbsp;shortest&nbsp;match&nbsp;in&nbsp;appelt&nbsp;rules</font><br />
+<a name="line.348"><font color="#808080">348</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.349"><font color="#808080">349</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.14&nbsp;&nbsp;2001/04/30&nbsp;16:56:32&nbsp;&nbsp;valyt</font><br />
+<a name="line.350"><font color="#808080">350</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.351"><font color="#808080">351</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.352"><font color="#808080">352</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Unification&nbsp;of&nbsp;the&nbsp;NAME&nbsp;attribute&nbsp;implementation.</font><br />
+<a name="line.353"><font color="#808080">353</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.354"><font color="#808080">354</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.13&nbsp;&nbsp;2001/04/17&nbsp;18:18:06&nbsp;&nbsp;valyt</font><br />
+<a name="line.355"><font color="#808080">355</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.356"><font color="#808080">356</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;events&nbsp;for&nbsp;jape&nbsp;&amp;&nbsp;applications</font><br />
+<a name="line.357"><font color="#808080">357</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.358"><font color="#808080">358</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.12&nbsp;&nbsp;2001/03/06&nbsp;20:11:14&nbsp;&nbsp;valyt</font><br />
+<a name="line.359"><font color="#808080">359</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.360"><font color="#808080">360</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;&lt;b&gt;&lt;em&gt;&lt;strong&gt;DOCUMENTATION&lt;/&gt;&lt;/&gt;&lt;/&gt;&nbsp;for&nbsp;most&nbsp;of&nbsp;the&nbsp;GUI&nbsp;classes.</font><br />
+<a name="line.361"><font color="#808080">361</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.362"><font color="#808080">362</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Cleaned&nbsp;up&nbsp;some&nbsp;obsolete&nbsp;classes</font><br />
+<a name="line.363"><font color="#808080">363</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.364"><font color="#808080">364</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.11&nbsp;&nbsp;2001/01/21&nbsp;20:51:31&nbsp;&nbsp;valyt</font><br />
+<a name="line.365"><font color="#808080">365</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Added&nbsp;the&nbsp;DocumentEditor&nbsp;class&nbsp;and&nbsp;the&nbsp;necessary&nbsp;changes&nbsp;to&nbsp;the&nbsp;gate&nbsp;API</font><br />
+<a name="line.366"><font color="#808080">366</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.367"><font color="#808080">367</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.10&nbsp;&nbsp;2000/11/08&nbsp;16:35:03&nbsp;&nbsp;hamish</font><br />
+<a name="line.368"><font color="#808080">368</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;formatting</font><br />
+<a name="line.369"><font color="#808080">369</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.370"><font color="#808080">370</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.9&nbsp;&nbsp;2000/10/26&nbsp;10:45:30&nbsp;&nbsp;oana</font><br />
+<a name="line.371"><font color="#808080">371</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Modified&nbsp;in&nbsp;the&nbsp;code&nbsp;style</font><br />
+<a name="line.372"><font color="#808080">372</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.373"><font color="#808080">373</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.8&nbsp;&nbsp;2000/10/18&nbsp;13:26:47&nbsp;&nbsp;hamish</font><br />
+<a name="line.374"><font color="#808080">374</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Factory.createResource&nbsp;now&nbsp;working,&nbsp;with&nbsp;a&nbsp;utility&nbsp;method&nbsp;that&nbsp;uses&nbsp;reflection&nbsp;(via&nbsp;java.beans.Introspector)&nbsp;to&nbsp;set&nbsp;properties&nbsp;on&nbsp;a&nbsp;resource&nbsp;from&nbsp;the</font><br />
+<a name="line.375"><font color="#808080">375</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parameter&nbsp;list&nbsp;fed&nbsp;to&nbsp;createResource.</font><br />
+<a name="line.376"><font color="#808080">376</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resources&nbsp;may&nbsp;now&nbsp;have&nbsp;both&nbsp;an&nbsp;interface&nbsp;and&nbsp;a&nbsp;class;&nbsp;they&nbsp;are&nbsp;indexed&nbsp;by&nbsp;interface&nbsp;type;&nbsp;the&nbsp;class&nbsp;is&nbsp;used&nbsp;to&nbsp;instantiate&nbsp;them</font><br />
+<a name="line.377"><font color="#808080">377</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;moved&nbsp;createResource&nbsp;from&nbsp;CR&nbsp;to&nbsp;Factory</font><br />
+<a name="line.378"><font color="#808080">378</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;removed&nbsp;Transients;&nbsp;use&nbsp;Factory&nbsp;instead</font><br />
+<a name="line.379"><font color="#808080">379</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.380"><font color="#808080">380</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.7&nbsp;&nbsp;2000/10/16&nbsp;16:44:34&nbsp;&nbsp;oana</font><br />
+<a name="line.381"><font color="#808080">381</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Changed&nbsp;the&nbsp;comment&nbsp;of&nbsp;DEBUG&nbsp;variable</font><br />
+<a name="line.382"><font color="#808080">382</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.383"><font color="#808080">383</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.6&nbsp;&nbsp;2000/10/10&nbsp;15:36:36&nbsp;&nbsp;oana</font><br />
+<a name="line.384"><font color="#808080">384</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Changed&nbsp;System.out&nbsp;in&nbsp;Out&nbsp;and&nbsp;System.err&nbsp;in&nbsp;Err;</font><br />
+<a name="line.385"><font color="#808080">385</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Added&nbsp;the&nbsp;DEBUG&nbsp;variable&nbsp;seted&nbsp;on&nbsp;false;</font><br />
+<a name="line.386"><font color="#808080">386</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Added&nbsp;in&nbsp;the&nbsp;header&nbsp;the&nbsp;licence;</font><br />
+<a name="line.387"><font color="#808080">387</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.388"><font color="#808080">388</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.5&nbsp;&nbsp;2000/07/12&nbsp;14:19:19&nbsp;&nbsp;valyt</font><br />
+<a name="line.389"><font color="#808080">389</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Testing&nbsp;CVS</font><br />
+<a name="line.390"><font color="#808080">390</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.391"><font color="#808080">391</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.4&nbsp;&nbsp;2000/07/04&nbsp;14:37:39&nbsp;&nbsp;valyt</font><br />
+<a name="line.392"><font color="#808080">392</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Added&nbsp;some&nbsp;support&nbsp;for&nbsp;Jape-ing&nbsp;in&nbsp;a&nbsp;different&nbsp;annotations&nbsp;et&nbsp;than&nbsp;the&nbsp;default&nbsp;one;</font><br />
+<a name="line.393"><font color="#808080">393</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Changed&nbsp;the&nbsp;L&amp;F&nbsp;for&nbsp;the&nbsp;JapeGUI&nbsp;to&nbsp;the&nbsp;System&nbsp;default</font><br />
+<a name="line.394"><font color="#808080">394</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.395"><font color="#808080">395</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.3&nbsp;&nbsp;2000/07/03&nbsp;21:00:59&nbsp;&nbsp;valyt</font><br />
+<a name="line.396"><font color="#808080">396</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Added&nbsp;StatusBar&nbsp;and&nbsp;ProgressBar&nbsp;support&nbsp;for&nbsp;tokenisation&nbsp;&amp;&nbsp;Jape&nbsp;transduction</font><br />
+<a name="line.397"><font color="#808080">397</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;(it&nbsp;looks&nbsp;great&nbsp;:)&nbsp;)</font><br />
+<a name="line.398"><font color="#808080">398</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.399"><font color="#808080">399</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.2&nbsp;&nbsp;2000/04/14&nbsp;18:02:46&nbsp;&nbsp;valyt</font><br />
+<a name="line.400"><font color="#808080">400</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Added&nbsp;some&nbsp;gate.fsm&nbsp;classes</font><br />
+<a name="line.401"><font color="#808080">401</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;added&nbsp;some&nbsp;accessor&nbsp;function&nbsp;in&nbsp;old&nbsp;jape&nbsp;classes</font><br />
+<a name="line.402"><font color="#808080">402</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.403"><font color="#808080">403</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.1&nbsp;&nbsp;2000/02/23&nbsp;13:46:08&nbsp;&nbsp;hamish</font><br />
+<a name="line.404"><font color="#808080">404</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;added</font><br />
+<a name="line.405"><font color="#808080">405</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.406"><font color="#808080">406</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.1.1.1&nbsp;&nbsp;1999/02/03&nbsp;16:23:02&nbsp;&nbsp;hamish</font><br />
+<a name="line.407"><font color="#808080">407</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;added&nbsp;gate2</font><br />
+<a name="line.408"><font color="#808080">408</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.409"><font color="#808080">409</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.10&nbsp;&nbsp;1998/11/01&nbsp;21:21:39&nbsp;&nbsp;hamish</font><br />
+<a name="line.410"><font color="#808080">410</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;use&nbsp;Java&nbsp;arrays&nbsp;in&nbsp;transduction&nbsp;where&nbsp;possible</font><br />
+<a name="line.411"><font color="#808080">411</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.412"><font color="#808080">412</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.9&nbsp;&nbsp;1998/10/06&nbsp;16:14:59&nbsp;&nbsp;hamish</font><br />
+<a name="line.413"><font color="#808080">413</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;phase&nbsp;ordering&nbsp;prob&nbsp;fixed;&nbsp;made&nbsp;phases&nbsp;an&nbsp;array</font><br />
+<a name="line.414"><font color="#808080">414</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.415"><font color="#808080">415</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.8&nbsp;&nbsp;1998/10/01&nbsp;16:06:33&nbsp;&nbsp;hamish</font><br />
+<a name="line.416"><font color="#808080">416</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;new&nbsp;appelt&nbsp;transduction&nbsp;style,&nbsp;replacing&nbsp;buggy&nbsp;version</font><br />
+<a name="line.417"><font color="#808080">417</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.418"><font color="#808080">418</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.7&nbsp;&nbsp;1998/09/26&nbsp;09:19:17&nbsp;&nbsp;hamish</font><br />
+<a name="line.419"><font color="#808080">419</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;added&nbsp;cloning&nbsp;of&nbsp;PE&nbsp;macros</font><br />
+<a name="line.420"><font color="#808080">420</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.421"><font color="#808080">421</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.6&nbsp;&nbsp;1998/09/18&nbsp;13:35:59&nbsp;&nbsp;hamish</font><br />
+<a name="line.422"><font color="#808080">422</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;made&nbsp;Transducer&nbsp;a&nbsp;class</font><br />
+<a name="line.423"><font color="#808080">423</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.424"><font color="#808080">424</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.5&nbsp;&nbsp;1998/08/19&nbsp;20:21:40&nbsp;&nbsp;hamish</font><br />
+<a name="line.425"><font color="#808080">425</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;new&nbsp;RHS&nbsp;assignment&nbsp;expression&nbsp;stuff&nbsp;added</font><br />
+<a name="line.426"><font color="#808080">426</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.427"><font color="#808080">427</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.4&nbsp;&nbsp;1998/08/12&nbsp;15:39:39&nbsp;&nbsp;hamish</font><br />
+<a name="line.428"><font color="#808080">428</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;added&nbsp;padding&nbsp;toString&nbsp;methods</font><br />
+<a name="line.429"><font color="#808080">429</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.430"><font color="#808080">430</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.3&nbsp;&nbsp;1998/08/10&nbsp;14:16:37&nbsp;&nbsp;hamish</font><br />
+<a name="line.431"><font color="#808080">431</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;fixed&nbsp;consumeblock&nbsp;bug&nbsp;and&nbsp;added&nbsp;batch.java</font><br />
+<a name="line.432"><font color="#808080">432</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.433"><font color="#808080">433</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.2&nbsp;&nbsp;1998/08/07&nbsp;16:39:17&nbsp;&nbsp;hamish</font><br />
+<a name="line.434"><font color="#808080">434</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;parses,&nbsp;transduces.&nbsp;time&nbsp;for&nbsp;a&nbsp;break</font><br />
+<a name="line.435"><font color="#808080">435</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.436"><font color="#808080">436</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.1&nbsp;&nbsp;1998/08/07&nbsp;16:18:45&nbsp;&nbsp;hamish</font><br />
+<a name="line.437"><font color="#808080">437</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;parser&nbsp;pretty&nbsp;complete,&nbsp;with&nbsp;backend&nbsp;link&nbsp;done</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+</body></html>

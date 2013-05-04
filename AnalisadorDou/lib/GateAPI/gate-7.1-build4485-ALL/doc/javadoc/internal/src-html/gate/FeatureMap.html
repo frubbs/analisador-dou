@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>gate/FeatureMap.java</title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+  <!-- start headline -->
+   <tr>
+    <td colspan="2">
+     <center><font size="+2">
+      <code><b>
+FeatureMap.java
+      </b></code>
+     </font></center>
+    </td>
+   </tr>
+  <!-- end headline -->
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<a name="line.1"><font color="#808080">01</font>&nbsp;</a><font color="#3f7f5f">/*</font><br />
+<a name="line.2"><font color="#808080">02</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;FeatureMap.java</font><br />
+<a name="line.3"><font color="#808080">03</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.4"><font color="#808080">04</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Copyright&nbsp;(c)&nbsp;1995-2012,&nbsp;The&nbsp;University&nbsp;of&nbsp;Sheffield.&nbsp;See&nbsp;the&nbsp;file</font><br />
+<a name="line.5"><font color="#808080">05</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;COPYRIGHT.txt&nbsp;in&nbsp;the&nbsp;software&nbsp;or&nbsp;at&nbsp;http://gate.ac.uk/gate/COPYRIGHT.txt</font><br />
+<a name="line.6"><font color="#808080">06</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.7"><font color="#808080">07</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;This&nbsp;file&nbsp;is&nbsp;part&nbsp;of&nbsp;GATE&nbsp;(see&nbsp;http://gate.ac.uk/),&nbsp;and&nbsp;is&nbsp;free</font><br />
+<a name="line.8"><font color="#808080">08</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;software,&nbsp;licenced&nbsp;under&nbsp;the&nbsp;GNU&nbsp;Library&nbsp;General&nbsp;Public&nbsp;License,</font><br />
+<a name="line.9"><font color="#808080">09</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Version&nbsp;2,&nbsp;June&nbsp;1991&nbsp;(in&nbsp;the&nbsp;distribution&nbsp;as&nbsp;file&nbsp;licence.html,</font><br />
+<a name="line.10"><font color="#808080">10</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;and&nbsp;also&nbsp;available&nbsp;at&nbsp;http://gate.ac.uk/gate/licence.html).</font><br />
+<a name="line.11"><font color="#808080">11</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.12"><font color="#808080">12</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Hamish&nbsp;Cunningham,&nbsp;Jan/19/2000</font><br />
+<a name="line.13"><font color="#808080">13</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.14"><font color="#808080">14</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;$Id:&nbsp;FeatureMap.java&nbsp;15333&nbsp;2012-02-07&nbsp;13:18:33Z&nbsp;ian_roberts&nbsp;$</font><br />
+<a name="line.15"><font color="#808080">15</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*/</font><br />
+<a name="line.16"><font color="#808080">16</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.17"><font color="#808080">17</font>&nbsp;</a><font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">gate;</font><br />
+<a name="line.18"><font color="#808080">18</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.util.Set;</font><br />
+<a name="line.19"><font color="#808080">19</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.20"><font color="#808080">20</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.ontology.Ontology;</font><br />
+<a name="line.21"><font color="#808080">21</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.event.FeatureMapListener;</font><br />
+<a name="line.22"><font color="#808080">22</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.23"><font color="#808080">23</font>&nbsp;</a><font color="#3f5fbf">/**&nbsp;An&nbsp;attribute-value&nbsp;matrix.&nbsp;Represents&nbsp;the&nbsp;content&nbsp;of&nbsp;an&nbsp;annotation,&nbsp;the</font><br />
+<a name="line.24"><font color="#808080">24</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;meta-data&nbsp;on&nbsp;a&nbsp;resource,&nbsp;and&nbsp;anything&nbsp;else&nbsp;we&nbsp;feel&nbsp;like.</font><br />
+<a name="line.25"><font color="#808080">25</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.26"><font color="#808080">26</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;The&nbsp;event&nbsp;code&nbsp;is&nbsp;needed&nbsp;so&nbsp;a&nbsp;persistent&nbsp;annotation&nbsp;can&nbsp;fire&nbsp;updated&nbsp;events</font><br />
+<a name="line.27"><font color="#808080">27</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;when&nbsp;its&nbsp;features&nbsp;are&nbsp;updated</font><br />
+<a name="line.28"><font color="#808080">28</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.29"><font color="#808080">29</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;interface&nbsp;</b></font><font color="#000000">FeatureMap&nbsp;</font><font color="#7f0055"><b>extends&nbsp;</b></font><font color="#000000">SimpleFeatureMap</font><br />
+<a name="line.30"><font color="#808080">30</font>&nbsp;</a><font color="#000000">{</font><br />
+<a name="line.31"><font color="#808080">31</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Tests&nbsp;if&nbsp;</font><font color="#7f7f9f">&lt;b&gt;</font><font color="#3f5fbf">this</font><font color="#7f7f9f">&lt;/b&gt;&nbsp;</font><font color="#3f5fbf">featureMap&nbsp;object&nbsp;includes&nbsp;&nbsp;aFeatureMap&nbsp;features.</font><br />
+<a name="line.32"><font color="#808080">32</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">aFeatureMap&nbsp;object&nbsp;which&nbsp;will&nbsp;be&nbsp;included&nbsp;&nbsp;or&nbsp;not&nbsp;in&nbsp;&nbsp;</font><font color="#7f7f9f">&lt;b&gt;</font><font color="#3f5fbf">this</font><font color="#7f7f9f">&lt;/b&gt;</font><br />
+<a name="line.33"><font color="#808080">33</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;FeatureMap&nbsp;obj.</font><br />
+<a name="line.34"><font color="#808080">34</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@return&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">true</font><font color="#7f7f9f">&lt;/code&gt;&nbsp;</font><font color="#3f5fbf">if&nbsp;</font><font color="#7f7f9f">&lt;b&gt;</font><font color="#3f5fbf">this</font><font color="#7f7f9f">&lt;/b&gt;&nbsp;</font><font color="#3f5fbf">includes&nbsp;aFeatureMap</font><br />
+<a name="line.35"><font color="#808080">35</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;and&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">false</font><font color="#7f7f9f">&lt;/code&gt;&nbsp;</font><font color="#3f5fbf">if&nbsp;not.</font><br />
+<a name="line.36"><font color="#808080">36</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.37"><font color="#808080">37</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>boolean&nbsp;</b></font><font color="#000000">subsumes</font><font color="#000000">(</font><font color="#000000">FeatureMap&nbsp;aFeatureMap</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.38"><font color="#808080">38</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.39"><font color="#808080">39</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Tests&nbsp;if&nbsp;</font><font color="#7f7f9f">&lt;b&gt;</font><font color="#3f5fbf">this</font><font color="#7f7f9f">&lt;/b&gt;&nbsp;</font><font color="#3f5fbf">featureMap&nbsp;object&nbsp;includes&nbsp;aFeatureMap&nbsp;features.&nbsp;</font><font color="#7f7f9f">&lt;br&gt;</font><br />
+<a name="line.40"><font color="#808080">40</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;If&nbsp;the&nbsp;feature&nbsp;map&nbsp;contains&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">class</font><font color="#7f7f9f">&lt;/code&gt;&nbsp;</font><font color="#3f5fbf">and&nbsp;(optionally)&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">ontology</font><font color="#7f7f9f">&lt;/code&gt;&nbsp;</font><font color="#3f5fbf">features:</font><font color="#7f7f9f">&lt;br&gt;</font><br />
+<a name="line.41"><font color="#808080">41</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;then&nbsp;the&nbsp;ontologyLR&nbsp;is&nbsp;used&nbsp;to&nbsp;provide&nbsp;ontology&nbsp;based&nbsp;subsume&nbsp;with&nbsp;respect&nbsp;to&nbsp;the&nbsp;subClassOf&nbsp;relations.</font><br />
+<a name="line.42"><font color="#808080">42</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">ontologyLR&nbsp;an&nbsp;ontology&nbsp;to&nbsp;be&nbsp;used&nbsp;for&nbsp;the&nbsp;subsume</font><br />
+<a name="line.43"><font color="#808080">43</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">aFeatureMap&nbsp;object&nbsp;which&nbsp;will&nbsp;be&nbsp;included&nbsp;&nbsp;or&nbsp;not&nbsp;in&nbsp;&nbsp;</font><font color="#7f7f9f">&lt;b&gt;</font><font color="#3f5fbf">this</font><font color="#7f7f9f">&lt;/b&gt;</font><br />
+<a name="line.44"><font color="#808080">44</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;FeatureMap&nbsp;obj.</font><br />
+<a name="line.45"><font color="#808080">45</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@return&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">true</font><font color="#7f7f9f">&lt;/code&gt;&nbsp;</font><font color="#3f5fbf">if&nbsp;</font><font color="#7f7f9f">&lt;b&gt;</font><font color="#3f5fbf">this</font><font color="#7f7f9f">&lt;/b&gt;&nbsp;</font><font color="#3f5fbf">includes&nbsp;aFeatureMap</font><br />
+<a name="line.46"><font color="#808080">46</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;and&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">false</font><font color="#7f7f9f">&lt;/code&gt;&nbsp;</font><font color="#3f5fbf">if&nbsp;not.</font><br />
+<a name="line.47"><font color="#808080">47</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.48"><font color="#808080">48</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>boolean&nbsp;</b></font><font color="#000000">subsumes</font><font color="#000000">(</font><font color="#000000">Ontology&nbsp;ontologyLR,&nbsp;FeatureMap&nbsp;aFeatureMap</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.49"><font color="#808080">49</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.50"><font color="#808080">50</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Tests&nbsp;if&nbsp;</font><font color="#7f7f9f">&lt;b&gt;</font><font color="#3f5fbf">this</font><font color="#7f7f9f">&lt;/b&gt;&nbsp;</font><font color="#3f5fbf">featureMap&nbsp;object&nbsp;includes&nbsp;aFeatureMap&nbsp;but&nbsp;only</font><br />
+<a name="line.51"><font color="#808080">51</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;for&nbsp;the&nbsp;features&nbsp;present&nbsp;in&nbsp;the&nbsp;aFeatureNamesSet.</font><br />
+<a name="line.52"><font color="#808080">52</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">aFeatureMap&nbsp;which&nbsp;will&nbsp;be&nbsp;included&nbsp;or&nbsp;not&nbsp;in&nbsp;</font><font color="#7f7f9f">&lt;b&gt;</font><font color="#3f5fbf">this</font><font color="#7f7f9f">&lt;/b&gt;</font><br />
+<a name="line.53"><font color="#808080">53</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;FeatureMap&nbsp;obj.</font><br />
+<a name="line.54"><font color="#808080">54</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">aFeatureNamesSet&nbsp;is&nbsp;a&nbsp;set&nbsp;of&nbsp;strings&nbsp;representing&nbsp;the&nbsp;names&nbsp;of&nbsp;the</font><br />
+<a name="line.55"><font color="#808080">55</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;features&nbsp;that&nbsp;would&nbsp;be&nbsp;considered&nbsp;for&nbsp;subsumes.</font><br />
+<a name="line.56"><font color="#808080">56</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@return&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">true</font><font color="#7f7f9f">&lt;/code&gt;&nbsp;</font><font color="#3f5fbf">if&nbsp;all&nbsp;features&nbsp;present&nbsp;in&nbsp;the&nbsp;aFeaturesNameSet</font><br />
+<a name="line.57"><font color="#808080">57</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;from&nbsp;aFeatureMap&nbsp;are&nbsp;included&nbsp;in&nbsp;</font><font color="#7f7f9f">&lt;b&gt;</font><font color="#3f5fbf">this</font><font color="#7f7f9f">&lt;/b&gt;&nbsp;</font><font color="#3f5fbf">obj,&nbsp;or&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">false</font><font color="#7f7f9f">&lt;/code&gt;</font><br />
+<a name="line.58"><font color="#808080">58</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;otherwise.</font><br />
+<a name="line.59"><font color="#808080">59</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.60"><font color="#808080">60</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>boolean&nbsp;</b></font><font color="#000000">subsumes</font><font color="#000000">(</font><font color="#000000">FeatureMap&nbsp;aFeatureMap,&nbsp;Set&nbsp;aFeatureNamesSet</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.61"><font color="#808080">61</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.62"><font color="#808080">62</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.63"><font color="#808080">63</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.64"><font color="#808080">64</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Removes&nbsp;a&nbsp;gate&nbsp;listener</font><br />
+<a name="line.65"><font color="#808080">65</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.66"><font color="#808080">66</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">removeFeatureMapListener</font><font color="#000000">(</font><font color="#000000">FeatureMapListener&nbsp;l</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.67"><font color="#808080">67</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.68"><font color="#808080">68</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.69"><font color="#808080">69</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Adds&nbsp;a&nbsp;gate&nbsp;listener</font><br />
+<a name="line.70"><font color="#808080">70</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.71"><font color="#808080">71</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">addFeatureMapListener</font><font color="#000000">(</font><font color="#000000">FeatureMapListener&nbsp;l</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.72"><font color="#808080">72</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.73"><font color="#808080">73</font>&nbsp;</a><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;interface&nbsp;FeatureMap</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+</body></html>

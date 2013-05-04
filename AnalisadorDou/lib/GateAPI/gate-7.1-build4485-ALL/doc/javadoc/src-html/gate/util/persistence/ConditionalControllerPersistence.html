@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>gate/util/persistence/ConditionalControllerPersistence.java</title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+  <!-- start headline -->
+   <tr>
+    <td colspan="2">
+     <center><font size="+2">
+      <code><b>
+ConditionalControllerPersistence.java
+      </b></code>
+     </font></center>
+    </td>
+   </tr>
+  <!-- end headline -->
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<a name="line.1"><font color="#808080">01</font>&nbsp;</a><font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">gate.util.persistence;</font><br />
+<a name="line.2"><font color="#808080">02</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.3"><font color="#808080">03</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.util.*;</font><br />
+<a name="line.4"><font color="#808080">04</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.5"><font color="#808080">05</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.ConditionalController;</font><br />
+<a name="line.6"><font color="#808080">06</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.ResourceInstantiationException;</font><br />
+<a name="line.7"><font color="#808080">07</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.persist.PersistenceException;</font><br />
+<a name="line.8"><font color="#808080">08</font>&nbsp;</a><font color="#3f5fbf">/**</font><br />
+<a name="line.9"><font color="#808080">09</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;Persistence&nbsp;handler&nbsp;for&nbsp;</font><font color="#3f3fbf">{@link&nbsp;gate.creole.ConditionalController}</font><font color="#3f5fbf">s</font><br />
+<a name="line.10"><font color="#808080">10</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.11"><font color="#808080">11</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.12"><font color="#808080">12</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">ConditionalControllerPersistence&nbsp;</font><font color="#7f0055"><b>extends&nbsp;</b></font><font color="#000000">ControllerPersistence&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.13"><font color="#808080">13</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.14"><font color="#808080">14</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Populates&nbsp;this&nbsp;Persistence&nbsp;with&nbsp;the&nbsp;data&nbsp;that&nbsp;needs&nbsp;to&nbsp;be&nbsp;stored&nbsp;from&nbsp;the</font><br />
+<a name="line.15"><font color="#808080">15</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;original&nbsp;source&nbsp;object.</font><br />
+<a name="line.16"><font color="#808080">16</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.17"><font color="#808080">17</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">extractDataFromSource</font><font color="#000000">(</font><font color="#000000">Object&nbsp;source</font><font color="#000000">)</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">PersistenceException</font><font color="#000000">{</font><br />
+<a name="line.18"><font color="#808080">18</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if</b></font><font color="#000000">(</font><font color="#000000">!&nbsp;</font><font color="#000000">(</font><font color="#000000">source&nbsp;</font><font color="#7f0055"><b>instanceof&nbsp;</b></font><font color="#000000">ConditionalController</font><font color="#000000">)){</font><br />
+<a name="line.19"><font color="#808080">19</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>throw&nbsp;new&nbsp;</b></font><font color="#000000">UnsupportedOperationException</font><font color="#000000">(</font><br />
+<a name="line.20"><font color="#808080">20</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">getClass</font><font color="#000000">()</font><font color="#000000">.getName</font><font color="#000000">()&nbsp;</font><font color="#000000">+&nbsp;</font><font color="#2a00ff">&#34;&nbsp;can&nbsp;only&nbsp;be&nbsp;used&nbsp;for&nbsp;&#34;&nbsp;</font><font color="#000000">+</font><br />
+<a name="line.21"><font color="#808080">21</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">ConditionalController.</font><font color="#7f0055"><b>class</b></font><font color="#000000">.getName</font><font color="#000000">()&nbsp;</font><font color="#000000">+</font><br />
+<a name="line.22"><font color="#808080">22</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#2a00ff">&#34;&nbsp;objects!\n&#34;&nbsp;</font><font color="#000000">+&nbsp;source.getClass</font><font color="#000000">()</font><font color="#000000">.getName</font><font color="#000000">()&nbsp;</font><font color="#000000">+</font><br />
+<a name="line.23"><font color="#808080">23</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#2a00ff">&#34;&nbsp;is&nbsp;not&nbsp;a&nbsp;&#34;&nbsp;</font><font color="#000000">+&nbsp;ConditionalController.</font><font color="#7f0055"><b>class</b></font><font color="#000000">.getName</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.24"><font color="#808080">24</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.25"><font color="#808080">25</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>super</b></font><font color="#000000">.extractDataFromSource</font><font color="#000000">(</font><font color="#000000">source</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.26"><font color="#808080">26</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.27"><font color="#808080">27</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">ConditionalController&nbsp;controller&nbsp;=&nbsp;</font><font color="#000000">(</font><font color="#000000">ConditionalController</font><font color="#000000">)</font><font color="#000000">source;</font><br />
+<a name="line.28"><font color="#808080">28</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.29"><font color="#808080">29</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">strategiesList&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">ArrayList</font><font color="#000000">(</font><font color="#000000">controller.getRunningStrategies</font><font color="#000000">()</font><font color="#000000">.size</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.30"><font color="#808080">30</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.31"><font color="#808080">31</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Iterator&nbsp;stratIter&nbsp;=&nbsp;controller.getRunningStrategies</font><font color="#000000">()</font><font color="#000000">.iterator</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.32"><font color="#808080">32</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>while</b></font><font color="#000000">(</font><font color="#000000">stratIter.hasNext</font><font color="#000000">())&nbsp;((</font><font color="#000000">List</font><font color="#000000">)</font><font color="#000000">strategiesList</font><font color="#000000">)</font><font color="#000000">.add</font><font color="#000000">(</font><font color="#000000">stratIter.next</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.33"><font color="#808080">33</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.34"><font color="#808080">34</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">strategiesList&nbsp;=&nbsp;PersistenceManager.</font><br />
+<a name="line.35"><font color="#808080">35</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">getPersistentRepresentation</font><font color="#000000">(</font><font color="#000000">strategiesList</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.36"><font color="#808080">36</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.37"><font color="#808080">37</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.38"><font color="#808080">38</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.39"><font color="#808080">39</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Creates&nbsp;a&nbsp;new&nbsp;object&nbsp;from&nbsp;the&nbsp;data&nbsp;contained.&nbsp;This&nbsp;new&nbsp;object&nbsp;is&nbsp;supposed</font><br />
+<a name="line.40"><font color="#808080">40</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;to&nbsp;be&nbsp;a&nbsp;copy&nbsp;for&nbsp;the&nbsp;original&nbsp;object&nbsp;used&nbsp;as&nbsp;source&nbsp;for&nbsp;data&nbsp;extraction.</font><br />
+<a name="line.41"><font color="#808080">41</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.42"><font color="#808080">42</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">Object&nbsp;createObject</font><font color="#000000">()</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">PersistenceException,</font><br />
+<a name="line.43"><font color="#808080">43</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">ResourceInstantiationException</font><font color="#000000">{</font><br />
+<a name="line.44"><font color="#808080">44</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">ConditionalController&nbsp;controller&nbsp;=</font><br />
+<a name="line.45"><font color="#808080">45</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">(</font><font color="#000000">ConditionalController</font><font color="#000000">)</font><font color="#7f0055"><b>super</b></font><font color="#000000">.createObject</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.46"><font color="#808080">46</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;&nbsp;&nbsp;&nbsp;if(controller.getRunningStrategies().isEmpty()){</font><br />
+<a name="line.47"><font color="#808080">47</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">controller.setRunningStrategies</font><font color="#000000">(</font><br />
+<a name="line.48"><font color="#808080">48</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">(</font><font color="#000000">Collection</font><font color="#000000">)</font><font color="#000000">PersistenceManager.</font><br />
+<a name="line.49"><font color="#808080">49</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">getTransientRepresentation</font><font color="#000000">(</font><font color="#000000">strategiesList</font><font color="#000000">))</font><font color="#000000">;</font><br />
+<a name="line.50"><font color="#808080">50</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;&nbsp;&nbsp;&nbsp;}</font><br />
+<a name="line.51"><font color="#808080">51</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">controller;</font><br />
+<a name="line.52"><font color="#808080">52</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.53"><font color="#808080">53</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>protected&nbsp;</b></font><font color="#000000">Object&nbsp;strategiesList;</font><br />
+<a name="line.54"><font color="#808080">54</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.55"><font color="#808080">55</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.56"><font color="#808080">56</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Serialisation&nbsp;ID</font><br />
+<a name="line.57"><font color="#808080">57</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.58"><font color="#808080">58</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>static&nbsp;final&nbsp;</b></font><font color="#7f0055"><b>long&nbsp;</b></font><font color="#000000">serialVersionUID&nbsp;=&nbsp;-</font><font color="#990000">746291109981304574L</font><font color="#000000">;</font><br />
+<a name="line.59"><font color="#808080">59</font>&nbsp;</a><font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+</body></html>

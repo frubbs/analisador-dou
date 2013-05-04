@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>gate/TestGate.java</title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+  <!-- start headline -->
+   <tr>
+    <td colspan="2">
+     <center><font size="+2">
+      <code><b>
+TestGate.java
+      </b></code>
+     </font></center>
+    </td>
+   </tr>
+  <!-- end headline -->
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<a name="line.1"><font color="#808080">001</font>&nbsp;</a><font color="#3f7f5f">/*</font><br />
+<a name="line.2"><font color="#808080">002</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;TestGate.java</font><br />
+<a name="line.3"><font color="#808080">003</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.4"><font color="#808080">004</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Copyright&nbsp;(c)&nbsp;1995-2012,&nbsp;The&nbsp;University&nbsp;of&nbsp;Sheffield.&nbsp;See&nbsp;the&nbsp;file</font><br />
+<a name="line.5"><font color="#808080">005</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;COPYRIGHT.txt&nbsp;in&nbsp;the&nbsp;software&nbsp;or&nbsp;at&nbsp;http://gate.ac.uk/gate/COPYRIGHT.txt</font><br />
+<a name="line.6"><font color="#808080">006</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.7"><font color="#808080">007</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;This&nbsp;file&nbsp;is&nbsp;part&nbsp;of&nbsp;GATE&nbsp;(see&nbsp;http://gate.ac.uk/),&nbsp;and&nbsp;is&nbsp;free</font><br />
+<a name="line.8"><font color="#808080">008</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;software,&nbsp;licenced&nbsp;under&nbsp;the&nbsp;GNU&nbsp;Library&nbsp;General&nbsp;Public&nbsp;License,</font><br />
+<a name="line.9"><font color="#808080">009</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Version&nbsp;2,&nbsp;June&nbsp;1991&nbsp;(in&nbsp;the&nbsp;distribution&nbsp;as&nbsp;file&nbsp;licence.html,</font><br />
+<a name="line.10"><font color="#808080">010</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;and&nbsp;also&nbsp;available&nbsp;at&nbsp;http://gate.ac.uk/gate/licence.html).</font><br />
+<a name="line.11"><font color="#808080">011</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.12"><font color="#808080">012</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Hamish&nbsp;Cunningham,&nbsp;21/Jan/00</font><br />
+<a name="line.13"><font color="#808080">013</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.14"><font color="#808080">014</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;$Id:&nbsp;TestGate.java&nbsp;15614&nbsp;2012-03-22&nbsp;10:45:19Z&nbsp;markagreenwood&nbsp;$</font><br />
+<a name="line.15"><font color="#808080">015</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*/</font><br />
+<a name="line.16"><font color="#808080">016</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.17"><font color="#808080">017</font>&nbsp;</a><font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">gate;</font><br />
+<a name="line.18"><font color="#808080">018</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.19"><font color="#808080">019</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.annotation.TestAnnotation;</font><br />
+<a name="line.20"><font color="#808080">020</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.config.TestConfig;</font><br />
+<a name="line.21"><font color="#808080">021</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.corpora.TestCorpus;</font><br />
+<a name="line.22"><font color="#808080">022</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.corpora.TestDocument;</font><br />
+<a name="line.23"><font color="#808080">023</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.corpora.TestDocumentStaxUtils;</font><br />
+<a name="line.24"><font color="#808080">024</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.corpora.TestSerialCorpus;</font><br />
+<a name="line.25"><font color="#808080">025</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.corpora.TestTikaFormats;</font><br />
+<a name="line.26"><font color="#808080">026</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.TestControllers;</font><br />
+<a name="line.27"><font color="#808080">027</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.TestCreole;</font><br />
+<a name="line.28"><font color="#808080">028</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.TestCreoleAnnotationHandler;</font><br />
+<a name="line.29"><font color="#808080">029</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.TestPR;</font><br />
+<a name="line.30"><font color="#808080">030</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.TestXSchema;</font><br />
+<a name="line.31"><font color="#808080">031</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.annic.test.TestAnnic;</font><br />
+<a name="line.32"><font color="#808080">032</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.gazetteer.TestFlexibleGazetteer;</font><br />
+<a name="line.33"><font color="#808080">033</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.gazetteer.TestGazetteer;</font><br />
+<a name="line.34"><font color="#808080">034</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.ir.TestIndex;</font><br />
+<a name="line.35"><font color="#808080">035</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.morph.TestMorph;</font><br />
+<a name="line.36"><font color="#808080">036</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.test.DynamicRegistrationTest;</font><br />
+<a name="line.37"><font color="#808080">037</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.email.TestEmail;</font><br />
+<a name="line.38"><font color="#808080">038</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.html.TestHtml;</font><br />
+<a name="line.39"><font color="#808080">039</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.jape.functest.TestJape;</font><br />
+<a name="line.40"><font color="#808080">040</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.persist.TestPersist;</font><br />
+<a name="line.41"><font color="#808080">041</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.sgml.TestSgml;</font><br />
+<a name="line.42"><font color="#808080">042</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.util.Err;</font><br />
+<a name="line.43"><font color="#808080">043</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.util.GateException;</font><br />
+<a name="line.44"><font color="#808080">044</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.util.Out;</font><br />
+<a name="line.45"><font color="#808080">045</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.util.TestAnnotationMerging;</font><br />
+<a name="line.46"><font color="#808080">046</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.util.TestClassificationMeasures;</font><br />
+<a name="line.47"><font color="#808080">047</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.util.TestDiffer;</font><br />
+<a name="line.48"><font color="#808080">048</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.util.TestFeatureMap;</font><br />
+<a name="line.49"><font color="#808080">049</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.util.TestFiles;</font><br />
+<a name="line.50"><font color="#808080">050</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.util.TestJavac;</font><br />
+<a name="line.51"><font color="#808080">051</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.util.TestRBTreeMap;</font><br />
+<a name="line.52"><font color="#808080">052</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.util.TestTemplate;</font><br />
+<a name="line.53"><font color="#808080">053</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.util.TestTools;</font><br />
+<a name="line.54"><font color="#808080">054</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.xml.TestRepositioningInfo;</font><br />
+<a name="line.55"><font color="#808080">055</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.xml.TestXml;</font><br />
+<a name="line.56"><font color="#808080">056</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.57"><font color="#808080">057</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.io.File;</font><br />
+<a name="line.58"><font color="#808080">058</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.lang.reflect.Method;</font><br />
+<a name="line.59"><font color="#808080">059</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.net.MalformedURLException;</font><br />
+<a name="line.60"><font color="#808080">060</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.net.URL;</font><br />
+<a name="line.61"><font color="#808080">061</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.62"><font color="#808080">062</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">junit.framework.Test;</font><br />
+<a name="line.63"><font color="#808080">063</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">junit.framework.TestSuite;</font><br />
+<a name="line.64"><font color="#808080">064</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.65"><font color="#808080">065</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">com.ontotext.gate.gazetteer.TestHashGazetteer;</font><br />
+<a name="line.66"><font color="#808080">066</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.67"><font color="#808080">067</font>&nbsp;</a><font color="#3f5fbf">/**&nbsp;Top-level&nbsp;entry&nbsp;point&nbsp;for&nbsp;GATE&nbsp;test&nbsp;suite;</font><br />
+<a name="line.68"><font color="#808080">068</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;&#34;main&#34;&nbsp;will&nbsp;run&nbsp;the&nbsp;JUnit&nbsp;test&nbsp;runner&nbsp;interface.</font><br />
+<a name="line.69"><font color="#808080">069</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;P&gt;</font><br />
+<a name="line.70"><font color="#808080">070</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Many&nbsp;tests&nbsp;require&nbsp;access&nbsp;to&nbsp;files;&nbsp;generally&nbsp;these&nbsp;files&nbsp;are&nbsp;located</font><br />
+<a name="line.71"><font color="#808080">071</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;on&nbsp;Web&nbsp;servers.&nbsp;In&nbsp;cases&nbsp;where&nbsp;there&nbsp;is&nbsp;no&nbsp;net&nbsp;connection,&nbsp;or&nbsp;the</font><br />
+<a name="line.72"><font color="#808080">072</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Web&nbsp;servers&nbsp;are&nbsp;down,&nbsp;the&nbsp;test&nbsp;files&nbsp;are&nbsp;searched&nbsp;for&nbsp;in&nbsp;the&nbsp;file&nbsp;system</font><br />
+<a name="line.73"><font color="#808080">073</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;or&nbsp;Jar&nbsp;code&nbsp;base&nbsp;that&nbsp;the&nbsp;system&nbsp;has&nbsp;been&nbsp;loaded&nbsp;from.&nbsp;The&nbsp;search</font><br />
+<a name="line.74"><font color="#808080">074</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;order&nbsp;for&nbsp;test&nbsp;files&nbsp;is&nbsp;like&nbsp;this:</font><br />
+<a name="line.75"><font color="#808080">075</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;UL&gt;</font><br />
+<a name="line.76"><font color="#808080">076</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;LI&gt;</font><br />
+<a name="line.77"><font color="#808080">077</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;&lt;A&nbsp;HREF=http://derwent.dcs.shef.ac.uk:80/gate.ac.uk/&gt;</font><br />
+<a name="line.78"><font color="#808080">078</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;http://derwent.dcs.shef.ac.uk:80/gate.ac.uk/</font><font color="#7f7f9f">&lt;/A&gt;</font><br />
+<a name="line.79"><font color="#808080">079</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;LI&gt;</font><br />
+<a name="line.80"><font color="#808080">080</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;&lt;A&nbsp;HREF=http://gate.ac.uk:80/&gt;http://gate.ac.uk:80/</font><font color="#7f7f9f">&lt;/A&gt;</font><br />
+<a name="line.81"><font color="#808080">081</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;LI&gt;</font><br />
+<a name="line.82"><font color="#808080">082</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;&lt;A&nbsp;HREF=http://localhost:80/gate.ac.uk/&gt;http://localhost:80/gate.ac.uk/</font><font color="#7f7f9f">&lt;/A&gt;</font><br />
+<a name="line.83"><font color="#808080">083</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;LI&gt;</font><br />
+<a name="line.84"><font color="#808080">084</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;the&nbsp;file&nbsp;system&nbsp;location&nbsp;that&nbsp;the&nbsp;classes&nbsp;came&nbsp;from,&nbsp;e.g.</font><br />
+<a name="line.85"><font color="#808080">085</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;TT&gt;</font><font color="#3f5fbf">z:\gate\classes</font><font color="#7f7f9f">&lt;/TT&gt;</font><font color="#3f5fbf">,&nbsp;or&nbsp;</font><font color="#7f7f9f">&lt;TT&gt;</font><font color="#3f5fbf">jar:....gate.jar</font><font color="#7f7f9f">&lt;/TT&gt;</font><font color="#3f5fbf">.</font><br />
+<a name="line.86"><font color="#808080">086</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;/UL&gt;</font><br />
+<a name="line.87"><font color="#808080">087</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;This&nbsp;search&nbsp;order&nbsp;can&nbsp;be&nbsp;modified&nbsp;by&nbsp;parameters&nbsp;to&nbsp;the&nbsp;main</font><br />
+<a name="line.88"><font color="#808080">088</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;function&nbsp;(see&nbsp;below).</font><br />
+<a name="line.89"><font color="#808080">089</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.90"><font color="#808080">090</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.91"><font color="#808080">091</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">TestGate&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.92"><font color="#808080">092</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.93"><font color="#808080">093</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Debug&nbsp;flag&nbsp;*/</font><br />
+<a name="line.94"><font color="#808080">094</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;static&nbsp;final&nbsp;</b></font><font color="#7f0055"><b>boolean&nbsp;</b></font><font color="#000000">DEBUG&nbsp;=&nbsp;</font><font color="#7f0055"><b>false</b></font><font color="#000000">;</font><br />
+<a name="line.95"><font color="#808080">095</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.96"><font color="#808080">096</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Status&nbsp;flag&nbsp;for&nbsp;normal&nbsp;exit.&nbsp;*/</font><br />
+<a name="line.97"><font color="#808080">097</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;static&nbsp;final&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">STATUS_NORMAL&nbsp;=&nbsp;</font><font color="#990000">0</font><font color="#000000">;</font><br />
+<a name="line.98"><font color="#808080">098</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.99"><font color="#808080">099</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Status&nbsp;flag&nbsp;for&nbsp;error&nbsp;exit.&nbsp;*/</font><br />
+<a name="line.100"><font color="#808080">100</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;static&nbsp;final&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">STATUS_ERROR&nbsp;=&nbsp;</font><font color="#990000">1</font><font color="#000000">;</font><br />
+<a name="line.101"><font color="#808080">101</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.102"><font color="#808080">102</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;GATE&nbsp;test&nbsp;suite.&nbsp;Every&nbsp;test&nbsp;case&nbsp;class&nbsp;has&nbsp;to&nbsp;be</font><br />
+<a name="line.103"><font color="#808080">103</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;registered&nbsp;here.</font><br />
+<a name="line.104"><font color="#808080">104</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.105"><font color="#808080">105</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;</b></font><font color="#000000">Test&nbsp;suite</font><font color="#000000">()&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">Exception&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.106"><font color="#808080">106</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;inialise&nbsp;the&nbsp;library.&nbsp;we&nbsp;re-throw&nbsp;any&nbsp;exceptions&nbsp;thrown&nbsp;by</font><br />
+<a name="line.107"><font color="#808080">107</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;init,&nbsp;after&nbsp;printing&nbsp;them&nbsp;out,&nbsp;because&nbsp;the&nbsp;junit&nbsp;gui&nbsp;doesn't</font><br />
+<a name="line.108"><font color="#808080">108</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;say&nbsp;anything&nbsp;more&nbsp;informative&nbsp;than&nbsp;&#34;can't&nbsp;invoke&nbsp;suite&#34;&nbsp;if&nbsp;there's</font><br />
+<a name="line.109"><font color="#808080">109</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;an&nbsp;exception&nbsp;here...</font><br />
+<a name="line.110"><font color="#808080">110</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.111"><font color="#808080">111</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>try&nbsp;</b></font><font color="#000000">{</font><br />
+<a name="line.112"><font color="#808080">112</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//get&nbsp;the&nbsp;config&nbsp;if&nbsp;set&nbsp;through&nbsp;a&nbsp;property</font><br />
+<a name="line.113"><font color="#808080">113</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">String&nbsp;configFile&nbsp;=&nbsp;System.getProperty</font><font color="#000000">(</font><font color="#2a00ff">&#34;gate.config&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.114"><font color="#808080">114</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if</b></font><font color="#000000">(</font><font color="#000000">configFile&nbsp;!=&nbsp;</font><font color="#7f0055"><b>null&nbsp;</b></font><font color="#000000">&amp;&amp;&nbsp;configFile.length</font><font color="#000000">()&nbsp;</font><font color="#000000">&gt;&nbsp;</font><font color="#990000">0</font><font color="#000000">){</font><br />
+<a name="line.115"><font color="#808080">115</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">File&nbsp;f&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">File</font><font color="#000000">(</font><font color="#000000">configFile</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.116"><font color="#808080">116</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>try&nbsp;</b></font><font color="#000000">{</font><br />
+<a name="line.117"><font color="#808080">117</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">URL&nbsp;u&nbsp;=&nbsp;f.toURI</font><font color="#000000">()</font><font color="#000000">.toURL</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.118"><font color="#808080">118</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#7f0055"><b>catch</b></font><font color="#000000">(</font><font color="#000000">MalformedURLException&nbsp;e</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.119"><font color="#808080">119</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Err.prln</font><font color="#000000">(</font><font color="#2a00ff">&#34;Bad&nbsp;initialisation&nbsp;file:&nbsp;&#34;&nbsp;</font><font color="#000000">+&nbsp;configFile</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.120"><font color="#808080">120</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Err.prln</font><font color="#000000">(</font><font color="#000000">e</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.121"><font color="#808080">121</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">System.exit</font><font color="#000000">(</font><font color="#000000">STATUS_ERROR</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.122"><font color="#808080">122</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.123"><font color="#808080">123</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Gate.setSiteConfigFile</font><font color="#000000">(</font><font color="#000000">f</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.124"><font color="#808080">124</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.125"><font color="#808080">125</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Gate.init</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.126"><font color="#808080">126</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#7f0055"><b>catch</b></font><font color="#000000">(</font><font color="#000000">GateException&nbsp;e</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.127"><font color="#808080">127</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Out.prln</font><font color="#000000">(</font><font color="#2a00ff">&#34;can't&nbsp;initialise&nbsp;GATE&nbsp;library!&nbsp;exception&nbsp;=&nbsp;&#34;&nbsp;</font><font color="#000000">+&nbsp;e</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.128"><font color="#808080">128</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>throw</b></font><font color="#000000">(</font><font color="#000000">e</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.129"><font color="#808080">129</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.130"><font color="#808080">130</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.131"><font color="#808080">131</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">TestSuite&nbsp;suite&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">TestSuite</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.132"><font color="#808080">132</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.133"><font color="#808080">133</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>try&nbsp;</b></font><font color="#000000">{</font><br />
+<a name="line.134"><font color="#808080">134</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">////////////////////////////////////////////////</font><br />
+<a name="line.135"><font color="#808080">135</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;Test&nbsp;bench</font><br />
+<a name="line.136"><font color="#808080">136</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">////////////////////////////////////////////////</font><br />
+<a name="line.137"><font color="#808080">137</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;set&nbsp;this&nbsp;true&nbsp;to&nbsp;run&nbsp;all&nbsp;tests;&nbsp;false&nbsp;to&nbsp;run&nbsp;the&nbsp;just&nbsp;one&nbsp;below</font><br />
+<a name="line.138"><font color="#808080">138</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">String&nbsp;testName&nbsp;=&nbsp;System.getProperty</font><font color="#000000">(</font><font color="#2a00ff">&#34;gate.testcase&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.139"><font color="#808080">139</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if</b></font><font color="#000000">(</font><font color="#000000">testName&nbsp;!=&nbsp;</font><font color="#7f0055"><b>null</b></font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.140"><font color="#808080">140</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;single&nbsp;test&nbsp;class&nbsp;specified&nbsp;in&nbsp;a&nbsp;system&nbsp;property,&nbsp;so&nbsp;run&nbsp;just</font><br />
+<a name="line.141"><font color="#808080">141</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;that&nbsp;test</font><br />
+<a name="line.142"><font color="#808080">142</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Class&nbsp;testClass&nbsp;=&nbsp;Class.forName</font><font color="#000000">(</font><font color="#000000">testName</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.143"><font color="#808080">143</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Method&nbsp;suiteMethod&nbsp;=&nbsp;testClass.getMethod</font><font color="#000000">(</font><font color="#2a00ff">&#34;suite&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.144"><font color="#808080">144</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Test&nbsp;theSuite&nbsp;=&nbsp;</font><font color="#000000">(</font><font color="#000000">Test</font><font color="#000000">)</font><font color="#000000">suiteMethod.invoke</font><font color="#000000">(</font><font color="#7f0055"><b>null</b></font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.145"><font color="#808080">145</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">theSuite</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.146"><font color="#808080">146</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#7f0055"><b>else&nbsp;</b></font><font color="#000000">{</font><br />
+<a name="line.147"><font color="#808080">147</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestAnnic.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.148"><font color="#808080">148</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;no&nbsp;test&nbsp;name&nbsp;specified,&nbsp;so&nbsp;run&nbsp;them&nbsp;all</font><br />
+<a name="line.149"><font color="#808080">149</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.150"><font color="#808080">150</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//WordNet&nbsp;has&nbsp;been&nbsp;moved&nbsp;into&nbsp;a&nbsp;plugin&nbsp;along&nbsp;with&nbsp;the&nbsp;test</font><br />
+<a name="line.151"><font color="#808080">151</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//suite.addTest(TestWordNet.suite());</font><br />
+<a name="line.152"><font color="#808080">152</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestIndex.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.153"><font color="#808080">153</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestPersist.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.154"><font color="#808080">154</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestControllers.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.155"><font color="#808080">155</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.156"><font color="#808080">156</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;the&nbsp;db&nbsp;isn't&nbsp;usually&nbsp;available&nbsp;so&nbsp;this&nbsp;will&nbsp;always&nbsp;fail</font><br />
+<a name="line.157"><font color="#808080">157</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//suite.addTest(TestSecurity.suite());</font><br />
+<a name="line.158"><font color="#808080">158</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestConfig.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.159"><font color="#808080">159</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestAnnotation.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.160"><font color="#808080">160</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestEmail.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.161"><font color="#808080">161</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.162"><font color="#808080">162</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestXml.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.163"><font color="#808080">163</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestHtml.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.164"><font color="#808080">164</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestSgml.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.165"><font color="#808080">165</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestXSchema.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.166"><font color="#808080">166</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.167"><font color="#808080">167</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestCreole.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.168"><font color="#808080">168</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestFiles.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.169"><font color="#808080">169</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestJavac.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.170"><font color="#808080">170</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestJape.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.171"><font color="#808080">171</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestTemplate.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.172"><font color="#808080">172</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">/*&nbsp;The&nbsp;TCL&nbsp;tests&nbsp;rely&nbsp;on&nbsp;the&nbsp;application&nbsp;being&nbsp;started&nbsp;from&nbsp;the</font><br />
+<a name="line.173"><font color="#808080">173</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">*&nbsp;gate&nbsp;directory.&nbsp;This&nbsp;is&nbsp;not&nbsp;possible&nbsp;from&nbsp;the&nbsp;nightly&nbsp;build&nbsp;script.</font><br />
+<a name="line.174"><font color="#808080">174</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">*/</font><br />
+<a name="line.175"><font color="#808080">175</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;suite.addTest(TestJacl.suite());</font><br />
+<a name="line.176"><font color="#808080">176</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestDocument.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.177"><font color="#808080">177</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestDocumentStaxUtils.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.178"><font color="#808080">178</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestTikaFormats.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.179"><font color="#808080">179</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestRBTreeMap.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.180"><font color="#808080">180</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestCorpus.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.181"><font color="#808080">181</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestSerialCorpus.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.182"><font color="#808080">182</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestDiffer.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.183"><font color="#808080">183</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//suite.addTest(TestIaa.suite());&nbsp;Moved&nbsp;this&nbsp;to&nbsp;the&nbsp;IAA&nbsp;plugin</font><br />
+<a name="line.184"><font color="#808080">184</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestAnnotationMerging.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.185"><font color="#808080">185</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestClassificationMeasures.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.186"><font color="#808080">186</font>&nbsp;</a><font color="#3f7f5f">//no&nbsp;longer&nbsp;needed&nbsp;as&nbsp;replaced&nbsp;by&nbsp;testPR</font><br />
+<a name="line.187"><font color="#808080">187</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;suite.addTest(TestTokeniser.suite());</font><br />
+<a name="line.188"><font color="#808080">188</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestGazetteer.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.189"><font color="#808080">189</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;suite.addTest(TestSplitterTagger.suite());</font><br />
+<a name="line.190"><font color="#808080">190</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestFeatureMap.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.191"><font color="#808080">191</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestTools.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.192"><font color="#808080">192</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestCreoleAnnotationHandler.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.193"><font color="#808080">193</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestPR.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.194"><font color="#808080">194</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestMorph.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.195"><font color="#808080">195</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;suite.addTest(TestMaxentWrapper.suite());</font><br />
+<a name="line.196"><font color="#808080">196</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.197"><font color="#808080">197</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//test&nbsp;ontotext&nbsp;gazetteer</font><br />
+<a name="line.198"><font color="#808080">198</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestHashGazetteer.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.199"><font color="#808080">199</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestRepositioningInfo.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.200"><font color="#808080">200</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">TestFlexibleGazetteer.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.201"><font color="#808080">201</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.202"><font color="#808080">202</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;Dynamic&nbsp;creole&nbsp;registration</font><br />
+<a name="line.203"><font color="#808080">203</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">suite.addTest</font><font color="#000000">(</font><font color="#000000">DynamicRegistrationTest.suite</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<a name="line.204"><font color="#808080">204</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.205"><font color="#808080">205</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;if(allTests)</font><br />
+<a name="line.206"><font color="#808080">206</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.207"><font color="#808080">207</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#7f0055"><b>catch</b></font><font color="#000000">(</font><font color="#000000">Exception&nbsp;e</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.208"><font color="#808080">208</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Out.prln</font><font color="#000000">(</font><font color="#2a00ff">&#34;can't&nbsp;add&nbsp;tests!&nbsp;exception&nbsp;=&nbsp;&#34;&nbsp;</font><font color="#000000">+&nbsp;e</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.209"><font color="#808080">209</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>throw</b></font><font color="#000000">(</font><font color="#000000">e</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.210"><font color="#808080">210</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.211"><font color="#808080">211</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.212"><font color="#808080">212</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">suite;</font><br />
+<a name="line.213"><font color="#808080">213</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;suite</font><br />
+<a name="line.214"><font color="#808080">214</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.215"><font color="#808080">215</font>&nbsp;</a><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;class&nbsp;TestGate</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+</body></html>

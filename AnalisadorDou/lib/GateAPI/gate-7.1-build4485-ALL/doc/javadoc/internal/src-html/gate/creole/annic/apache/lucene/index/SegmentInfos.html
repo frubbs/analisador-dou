@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>gate/creole/annic/apache/lucene/index/SegmentInfos.java</title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+  <!-- start headline -->
+   <tr>
+    <td colspan="2">
+     <center><font size="+2">
+      <code><b>
+SegmentInfos.java
+      </b></code>
+     </font></center>
+    </td>
+   </tr>
+  <!-- end headline -->
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<a name="line.1"><font color="#808080">001</font>&nbsp;</a><font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">gate.creole.annic.apache.lucene.index;</font><br />
+<a name="line.2"><font color="#808080">002</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.3"><font color="#808080">003</font>&nbsp;</a><font color="#3f5fbf">/**</font><br />
+<a name="line.4"><font color="#808080">004</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;Copyright&nbsp;2004&nbsp;The&nbsp;Apache&nbsp;Software&nbsp;Foundation</font><br />
+<a name="line.5"><font color="#808080">005</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.6"><font color="#808080">006</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;Licensed&nbsp;under&nbsp;the&nbsp;Apache&nbsp;License,&nbsp;Version&nbsp;2.0&nbsp;(the&nbsp;&#34;License&#34;);</font><br />
+<a name="line.7"><font color="#808080">007</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;you&nbsp;may&nbsp;not&nbsp;use&nbsp;this&nbsp;file&nbsp;except&nbsp;in&nbsp;compliance&nbsp;with&nbsp;the&nbsp;License.</font><br />
+<a name="line.8"><font color="#808080">008</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;You&nbsp;may&nbsp;obtain&nbsp;a&nbsp;copy&nbsp;of&nbsp;the&nbsp;License&nbsp;at</font><br />
+<a name="line.9"><font color="#808080">009</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.10"><font color="#808080">010</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;http://www.apache.org/licenses/LICENSE-2.0</font><br />
+<a name="line.11"><font color="#808080">011</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.12"><font color="#808080">012</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;Unless&nbsp;required&nbsp;by&nbsp;applicable&nbsp;law&nbsp;or&nbsp;agreed&nbsp;to&nbsp;in&nbsp;writing,&nbsp;software</font><br />
+<a name="line.13"><font color="#808080">013</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;distributed&nbsp;under&nbsp;the&nbsp;License&nbsp;is&nbsp;distributed&nbsp;on&nbsp;an&nbsp;&#34;AS&nbsp;IS&#34;&nbsp;BASIS,</font><br />
+<a name="line.14"><font color="#808080">014</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;WITHOUT&nbsp;WARRANTIES&nbsp;OR&nbsp;CONDITIONS&nbsp;OF&nbsp;ANY&nbsp;KIND,&nbsp;either&nbsp;express&nbsp;or&nbsp;implied.</font><br />
+<a name="line.15"><font color="#808080">015</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;See&nbsp;the&nbsp;License&nbsp;for&nbsp;the&nbsp;specific&nbsp;language&nbsp;governing&nbsp;permissions&nbsp;and</font><br />
+<a name="line.16"><font color="#808080">016</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;limitations&nbsp;under&nbsp;the&nbsp;License.</font><br />
+<a name="line.17"><font color="#808080">017</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.18"><font color="#808080">018</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.19"><font color="#808080">019</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.util.Vector;</font><br />
+<a name="line.20"><font color="#808080">020</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.io.IOException;</font><br />
+<a name="line.21"><font color="#808080">021</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.annic.apache.lucene.store.Directory;</font><br />
+<a name="line.22"><font color="#808080">022</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.annic.apache.lucene.store.InputStream;</font><br />
+<a name="line.23"><font color="#808080">023</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">gate.creole.annic.apache.lucene.store.OutputStream;</font><br />
+<a name="line.24"><font color="#808080">024</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.25"><font color="#808080">025</font>&nbsp;</a><font color="#7f0055"><b>final&nbsp;class&nbsp;</b></font><font color="#000000">SegmentInfos&nbsp;</font><font color="#7f0055"><b>extends&nbsp;</b></font><font color="#000000">Vector&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.26"><font color="#808080">026</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.27"><font color="#808080">027</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;The&nbsp;file&nbsp;format&nbsp;version,&nbsp;a&nbsp;negative&nbsp;number.&nbsp;*/</font><br />
+<a name="line.28"><font color="#808080">028</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">/*&nbsp;Works&nbsp;since&nbsp;counter,&nbsp;the&nbsp;old&nbsp;1st&nbsp;entry,&nbsp;is&nbsp;always&nbsp;&gt;=&nbsp;0&nbsp;*/</font><br />
+<a name="line.29"><font color="#808080">029</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">FORMAT&nbsp;=&nbsp;-</font><font color="#990000">1</font><font color="#000000">;</font><br />
+<a name="line.30"><font color="#808080">030</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.31"><font color="#808080">031</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">counter&nbsp;=&nbsp;</font><font color="#990000">0</font><font color="#000000">;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;used&nbsp;to&nbsp;name&nbsp;new&nbsp;segments</font><br />
+<a name="line.32"><font color="#808080">032</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#7f0055"><b>long&nbsp;</b></font><font color="#000000">version&nbsp;=&nbsp;</font><font color="#990000">0</font><font color="#000000">;&nbsp;</font><font color="#3f7f5f">//counts&nbsp;how&nbsp;often&nbsp;the&nbsp;index&nbsp;has&nbsp;been&nbsp;changed&nbsp;by&nbsp;adding&nbsp;or&nbsp;deleting&nbsp;docs</font><br />
+<a name="line.33"><font color="#808080">033</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.34"><font color="#808080">034</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;final&nbsp;</b></font><font color="#000000">SegmentInfo&nbsp;info</font><font color="#000000">(</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">i</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.35"><font color="#808080">035</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">(</font><font color="#000000">SegmentInfo</font><font color="#000000">)&nbsp;</font><font color="#000000">elementAt</font><font color="#000000">(</font><font color="#000000">i</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.36"><font color="#808080">036</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.37"><font color="#808080">037</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.38"><font color="#808080">038</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;final&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">read</font><font color="#000000">(</font><font color="#000000">Directory&nbsp;directory</font><font color="#000000">)&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.39"><font color="#808080">039</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.40"><font color="#808080">040</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">InputStream&nbsp;input&nbsp;=&nbsp;directory.openFile</font><font color="#000000">(</font><font color="#2a00ff">&#34;segments&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.41"><font color="#808080">041</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>try&nbsp;</b></font><font color="#000000">{</font><br />
+<a name="line.42"><font color="#808080">042</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">format&nbsp;=&nbsp;input.readInt</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.43"><font color="#808080">043</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if</b></font><font color="#000000">(</font><font color="#000000">format&nbsp;&lt;&nbsp;</font><font color="#990000">0</font><font color="#000000">){&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;file&nbsp;contains&nbsp;explicit&nbsp;format&nbsp;info</font><br />
+<a name="line.44"><font color="#808080">044</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;check&nbsp;that&nbsp;it&nbsp;is&nbsp;a&nbsp;format&nbsp;we&nbsp;can&nbsp;understand</font><br />
+<a name="line.45"><font color="#808080">045</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if&nbsp;</b></font><font color="#000000">(</font><font color="#000000">format&nbsp;&lt;&nbsp;FORMAT</font><font color="#000000">)</font><br />
+<a name="line.46"><font color="#808080">046</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>throw&nbsp;new&nbsp;</b></font><font color="#000000">IOException</font><font color="#000000">(</font><font color="#2a00ff">&#34;Unknown&nbsp;format&nbsp;version:&nbsp;&#34;&nbsp;</font><font color="#000000">+&nbsp;format</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.47"><font color="#808080">047</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">version&nbsp;=&nbsp;input.readLong</font><font color="#000000">()</font><font color="#000000">;&nbsp;</font><font color="#3f7f5f">//&nbsp;read&nbsp;version</font><br />
+<a name="line.48"><font color="#808080">048</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">counter&nbsp;=&nbsp;input.readInt</font><font color="#000000">()</font><font color="#000000">;&nbsp;</font><font color="#3f7f5f">//&nbsp;read&nbsp;counter</font><br />
+<a name="line.49"><font color="#808080">049</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.50"><font color="#808080">050</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>else</b></font><font color="#000000">{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;file&nbsp;is&nbsp;in&nbsp;old&nbsp;format&nbsp;without&nbsp;explicit&nbsp;format&nbsp;info</font><br />
+<a name="line.51"><font color="#808080">051</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">counter&nbsp;=&nbsp;format;</font><br />
+<a name="line.52"><font color="#808080">052</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.53"><font color="#808080">053</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.54"><font color="#808080">054</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>for&nbsp;</b></font><font color="#000000">(</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">i&nbsp;=&nbsp;input.readInt</font><font color="#000000">()</font><font color="#000000">;&nbsp;i&nbsp;&gt;&nbsp;</font><font color="#990000">0</font><font color="#000000">;&nbsp;i--</font><font color="#000000">)&nbsp;{&nbsp;</font><font color="#3f7f5f">//&nbsp;read&nbsp;segmentInfos</font><br />
+<a name="line.55"><font color="#808080">055</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">SegmentInfo&nbsp;si&nbsp;=</font><br />
+<a name="line.56"><font color="#808080">056</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">SegmentInfo</font><font color="#000000">(</font><font color="#000000">input.readString</font><font color="#000000">()</font><font color="#000000">,&nbsp;input.readInt</font><font color="#000000">()</font><font color="#000000">,&nbsp;directory</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.57"><font color="#808080">057</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">addElement</font><font color="#000000">(</font><font color="#000000">si</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.58"><font color="#808080">058</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.59"><font color="#808080">059</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.60"><font color="#808080">060</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if</b></font><font color="#000000">(</font><font color="#000000">format&nbsp;&gt;=&nbsp;</font><font color="#990000">0</font><font color="#000000">){&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;in&nbsp;old&nbsp;format&nbsp;the&nbsp;version&nbsp;number&nbsp;may&nbsp;be&nbsp;at&nbsp;the&nbsp;end&nbsp;of&nbsp;the&nbsp;file</font><br />
+<a name="line.61"><font color="#808080">061</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if&nbsp;</b></font><font color="#000000">(</font><font color="#000000">input.getFilePointer</font><font color="#000000">()&nbsp;</font><font color="#000000">&gt;=&nbsp;input.length</font><font color="#000000">())</font><br />
+<a name="line.62"><font color="#808080">062</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">version&nbsp;=&nbsp;</font><font color="#990000">0</font><font color="#000000">;&nbsp;</font><font color="#3f7f5f">//&nbsp;old&nbsp;file&nbsp;format&nbsp;without&nbsp;version&nbsp;number</font><br />
+<a name="line.63"><font color="#808080">063</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>else</b></font><br />
+<a name="line.64"><font color="#808080">064</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">version&nbsp;=&nbsp;input.readLong</font><font color="#000000">()</font><font color="#000000">;&nbsp;</font><font color="#3f7f5f">//&nbsp;read&nbsp;version</font><br />
+<a name="line.65"><font color="#808080">065</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.66"><font color="#808080">066</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.67"><font color="#808080">067</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>finally&nbsp;</b></font><font color="#000000">{</font><br />
+<a name="line.68"><font color="#808080">068</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">input.close</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.69"><font color="#808080">069</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.70"><font color="#808080">070</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.71"><font color="#808080">071</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.72"><font color="#808080">072</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;final&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">write</font><font color="#000000">(</font><font color="#000000">Directory&nbsp;directory</font><font color="#000000">)&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.73"><font color="#808080">073</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">OutputStream&nbsp;output&nbsp;=&nbsp;directory.createFile</font><font color="#000000">(</font><font color="#2a00ff">&#34;segments.new&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.74"><font color="#808080">074</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>try&nbsp;</b></font><font color="#000000">{</font><br />
+<a name="line.75"><font color="#808080">075</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">output.writeInt</font><font color="#000000">(</font><font color="#000000">FORMAT</font><font color="#000000">)</font><font color="#000000">;&nbsp;</font><font color="#3f7f5f">//&nbsp;write&nbsp;FORMAT</font><br />
+<a name="line.76"><font color="#808080">076</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">output.writeLong</font><font color="#000000">(</font><font color="#000000">++version</font><font color="#000000">)</font><font color="#000000">;&nbsp;</font><font color="#3f7f5f">//&nbsp;every&nbsp;write&nbsp;changes&nbsp;the&nbsp;index</font><br />
+<a name="line.77"><font color="#808080">077</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">output.writeInt</font><font color="#000000">(</font><font color="#000000">counter</font><font color="#000000">)</font><font color="#000000">;&nbsp;</font><font color="#3f7f5f">//&nbsp;write&nbsp;counter</font><br />
+<a name="line.78"><font color="#808080">078</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">output.writeInt</font><font color="#000000">(</font><font color="#000000">size</font><font color="#000000">())</font><font color="#000000">;&nbsp;</font><font color="#3f7f5f">//&nbsp;write&nbsp;infos</font><br />
+<a name="line.79"><font color="#808080">079</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>for&nbsp;</b></font><font color="#000000">(</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">i&nbsp;=&nbsp;</font><font color="#990000">0</font><font color="#000000">;&nbsp;i&nbsp;&lt;&nbsp;size</font><font color="#000000">()</font><font color="#000000">;&nbsp;i++</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.80"><font color="#808080">080</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">SegmentInfo&nbsp;si&nbsp;=&nbsp;info</font><font color="#000000">(</font><font color="#000000">i</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.81"><font color="#808080">081</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">output.writeString</font><font color="#000000">(</font><font color="#000000">si.name</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.82"><font color="#808080">082</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">output.writeInt</font><font color="#000000">(</font><font color="#000000">si.docCount</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.83"><font color="#808080">083</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.84"><font color="#808080">084</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.85"><font color="#808080">085</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>finally&nbsp;</b></font><font color="#000000">{</font><br />
+<a name="line.86"><font color="#808080">086</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">output.close</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.87"><font color="#808080">087</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.88"><font color="#808080">088</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.89"><font color="#808080">089</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;install&nbsp;new&nbsp;segment&nbsp;info</font><br />
+<a name="line.90"><font color="#808080">090</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">directory.renameFile</font><font color="#000000">(</font><font color="#2a00ff">&#34;segments.new&#34;</font><font color="#000000">,&nbsp;</font><font color="#2a00ff">&#34;segments&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.91"><font color="#808080">091</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.92"><font color="#808080">092</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.93"><font color="#808080">093</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.94"><font color="#808080">094</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;version&nbsp;number&nbsp;when&nbsp;this&nbsp;SegmentInfos&nbsp;was&nbsp;generated.</font><br />
+<a name="line.95"><font color="#808080">095</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.96"><font color="#808080">096</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>long&nbsp;</b></font><font color="#000000">getVersion</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.97"><font color="#808080">097</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">version;</font><br />
+<a name="line.98"><font color="#808080">098</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.99"><font color="#808080">099</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.100"><font color="#808080">100</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.101"><font color="#808080">101</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Current&nbsp;version&nbsp;number&nbsp;from&nbsp;segments&nbsp;file.</font><br />
+<a name="line.102"><font color="#808080">102</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.103"><font color="#808080">103</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;</b></font><font color="#7f0055"><b>long&nbsp;</b></font><font color="#000000">readCurrentVersion</font><font color="#000000">(</font><font color="#000000">Directory&nbsp;directory</font><font color="#000000">)</font><br />
+<a name="line.104"><font color="#808080">104</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>throws&nbsp;</b></font><font color="#000000">IOException&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.105"><font color="#808080">105</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.106"><font color="#808080">106</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">InputStream&nbsp;input&nbsp;=&nbsp;directory.openFile</font><font color="#000000">(</font><font color="#2a00ff">&#34;segments&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.107"><font color="#808080">107</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">format&nbsp;=&nbsp;</font><font color="#990000">0</font><font color="#000000">;</font><br />
+<a name="line.108"><font color="#808080">108</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>long&nbsp;</b></font><font color="#000000">version&nbsp;=&nbsp;</font><font color="#990000">0</font><font color="#000000">;</font><br />
+<a name="line.109"><font color="#808080">109</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>try&nbsp;</b></font><font color="#000000">{</font><br />
+<a name="line.110"><font color="#808080">110</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">format&nbsp;=&nbsp;input.readInt</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.111"><font color="#808080">111</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if</b></font><font color="#000000">(</font><font color="#000000">format&nbsp;&lt;&nbsp;</font><font color="#990000">0</font><font color="#000000">){</font><br />
+<a name="line.112"><font color="#808080">112</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if&nbsp;</b></font><font color="#000000">(</font><font color="#000000">format&nbsp;&lt;&nbsp;FORMAT</font><font color="#000000">)</font><br />
+<a name="line.113"><font color="#808080">113</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>throw&nbsp;new&nbsp;</b></font><font color="#000000">IOException</font><font color="#000000">(</font><font color="#2a00ff">&#34;Unknown&nbsp;format&nbsp;version:&nbsp;&#34;&nbsp;</font><font color="#000000">+&nbsp;format</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.114"><font color="#808080">114</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">version&nbsp;=&nbsp;input.readLong</font><font color="#000000">()</font><font color="#000000">;&nbsp;</font><font color="#3f7f5f">//&nbsp;read&nbsp;version</font><br />
+<a name="line.115"><font color="#808080">115</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.116"><font color="#808080">116</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.117"><font color="#808080">117</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>finally&nbsp;</b></font><font color="#000000">{</font><br />
+<a name="line.118"><font color="#808080">118</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">input.close</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.119"><font color="#808080">119</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.120"><font color="#808080">120</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.121"><font color="#808080">121</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if</b></font><font color="#000000">(</font><font color="#000000">format&nbsp;&lt;&nbsp;</font><font color="#990000">0</font><font color="#000000">)</font><br />
+<a name="line.122"><font color="#808080">122</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">version;</font><br />
+<a name="line.123"><font color="#808080">123</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.124"><font color="#808080">124</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;We&nbsp;cannot&nbsp;be&nbsp;sure&nbsp;about&nbsp;the&nbsp;format&nbsp;of&nbsp;the&nbsp;file.</font><br />
+<a name="line.125"><font color="#808080">125</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;Therefore&nbsp;we&nbsp;have&nbsp;to&nbsp;read&nbsp;the&nbsp;whole&nbsp;file&nbsp;and&nbsp;cannot&nbsp;simply&nbsp;seek&nbsp;to&nbsp;the&nbsp;version&nbsp;entry.</font><br />
+<a name="line.126"><font color="#808080">126</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.127"><font color="#808080">127</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">SegmentInfos&nbsp;sis&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">SegmentInfos</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.128"><font color="#808080">128</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">sis.read</font><font color="#000000">(</font><font color="#000000">directory</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.129"><font color="#808080">129</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">sis.getVersion</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.130"><font color="#808080">130</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.131"><font color="#808080">131</font>&nbsp;</a><font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+</body></html>

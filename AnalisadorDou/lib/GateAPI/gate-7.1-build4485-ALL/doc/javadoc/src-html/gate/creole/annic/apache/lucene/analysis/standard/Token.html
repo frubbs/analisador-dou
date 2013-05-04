@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>gate/creole/annic/apache/lucene/analysis/standard/Token.java</title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+  <!-- start headline -->
+   <tr>
+    <td colspan="2">
+     <center><font size="+2">
+      <code><b>
+Token.java
+      </b></code>
+     </font></center>
+    </td>
+   </tr>
+  <!-- end headline -->
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<a name="line.1"><font color="#808080">01</font>&nbsp;</a><font color="#3f7f5f">/*&nbsp;Generated&nbsp;By:JavaCC:&nbsp;Do&nbsp;not&nbsp;edit&nbsp;this&nbsp;line.&nbsp;Token.java&nbsp;Version&nbsp;3.0&nbsp;*/</font><br />
+<a name="line.2"><font color="#808080">02</font>&nbsp;</a><font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">gate.creole.annic.apache.lucene.analysis.standard;</font><br />
+<a name="line.3"><font color="#808080">03</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.4"><font color="#808080">04</font>&nbsp;</a><font color="#3f5fbf">/**</font><br />
+<a name="line.5"><font color="#808080">05</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;Describes&nbsp;the&nbsp;input&nbsp;token&nbsp;stream.</font><br />
+<a name="line.6"><font color="#808080">06</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.7"><font color="#808080">07</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.8"><font color="#808080">08</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">Token&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.9"><font color="#808080">09</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.10"><font color="#808080">10</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.11"><font color="#808080">11</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;An&nbsp;integer&nbsp;that&nbsp;describes&nbsp;the&nbsp;kind&nbsp;of&nbsp;this&nbsp;token.&nbsp;&nbsp;This&nbsp;numbering</font><br />
+<a name="line.12"><font color="#808080">12</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;system&nbsp;is&nbsp;determined&nbsp;by&nbsp;JavaCCParser,&nbsp;and&nbsp;a&nbsp;table&nbsp;of&nbsp;these&nbsp;numbers&nbsp;is</font><br />
+<a name="line.13"><font color="#808080">13</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;stored&nbsp;in&nbsp;the&nbsp;file&nbsp;...Constants.java.</font><br />
+<a name="line.14"><font color="#808080">14</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.15"><font color="#808080">15</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">kind;</font><br />
+<a name="line.16"><font color="#808080">16</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.17"><font color="#808080">17</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.18"><font color="#808080">18</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;beginLine&nbsp;and&nbsp;beginColumn&nbsp;describe&nbsp;the&nbsp;position&nbsp;of&nbsp;the&nbsp;first&nbsp;character</font><br />
+<a name="line.19"><font color="#808080">19</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;of&nbsp;this&nbsp;token;&nbsp;endLine&nbsp;and&nbsp;endColumn&nbsp;describe&nbsp;the&nbsp;position&nbsp;of&nbsp;the</font><br />
+<a name="line.20"><font color="#808080">20</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;last&nbsp;character&nbsp;of&nbsp;this&nbsp;token.</font><br />
+<a name="line.21"><font color="#808080">21</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.22"><font color="#808080">22</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">beginLine,&nbsp;beginColumn,&nbsp;endLine,&nbsp;endColumn;</font><br />
+<a name="line.23"><font color="#808080">23</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.24"><font color="#808080">24</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.25"><font color="#808080">25</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;The&nbsp;string&nbsp;image&nbsp;of&nbsp;the&nbsp;token.</font><br />
+<a name="line.26"><font color="#808080">26</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.27"><font color="#808080">27</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">String&nbsp;image;</font><br />
+<a name="line.28"><font color="#808080">28</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.29"><font color="#808080">29</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.30"><font color="#808080">30</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;A&nbsp;reference&nbsp;to&nbsp;the&nbsp;next&nbsp;regular&nbsp;(non-special)&nbsp;token&nbsp;from&nbsp;the&nbsp;input</font><br />
+<a name="line.31"><font color="#808080">31</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;stream.&nbsp;&nbsp;If&nbsp;this&nbsp;is&nbsp;the&nbsp;last&nbsp;token&nbsp;from&nbsp;the&nbsp;input&nbsp;stream,&nbsp;or&nbsp;if&nbsp;the</font><br />
+<a name="line.32"><font color="#808080">32</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;token&nbsp;manager&nbsp;has&nbsp;not&nbsp;read&nbsp;tokens&nbsp;beyond&nbsp;this&nbsp;one,&nbsp;this&nbsp;field&nbsp;is</font><br />
+<a name="line.33"><font color="#808080">33</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;set&nbsp;to&nbsp;null.&nbsp;&nbsp;This&nbsp;is&nbsp;true&nbsp;only&nbsp;if&nbsp;this&nbsp;token&nbsp;is&nbsp;also&nbsp;a&nbsp;regular</font><br />
+<a name="line.34"><font color="#808080">34</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;token.&nbsp;&nbsp;Otherwise,&nbsp;see&nbsp;below&nbsp;for&nbsp;a&nbsp;description&nbsp;of&nbsp;the&nbsp;contents&nbsp;of</font><br />
+<a name="line.35"><font color="#808080">35</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;this&nbsp;field.</font><br />
+<a name="line.36"><font color="#808080">36</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.37"><font color="#808080">37</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">Token&nbsp;next;</font><br />
+<a name="line.38"><font color="#808080">38</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.39"><font color="#808080">39</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.40"><font color="#808080">40</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;This&nbsp;field&nbsp;is&nbsp;used&nbsp;to&nbsp;access&nbsp;special&nbsp;tokens&nbsp;that&nbsp;occur&nbsp;prior&nbsp;to&nbsp;this</font><br />
+<a name="line.41"><font color="#808080">41</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;token,&nbsp;but&nbsp;after&nbsp;the&nbsp;immediately&nbsp;preceding&nbsp;regular&nbsp;(non-special)&nbsp;token.</font><br />
+<a name="line.42"><font color="#808080">42</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;If&nbsp;there&nbsp;are&nbsp;no&nbsp;such&nbsp;special&nbsp;tokens,&nbsp;this&nbsp;field&nbsp;is&nbsp;set&nbsp;to&nbsp;null.</font><br />
+<a name="line.43"><font color="#808080">43</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;When&nbsp;there&nbsp;are&nbsp;more&nbsp;than&nbsp;one&nbsp;such&nbsp;special&nbsp;token,&nbsp;this&nbsp;field&nbsp;refers</font><br />
+<a name="line.44"><font color="#808080">44</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;to&nbsp;the&nbsp;last&nbsp;of&nbsp;these&nbsp;special&nbsp;tokens,&nbsp;which&nbsp;in&nbsp;turn&nbsp;refers&nbsp;to&nbsp;the&nbsp;next</font><br />
+<a name="line.45"><font color="#808080">45</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;previous&nbsp;special&nbsp;token&nbsp;through&nbsp;its&nbsp;specialToken&nbsp;field,&nbsp;and&nbsp;so&nbsp;on</font><br />
+<a name="line.46"><font color="#808080">46</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;until&nbsp;the&nbsp;first&nbsp;special&nbsp;token&nbsp;(whose&nbsp;specialToken&nbsp;field&nbsp;is&nbsp;null).</font><br />
+<a name="line.47"><font color="#808080">47</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;The&nbsp;next&nbsp;fields&nbsp;of&nbsp;special&nbsp;tokens&nbsp;refer&nbsp;to&nbsp;other&nbsp;special&nbsp;tokens&nbsp;that</font><br />
+<a name="line.48"><font color="#808080">48</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;immediately&nbsp;follow&nbsp;it&nbsp;(without&nbsp;an&nbsp;intervening&nbsp;regular&nbsp;token).&nbsp;&nbsp;If&nbsp;there</font><br />
+<a name="line.49"><font color="#808080">49</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;is&nbsp;no&nbsp;such&nbsp;token,&nbsp;this&nbsp;field&nbsp;is&nbsp;null.</font><br />
+<a name="line.50"><font color="#808080">50</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.51"><font color="#808080">51</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">Token&nbsp;specialToken;</font><br />
+<a name="line.52"><font color="#808080">52</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.53"><font color="#808080">53</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.54"><font color="#808080">54</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Returns&nbsp;the&nbsp;image.</font><br />
+<a name="line.55"><font color="#808080">55</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.56"><font color="#808080">56</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">String&nbsp;toString</font><font color="#000000">()</font><br />
+<a name="line.57"><font color="#808080">57</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.58"><font color="#808080">58</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">image;</font><br />
+<a name="line.59"><font color="#808080">59</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.60"><font color="#808080">60</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.61"><font color="#808080">61</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.62"><font color="#808080">62</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Returns&nbsp;a&nbsp;new&nbsp;Token&nbsp;object,&nbsp;by&nbsp;default.&nbsp;However,&nbsp;if&nbsp;you&nbsp;want,&nbsp;you</font><br />
+<a name="line.63"><font color="#808080">63</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;can&nbsp;create&nbsp;and&nbsp;return&nbsp;subclass&nbsp;objects&nbsp;based&nbsp;on&nbsp;the&nbsp;value&nbsp;of&nbsp;ofKind.</font><br />
+<a name="line.64"><font color="#808080">64</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Simply&nbsp;add&nbsp;the&nbsp;cases&nbsp;to&nbsp;the&nbsp;switch&nbsp;for&nbsp;all&nbsp;those&nbsp;special&nbsp;cases.</font><br />
+<a name="line.65"><font color="#808080">65</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;For&nbsp;example,&nbsp;if&nbsp;you&nbsp;have&nbsp;a&nbsp;subclass&nbsp;of&nbsp;Token&nbsp;called&nbsp;IDToken&nbsp;that</font><br />
+<a name="line.66"><font color="#808080">66</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;you&nbsp;want&nbsp;to&nbsp;create&nbsp;if&nbsp;ofKind&nbsp;is&nbsp;ID,&nbsp;simlpy&nbsp;add&nbsp;something&nbsp;like&nbsp;:</font><br />
+<a name="line.67"><font color="#808080">67</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.68"><font color="#808080">68</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;&nbsp;&nbsp;&nbsp;case&nbsp;MyParserConstants.ID&nbsp;:&nbsp;return&nbsp;new&nbsp;IDToken();</font><br />
+<a name="line.69"><font color="#808080">69</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.70"><font color="#808080">70</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;to&nbsp;the&nbsp;following&nbsp;switch&nbsp;statement.&nbsp;Then&nbsp;you&nbsp;can&nbsp;cast&nbsp;matchedToken</font><br />
+<a name="line.71"><font color="#808080">71</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;variable&nbsp;to&nbsp;the&nbsp;appropriate&nbsp;type&nbsp;and&nbsp;use&nbsp;it&nbsp;in&nbsp;your&nbsp;lexical&nbsp;actions.</font><br />
+<a name="line.72"><font color="#808080">72</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.73"><font color="#808080">73</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">Token&nbsp;newToken</font><font color="#000000">(</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">ofKind</font><font color="#000000">)</font><br />
+<a name="line.74"><font color="#808080">74</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.75"><font color="#808080">75</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>switch</b></font><font color="#000000">(</font><font color="#000000">ofKind</font><font color="#000000">)</font><br />
+<a name="line.76"><font color="#808080">76</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.77"><font color="#808080">77</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>default&nbsp;</b></font><font color="#000000">:&nbsp;</font><font color="#7f0055"><b>return&nbsp;new&nbsp;</b></font><font color="#000000">Token</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.78"><font color="#808080">78</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.79"><font color="#808080">79</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.80"><font color="#808080">80</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.81"><font color="#808080">81</font>&nbsp;</a><font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+</body></html>
