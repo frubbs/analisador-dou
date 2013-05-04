@@ -24,7 +24,7 @@ Rule: Orgao
 	
 ): orgaoCompleto
 -->
-:orgaoCompleto.EntidadeIdentificada = { kind = [TipoEntidade], IdOrgao = :orgaoCompleto.Lookup.IdOrgao}
+:orgaoCompleto.EntidadeIdentificada = { kind = [TipoEntidade], IdOrgao = :orgaoCompleto.Lookup.IdOrgao, Particao = :orgaoCompleto.Lookup.Particao}
 
 
 

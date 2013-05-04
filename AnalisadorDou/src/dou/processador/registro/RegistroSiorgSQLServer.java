@@ -31,12 +31,13 @@ public class RegistroSiorgSQLServer implements RegistroLigacaoStrategy
 	public void registrar(Ligacao l)
 	{
 		if (l.tipoEntidade == "Orgao")
-			inserirNoBanco(l.entidade, String.valueOf(l.idEntidade), l.identificacaoPortaria, l.textoPortaria, l.inicioPortaria,
-					l.fimPortaria, l.inicioEntidade, l.fimEntidade, l.tipoEntidade, l.data);
+			inserirNoBanco(l.entidade, String.valueOf(l.idEntidade), l.particao, l.identificacaoPortaria, l.textoPortaria,
+					l.inicioPortaria, l.fimPortaria, l.inicioEntidade, l.fimEntidade, l.tipoEntidade, l.data);
 	}
 
-	private void inserirNoBanco(String entidade, String codigoSiorg, String identificacaoPortaria, String textoPortaria,
-			Long offsetPortIni, Long offsetPortEnd, Long offsetEntIni, Long offsetEntEnd, String tipo, Date data)
+	private void inserirNoBanco(String entidade, String codigoSiorg, int particao, String identificacaoPortaria,
+			String textoPortaria, Long offsetPortIni, Long offsetPortEnd, Long offsetEntIni, Long offsetEntEnd, String tipo,
+			Date data)
 	{
 
 		try
@@ -44,7 +45,7 @@ public class RegistroSiorgSQLServer implements RegistroLigacaoStrategy
 
 			long insertStart = System.currentTimeMillis();
 
-			String SPsql = "EXEC [processaOrgaoSiorg] ?,?,?,?,?,?,?,?,?,?";
+			String SPsql = "EXEC [processaOrgaoSiorg] ?,?,?,?,?,?,?,?,?,?,?";
 
 			PreparedStatement ps = conn.prepareStatement(SPsql);
 			ps.setEscapeProcessing(true);
@@ -52,14 +53,15 @@ public class RegistroSiorgSQLServer implements RegistroLigacaoStrategy
 
 			ps.setString(1, entidade);
 			ps.setString(2, codigoSiorg);
-			ps.setString(3, identificacaoPortaria);
-			ps.setString(4, textoPortaria);
-			ps.setLong(5, offsetPortIni);
-			ps.setLong(6, offsetPortEnd);
-			ps.setLong(7, offsetEntIni);
-			ps.setLong(8, offsetEntEnd);
-			ps.setString(9, tipo);
-			ps.setDate(10, new java.sql.Date(data.getTime()));
+			ps.setInt(3, particao);
+			ps.setString(4, identificacaoPortaria);
+			ps.setString(5, textoPortaria);
+			ps.setLong(6, offsetPortIni);
+			ps.setLong(7, offsetPortEnd);
+			ps.setLong(8, offsetEntIni);
+			ps.setLong(9, offsetEntEnd);
+			ps.setString(10, tipo);
+			ps.setDate(11, new java.sql.Date(data.getTime()));
 
 			ps.executeQuery();
 

@@ -128,8 +128,11 @@ public class ProcessadorInicioInicio implements ProcessadorAnotacoes
 							System.out.println("ExtraiTextoPortaria (" + identificacaoPortaria + ") : " + (textEnd - textStart)
 									+ " ms");
 
-							strategy.registrar(new Ligacao(entidade, null, identificacaoPortaria, textoPortaria, inicioPortaria,
-									fimPortaria, // annFim.getEndNode().getOffset(),
+							int particao = featureMap.get("Particao") != null ? Integer.parseInt(featureMap.get("Particao")
+									.toString()) : 0;
+
+							strategy.registrar(new Ligacao(entidade, null, particao, identificacaoPortaria, textoPortaria,
+									inicioPortaria, fimPortaria, // annFim.getEndNode().getOffset(),
 									inicioEntidade, fimEntidade, featureMap.get("kind").toString(), // TODO
 																									// resolver
 																									// o

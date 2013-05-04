@@ -5,7 +5,7 @@ import java.util.Date;
 public class Ligacao
 {
 
-	public Ligacao(String _entidade, String _idEntidade, String _identificacaoPortaria, String _textoPortaria,
+	public Ligacao(String _entidade, String _idEntidade, int _particao, String _identificacaoPortaria, String _textoPortaria,
 			long _inicioPortaria, long _fimPortaria, long _inicioEntidade, long _fimEntidade, String _tipoEntidade,
 			String _nomeArquivo, Date _data)
 	{
@@ -17,6 +17,7 @@ public class Ligacao
 		{
 			idEntidade = 0L;
 		}
+		particao = _particao;
 		identificacaoPortaria = _identificacaoPortaria;
 		textoPortaria = _textoPortaria;
 		inicioPortaria = _inicioPortaria;
@@ -30,6 +31,7 @@ public class Ligacao
 
 	public String entidade;
 	public long idEntidade;
+	public int particao; // nao usado atualmente
 	public String identificacaoPortaria;
 	public String textoPortaria;
 	public long inicioPortaria;
