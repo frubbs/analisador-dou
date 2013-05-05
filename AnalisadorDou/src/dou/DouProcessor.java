@@ -31,14 +31,15 @@ import dou.processador.ProcessadorAnotacoes;
 import dou.processador.registro.RegistroLigacaoStrategy;
 
 /**
- * Essa classe le o arquivo, chama a aplicação do gate para gerar anotações e
- * chama o processador de anotações passando a estrategia de gravação fornecida.
+ * Essa classe le o arquivo, chama a aplicação do gate para gerar anotações e chama o processador de anotações passando a
+ * estrategia de gravação fornecida.
  */
-public class DouProcessor {
+public class DouProcessor
+{
 
-	public void processFile(File gappFile, File docFile,
-			ProcessadorAnotacoes processador,
-			RegistroLigacaoStrategy registroStrategy) throws Exception {
+	public void processFile(File gappFile, File docFile, ProcessadorAnotacoes processador,
+			RegistroLigacaoStrategy registroStrategy) throws Exception
+	{
 
 		long startTime = System.currentTimeMillis();
 
@@ -49,8 +50,7 @@ public class DouProcessor {
 		Gate.init();
 
 		// load the saved application
-		CorpusController application = (CorpusController) PersistenceManager
-				.loadObjectFromFile(gappFile);
+		CorpusController application = (CorpusController) PersistenceManager.loadObjectFromFile(gappFile);
 
 		// Create a Corpus to use. We recycle the same Corpus object for each
 		// iteration. The string parameter to newCorpus() is simply the
@@ -74,8 +74,7 @@ public class DouProcessor {
 		long appExecStart = System.currentTimeMillis();
 		application.execute();
 		long appExecEnd = System.currentTimeMillis();
-		System.out
-				.println("appExecute: " + (appExecEnd - appExecStart) + " ms");
+		System.out.println("appExecute: " + (appExecEnd - appExecStart) + " ms");
 
 		// remove the document from the corpus again
 		corpus.clear();
@@ -85,8 +84,7 @@ public class DouProcessor {
 		processador.process(docFile.getName(), doc, registroStrategy);
 
 		long portariaEnd = System.currentTimeMillis();
-		System.out
-				.println("Portaria: " + (portariaEnd - portariaStart) + " ms");
+		System.out.println("Portaria: " + (portariaEnd - portariaStart) + " ms");
 
 		// Release the document, as it is no longer needed
 		Factory.deleteResource(doc);
@@ -96,30 +94,25 @@ public class DouProcessor {
 		System.out.println("Arquivo: " + (arquivoEnd - arquivoStart) + "ms");
 
 		long stopTime = System.currentTimeMillis();
-		System.out
-				.println("Fim do programa: " + (stopTime - startTime) + " ms");
+		System.out.println("Fim do programa: " + (stopTime - startTime) + " ms");
 
 	}
 
-	private void configureGateProps() {
+	private void configureGateProps()
+	{
 		Properties props = System.getProperties();
 		// props.setProperty("gate.plugins.home", ".\\plugins\\ANNIE");
 		props.setProperty("gate.home",
-				"C:\\Users\\Rafael\\workspace\\gate\\gate-7.1-build4485-ALL");
+				"C:\\Users\\Rafael\\workspace\\analisador-dou\\AnalisadorDou\\lib\\GateAPI\\gate-7.1-build4485-ALL");
 		// props.setProperty("gate.site.config", ".\\gate.xml");
 
 		/*
-		 * Properties props = System.getProperties();
-		 * props.setProperty("gate.plugins.home", ".\\plugins\\ANNIE");
-		 * props.setProperty("gate.home", ".\\bin\\gate.jar");
-		 * props.setProperty("gate.site.config", ".\\gate.xml");
+		 * Properties props = System.getProperties(); props.setProperty("gate.plugins.home", ".\\plugins\\ANNIE");
+		 * props.setProperty("gate.home", ".\\bin\\gate.jar"); props.setProperty("gate.site.config", ".\\gate.xml");
 		 * 
-		 * String gateHomeStr =
-		 * System.getProperty(Gate.GATE_HOME_PROPERTY_NAME);
+		 * String gateHomeStr = System.getProperty(Gate.GATE_HOME_PROPERTY_NAME);
 		 * 
-		 * // gateHomeStr = //
-		 * Thread.currentThread().getContextClassLoader().getResource
-		 * ("gate/Gate.class").toString();
+		 * // gateHomeStr = // Thread.currentThread().getContextClassLoader().getResource ("gate/Gate.class").toString();
 		 * 
 		 * System.out.println("#########8gfah: " + gateHomeStr);
 		 */
@@ -138,8 +131,7 @@ public class DouProcessor {
 	private String diretorio = null;
 
 	/**
-	 * The character encoding to use when loading the docments. If null, the
-	 * platform default encoding is used.
+	 * The character encoding to use when loading the docments. If null, the platform default encoding is used.
 	 */
 	private String encoding = null;
 }

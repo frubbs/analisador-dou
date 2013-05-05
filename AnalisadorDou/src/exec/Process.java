@@ -6,7 +6,7 @@ import java.util.Date;
 
 import dou.DouProcessor;
 import dou.processador.ProcessadorInicioAssinatura;
-import dou.processador.registro.RegistroSiorgSQLServer;
+import dou.processador.registro.RegistroCSVFile;
 
 public class Process
 {
@@ -38,7 +38,7 @@ public class Process
 				+ "   size: " + arquivo.length() + "###arquivoPequeno: " + arquivoPequeno.getName() + "   size: "
 				+ arquivoPequeno.length());
 
-		new DouProcessor().processFile(gapp, arquivoPequeno, new ProcessadorInicioAssinatura(), new RegistroSiorgSQLServer());
+		new DouProcessor().processFile(gapp, arquivoPequeno, new ProcessadorInicioAssinatura(), new RegistroCSVFile());
 
 		System.out.println("");
 		// }
