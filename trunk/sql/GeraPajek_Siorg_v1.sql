@@ -17,8 +17,8 @@ SELECT
 	IdPortaria, IdEntidade, TipoLigacao, Tempo
 FROM
 	TbPortariaOrgaoSiorg
-/*WHERE
-	IdPortaria in (SELECT IdPortaria FROM TbPortaria WHERE Texto like '%segurança%' OR Texto like '%defesa%')*/
+WHERE
+	IdPortaria in (SELECT IdPortaria FROM TbPortaria WHERE Texto like '%segurança%' OR Texto like '%defesa%')
 
 
 DECLARE @Vertice TABLE (
@@ -33,7 +33,7 @@ INSERT INTO
 	@Vertice
 SELECT 
 	Co_Orgao as IdOriginal,
-	'"' + SUBSTRING(No_Orgao,0,50) + '"                                      0.0000    0.0000    0.5000 ' AS Entidade
+	'"' + SUBSTRING(No_Orgao,0,100) + '"                                      0.0000    0.0000    0.5000 ' AS Entidade
 FROM 
 	[SiorgSQL].[dbo].Ta_Nomes_Orgaos WHERE Co_Orgao in (SELECT IdEntidade FROM @TbPortariaOrgaoSiorgFiltrada)
 	
