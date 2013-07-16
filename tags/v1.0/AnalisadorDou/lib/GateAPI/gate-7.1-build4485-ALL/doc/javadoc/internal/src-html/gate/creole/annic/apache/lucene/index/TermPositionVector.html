@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>gate/creole/annic/apache/lucene/index/TermPositionVector.java</title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+  <!-- start headline -->
+   <tr>
+    <td colspan="2">
+     <center><font size="+2">
+      <code><b>
+TermPositionVector.java
+      </b></code>
+     </font></center>
+    </td>
+   </tr>
+  <!-- end headline -->
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<a name="line.1"><font color="#808080">01</font>&nbsp;</a><font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">gate.creole.annic.apache.lucene.index;</font><br />
+<a name="line.2"><font color="#808080">02</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.3"><font color="#808080">03</font>&nbsp;</a><font color="#3f5fbf">/**&nbsp;Extends&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">TermFreqVector</font><font color="#7f7f9f">&lt;/code&gt;&nbsp;</font><font color="#3f5fbf">to&nbsp;provide&nbsp;additional&nbsp;information&nbsp;about</font><br />
+<a name="line.4"><font color="#808080">04</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;&nbsp;positions&nbsp;in&nbsp;which&nbsp;each&nbsp;of&nbsp;the&nbsp;terms&nbsp;is&nbsp;found.</font><br />
+<a name="line.5"><font color="#808080">05</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.6"><font color="#808080">06</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;interface&nbsp;</b></font><font color="#000000">TermPositionVector&nbsp;</font><font color="#7f0055"><b>extends&nbsp;</b></font><font color="#000000">TermFreqVector&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.7"><font color="#808080">07</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.8"><font color="#808080">08</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Returns&nbsp;an&nbsp;array&nbsp;of&nbsp;positions&nbsp;in&nbsp;which&nbsp;the&nbsp;term&nbsp;is&nbsp;found.</font><br />
+<a name="line.9"><font color="#808080">09</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;&nbsp;Terms&nbsp;are&nbsp;identified&nbsp;by&nbsp;the&nbsp;index&nbsp;at&nbsp;which&nbsp;its&nbsp;number&nbsp;appears&nbsp;in&nbsp;the</font><br />
+<a name="line.10"><font color="#808080">10</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;&nbsp;term&nbsp;number&nbsp;array&nbsp;obtained&nbsp;from&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">getTermNumbers</font><font color="#7f7f9f">&lt;/code&gt;&nbsp;</font><font color="#3f5fbf">method.</font><br />
+<a name="line.11"><font color="#808080">11</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.12"><font color="#808080">12</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>int</b></font><font color="#000000">[]&nbsp;</font><font color="#000000">getTermPositions</font><font color="#000000">(</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">index</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.13"><font color="#808080">13</font>&nbsp;</a><font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+</body></html>

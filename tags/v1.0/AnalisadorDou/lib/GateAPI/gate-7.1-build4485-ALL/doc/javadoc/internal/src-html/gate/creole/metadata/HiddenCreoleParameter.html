@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>gate/creole/metadata/HiddenCreoleParameter.java</title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+  <!-- start headline -->
+   <tr>
+    <td colspan="2">
+     <center><font size="+2">
+      <code><b>
+HiddenCreoleParameter.java
+      </b></code>
+     </font></center>
+    </td>
+   </tr>
+  <!-- end headline -->
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<a name="line.1"><font color="#808080">01</font>&nbsp;</a><font color="#3f7f5f">/*</font><br />
+<a name="line.2"><font color="#808080">02</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;HiddenCreoleParameter.java</font><br />
+<a name="line.3"><font color="#808080">03</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.4"><font color="#808080">04</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Copyright&nbsp;(c)&nbsp;2008,&nbsp;The&nbsp;University&nbsp;of&nbsp;Sheffield.</font><br />
+<a name="line.5"><font color="#808080">05</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.6"><font color="#808080">06</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;This&nbsp;file&nbsp;is&nbsp;part&nbsp;of&nbsp;GATE&nbsp;(see&nbsp;http://gate.ac.uk/),&nbsp;and&nbsp;is&nbsp;free</font><br />
+<a name="line.7"><font color="#808080">07</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;software,&nbsp;licenced&nbsp;under&nbsp;the&nbsp;GNU&nbsp;Library&nbsp;General&nbsp;Public&nbsp;License,</font><br />
+<a name="line.8"><font color="#808080">08</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Version&nbsp;2,&nbsp;June&nbsp;1991&nbsp;(in&nbsp;the&nbsp;distribution&nbsp;as&nbsp;file&nbsp;licence.html,</font><br />
+<a name="line.9"><font color="#808080">09</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;and&nbsp;also&nbsp;available&nbsp;at&nbsp;http://gate.ac.uk/gate/licence.html).</font><br />
+<a name="line.10"><font color="#808080">10</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.11"><font color="#808080">11</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Ian&nbsp;Roberts,&nbsp;27/Jul/2008</font><br />
+<a name="line.12"><font color="#808080">12</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.13"><font color="#808080">13</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;$Id:&nbsp;HiddenCreoleParameter.java&nbsp;9845&nbsp;2008-08-25&nbsp;22:23:24Z&nbsp;ian_roberts&nbsp;$</font><br />
+<a name="line.14"><font color="#808080">14</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*/</font><br />
+<a name="line.15"><font color="#808080">15</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.16"><font color="#808080">16</font>&nbsp;</a><font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">gate.creole.metadata;</font><br />
+<a name="line.17"><font color="#808080">17</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.18"><font color="#808080">18</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.lang.annotation.Documented;</font><br />
+<a name="line.19"><font color="#808080">19</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.lang.annotation.ElementType;</font><br />
+<a name="line.20"><font color="#808080">20</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.lang.annotation.Retention;</font><br />
+<a name="line.21"><font color="#808080">21</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.lang.annotation.RetentionPolicy;</font><br />
+<a name="line.22"><font color="#808080">22</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.lang.annotation.Target;</font><br />
+<a name="line.23"><font color="#808080">23</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.24"><font color="#808080">24</font>&nbsp;</a><font color="#3f5fbf">/**</font><br />
+<a name="line.25"><font color="#808080">25</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;Annotation&nbsp;used&nbsp;to&nbsp;mark&nbsp;parameters&nbsp;that&nbsp;should&nbsp;not&nbsp;be&nbsp;inherited&nbsp;from</font><br />
+<a name="line.26"><font color="#808080">26</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;superclasses.&nbsp;&nbsp;By&nbsp;default,&nbsp;a&nbsp;</font><font color="#3f3fbf">{@link&nbsp;CreoleResource}&nbsp;</font><font color="#3f5fbf">inherits&nbsp;its&nbsp;parameter</font><br />
+<a name="line.27"><font color="#808080">27</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;definitions&nbsp;from&nbsp;its&nbsp;superclasses&nbsp;and&nbsp;interfaces.&nbsp;&nbsp;However,&nbsp;in&nbsp;some&nbsp;cases</font><br />
+<a name="line.28"><font color="#808080">28</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;the&nbsp;superclass&nbsp;provides&nbsp;a&nbsp;parameter&nbsp;but&nbsp;the&nbsp;subclass&nbsp;does&nbsp;not&nbsp;want&nbsp;to&nbsp;expose</font><br />
+<a name="line.29"><font color="#808080">29</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;that&nbsp;parameter&nbsp;directly&nbsp;(for&nbsp;example,&nbsp;it&nbsp;may&nbsp;calculate&nbsp;the&nbsp;parameter&nbsp;value</font><br />
+<a name="line.30"><font color="#808080">30</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;some&nbsp;other&nbsp;way).&nbsp;&nbsp;In&nbsp;this&nbsp;case,&nbsp;the&nbsp;subclass&nbsp;should&nbsp;override&nbsp;the</font><br />
+<a name="line.31"><font color="#808080">31</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">set</font><font color="#7f7f9f">&lt;/code&gt;&nbsp;</font><font color="#3f5fbf">method&nbsp;for&nbsp;that&nbsp;parameter&nbsp;and&nbsp;annotate&nbsp;the&nbsp;overridden</font><br />
+<a name="line.32"><font color="#808080">32</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;method&nbsp;with&nbsp;this&nbsp;annotation.&nbsp;&nbsp;GATE&nbsp;will&nbsp;then&nbsp;ignore&nbsp;the&nbsp;inherited&nbsp;parameter.</font><br />
+<a name="line.33"><font color="#808080">33</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.34"><font color="#808080">34</font>&nbsp;</a><font color="#646464">@Documented</font><br />
+<a name="line.35"><font color="#808080">35</font>&nbsp;</a><font color="#646464">@Target</font><font color="#000000">(&nbsp;{</font><font color="#000000">ElementType.METHOD</font><font color="#000000">})</font><br />
+<a name="line.36"><font color="#808080">36</font>&nbsp;</a><font color="#646464">@Retention</font><font color="#000000">(</font><font color="#000000">RetentionPolicy.RUNTIME</font><font color="#000000">)</font><br />
+<a name="line.37"><font color="#808080">37</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;@interface&nbsp;</b></font><font color="#000000">HiddenCreoleParameter&nbsp;</font><font color="#000000">{}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+</body></html>

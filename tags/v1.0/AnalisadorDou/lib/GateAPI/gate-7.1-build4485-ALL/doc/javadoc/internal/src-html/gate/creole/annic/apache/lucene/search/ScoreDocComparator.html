@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>gate/creole/annic/apache/lucene/search/ScoreDocComparator.java</title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+  <!-- start headline -->
+   <tr>
+    <td colspan="2">
+     <center><font size="+2">
+      <code><b>
+ScoreDocComparator.java
+      </b></code>
+     </font></center>
+    </td>
+   </tr>
+  <!-- end headline -->
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<a name="line.1"><font color="#808080">01</font>&nbsp;</a><font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">gate.creole.annic.apache.lucene.search;</font><br />
+<a name="line.2"><font color="#808080">02</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.3"><font color="#808080">03</font>&nbsp;</a><font color="#3f5fbf">/**</font><br />
+<a name="line.4"><font color="#808080">04</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;Copyright&nbsp;2004&nbsp;The&nbsp;Apache&nbsp;Software&nbsp;Foundation</font><br />
+<a name="line.5"><font color="#808080">05</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.6"><font color="#808080">06</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;Licensed&nbsp;under&nbsp;the&nbsp;Apache&nbsp;License,&nbsp;Version&nbsp;2.0&nbsp;(the&nbsp;&#34;License&#34;);</font><br />
+<a name="line.7"><font color="#808080">07</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;you&nbsp;may&nbsp;not&nbsp;use&nbsp;this&nbsp;file&nbsp;except&nbsp;in&nbsp;compliance&nbsp;with&nbsp;the&nbsp;License.</font><br />
+<a name="line.8"><font color="#808080">08</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;You&nbsp;may&nbsp;obtain&nbsp;a&nbsp;copy&nbsp;of&nbsp;the&nbsp;License&nbsp;at</font><br />
+<a name="line.9"><font color="#808080">09</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.10"><font color="#808080">10</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;http://www.apache.org/licenses/LICENSE-2.0</font><br />
+<a name="line.11"><font color="#808080">11</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.12"><font color="#808080">12</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;Unless&nbsp;required&nbsp;by&nbsp;applicable&nbsp;law&nbsp;or&nbsp;agreed&nbsp;to&nbsp;in&nbsp;writing,&nbsp;software</font><br />
+<a name="line.13"><font color="#808080">13</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;distributed&nbsp;under&nbsp;the&nbsp;License&nbsp;is&nbsp;distributed&nbsp;on&nbsp;an&nbsp;&#34;AS&nbsp;IS&#34;&nbsp;BASIS,</font><br />
+<a name="line.14"><font color="#808080">14</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;WITHOUT&nbsp;WARRANTIES&nbsp;OR&nbsp;CONDITIONS&nbsp;OF&nbsp;ANY&nbsp;KIND,&nbsp;either&nbsp;express&nbsp;or&nbsp;implied.</font><br />
+<a name="line.15"><font color="#808080">15</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;See&nbsp;the&nbsp;License&nbsp;for&nbsp;the&nbsp;specific&nbsp;language&nbsp;governing&nbsp;permissions&nbsp;and</font><br />
+<a name="line.16"><font color="#808080">16</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;limitations&nbsp;under&nbsp;the&nbsp;License.</font><br />
+<a name="line.17"><font color="#808080">17</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.18"><font color="#808080">18</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.19"><font color="#808080">19</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.20"><font color="#808080">20</font>&nbsp;</a><font color="#3f5fbf">/**</font><br />
+<a name="line.21"><font color="#808080">21</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;Expert:&nbsp;Compares&nbsp;two&nbsp;ScoreDoc&nbsp;objects&nbsp;for&nbsp;sorting.</font><br />
+<a name="line.22"><font color="#808080">22</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.23"><font color="#808080">23</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;p&gt;</font><font color="#3f5fbf">Created:&nbsp;Feb&nbsp;3,&nbsp;2004&nbsp;9:00:16&nbsp;AM</font><br />
+<a name="line.24"><font color="#808080">24</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*</font><br />
+<a name="line.25"><font color="#808080">25</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@author&nbsp;&nbsp;</font><font color="#3f5fbf">Tim&nbsp;Jones&nbsp;(Nacimiento&nbsp;Software)</font><br />
+<a name="line.26"><font color="#808080">26</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@since&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">lucene&nbsp;1.4</font><br />
+<a name="line.27"><font color="#808080">27</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@version&nbsp;</font><font color="#3f5fbf">$Id:&nbsp;ScoreDocComparator.java&nbsp;529&nbsp;2004-10-05&nbsp;11:55:26Z&nbsp;niraj&nbsp;$</font><br />
+<a name="line.28"><font color="#808080">28</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.29"><font color="#808080">29</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;interface&nbsp;</b></font><font color="#000000">ScoreDocComparator&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.30"><font color="#808080">30</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.31"><font color="#808080">31</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Special&nbsp;comparator&nbsp;for&nbsp;sorting&nbsp;hits&nbsp;according&nbsp;to&nbsp;computed&nbsp;relevance&nbsp;(document&nbsp;score).&nbsp;*/</font><br />
+<a name="line.32"><font color="#808080">32</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>static&nbsp;final&nbsp;</b></font><font color="#000000">ScoreDocComparator&nbsp;RELEVANCE&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">ScoreDocComparator</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.33"><font color="#808080">33</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">compare&nbsp;</font><font color="#000000">(</font><font color="#000000">ScoreDoc&nbsp;i,&nbsp;ScoreDoc&nbsp;j</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.34"><font color="#808080">34</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if&nbsp;</b></font><font color="#000000">(</font><font color="#000000">i.score&nbsp;&gt;&nbsp;j.score</font><font color="#000000">)&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">-</font><font color="#990000">1</font><font color="#000000">;</font><br />
+<a name="line.35"><font color="#808080">35</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if&nbsp;</b></font><font color="#000000">(</font><font color="#000000">i.score&nbsp;&lt;&nbsp;j.score</font><font color="#000000">)&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#990000">1</font><font color="#000000">;</font><br />
+<a name="line.36"><font color="#808080">36</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#990000">0</font><font color="#000000">;</font><br />
+<a name="line.37"><font color="#808080">37</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.38"><font color="#808080">38</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">Comparable&nbsp;sortValue&nbsp;</font><font color="#000000">(</font><font color="#000000">ScoreDoc&nbsp;i</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.39"><font color="#808080">39</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;new&nbsp;</b></font><font color="#000000">Float&nbsp;</font><font color="#000000">(</font><font color="#000000">i.score</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.40"><font color="#808080">40</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.41"><font color="#808080">41</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">sortType</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.42"><font color="#808080">42</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">SortField.SCORE;</font><br />
+<a name="line.43"><font color="#808080">43</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.44"><font color="#808080">44</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><font color="#000000">;</font><br />
+<a name="line.45"><font color="#808080">45</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.46"><font color="#808080">46</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.47"><font color="#808080">47</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Special&nbsp;comparator&nbsp;for&nbsp;sorting&nbsp;hits&nbsp;according&nbsp;to&nbsp;index&nbsp;order&nbsp;(document&nbsp;number).&nbsp;*/</font><br />
+<a name="line.48"><font color="#808080">48</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>static&nbsp;final&nbsp;</b></font><font color="#000000">ScoreDocComparator&nbsp;INDEXORDER&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">ScoreDocComparator</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.49"><font color="#808080">49</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">compare&nbsp;</font><font color="#000000">(</font><font color="#000000">ScoreDoc&nbsp;i,&nbsp;ScoreDoc&nbsp;j</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.50"><font color="#808080">50</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if&nbsp;</b></font><font color="#000000">(</font><font color="#000000">i.doc&nbsp;&lt;&nbsp;j.doc</font><font color="#000000">)&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">-</font><font color="#990000">1</font><font color="#000000">;</font><br />
+<a name="line.51"><font color="#808080">51</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if&nbsp;</b></font><font color="#000000">(</font><font color="#000000">i.doc&nbsp;&gt;&nbsp;j.doc</font><font color="#000000">)&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#990000">1</font><font color="#000000">;</font><br />
+<a name="line.52"><font color="#808080">52</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#990000">0</font><font color="#000000">;</font><br />
+<a name="line.53"><font color="#808080">53</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.54"><font color="#808080">54</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">Comparable&nbsp;sortValue&nbsp;</font><font color="#000000">(</font><font color="#000000">ScoreDoc&nbsp;i</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.55"><font color="#808080">55</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;new&nbsp;</b></font><font color="#000000">Integer&nbsp;</font><font color="#000000">(</font><font color="#000000">i.doc</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.56"><font color="#808080">56</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.57"><font color="#808080">57</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">sortType</font><font color="#000000">()&nbsp;{</font><br />
+<a name="line.58"><font color="#808080">58</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>return&nbsp;</b></font><font color="#000000">SortField.DOC;</font><br />
+<a name="line.59"><font color="#808080">59</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.60"><font color="#808080">60</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><font color="#000000">;</font><br />
+<a name="line.61"><font color="#808080">61</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.62"><font color="#808080">62</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.63"><font color="#808080">63</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.64"><font color="#808080">64</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Compares&nbsp;two&nbsp;ScoreDoc&nbsp;objects&nbsp;and&nbsp;returns&nbsp;a&nbsp;result&nbsp;indicating&nbsp;their</font><br />
+<a name="line.65"><font color="#808080">65</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;sort&nbsp;order.</font><br />
+<a name="line.66"><font color="#808080">66</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">i&nbsp;First&nbsp;ScoreDoc</font><br />
+<a name="line.67"><font color="#808080">67</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">j&nbsp;Second&nbsp;ScoreDoc</font><br />
+<a name="line.68"><font color="#808080">68</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@return&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">-1</font><font color="#7f7f9f">&lt;/code&gt;&nbsp;</font><font color="#3f5fbf">if&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">i</font><font color="#7f7f9f">&lt;/code&gt;&nbsp;</font><font color="#3f5fbf">should&nbsp;come&nbsp;before&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">j</font><font color="#7f7f9f">&lt;/code&gt;&lt;br&gt;&lt;code&gt;</font><font color="#3f5fbf">1</font><font color="#7f7f9f">&lt;/code&gt;&nbsp;</font><font color="#3f5fbf">if&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">i</font><font color="#7f7f9f">&lt;/code&gt;&nbsp;</font><font color="#3f5fbf">should&nbsp;come&nbsp;after&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">j</font><font color="#7f7f9f">&lt;/code&gt;&lt;br&gt;&lt;code&gt;</font><font color="#3f5fbf">0</font><font color="#7f7f9f">&lt;/code&gt;&nbsp;</font><font color="#3f5fbf">if&nbsp;they&nbsp;are&nbsp;equal</font><br />
+<a name="line.69"><font color="#808080">69</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@see&nbsp;</font><font color="#3f5fbf">java.util.Comparator</font><br />
+<a name="line.70"><font color="#808080">70</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.71"><font color="#808080">71</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">compare&nbsp;</font><font color="#000000">(</font><font color="#000000">ScoreDoc&nbsp;i,&nbsp;ScoreDoc&nbsp;j</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.72"><font color="#808080">72</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.73"><font color="#808080">73</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.74"><font color="#808080">74</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.75"><font color="#808080">75</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Returns&nbsp;the&nbsp;value&nbsp;used&nbsp;to&nbsp;sort&nbsp;the&nbsp;given&nbsp;document.&nbsp;&nbsp;The</font><br />
+<a name="line.76"><font color="#808080">76</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;object&nbsp;returned&nbsp;must&nbsp;implement&nbsp;the&nbsp;java.io.Serializable</font><br />
+<a name="line.77"><font color="#808080">77</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;interface.&nbsp;&nbsp;This&nbsp;is&nbsp;used&nbsp;by&nbsp;multisearchers&nbsp;to&nbsp;determine&nbsp;how&nbsp;to&nbsp;collate&nbsp;results&nbsp;from&nbsp;their&nbsp;searchers.</font><br />
+<a name="line.78"><font color="#808080">78</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@see&nbsp;</font><font color="#3f5fbf">FieldDoc</font><br />
+<a name="line.79"><font color="#808080">79</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@param&nbsp;</font><font color="#3f5fbf">i&nbsp;Document</font><br />
+<a name="line.80"><font color="#808080">80</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@return&nbsp;</font><font color="#3f5fbf">Serializable&nbsp;object</font><br />
+<a name="line.81"><font color="#808080">81</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.82"><font color="#808080">82</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">Comparable&nbsp;sortValue&nbsp;</font><font color="#000000">(</font><font color="#000000">ScoreDoc&nbsp;i</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.83"><font color="#808080">83</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.84"><font color="#808080">84</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.85"><font color="#808080">85</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.86"><font color="#808080">86</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;Returns&nbsp;the&nbsp;type&nbsp;of&nbsp;sort.&nbsp;&nbsp;Should&nbsp;return&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">SortField.SCORE</font><font color="#7f7f9f">&lt;/code&gt;</font><font color="#3f5fbf">,&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">SortField.DOC</font><font color="#7f7f9f">&lt;/code&gt;</font><font color="#3f5fbf">,&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">SortField.STRING</font><font color="#7f7f9f">&lt;/code&gt;</font><font color="#3f5fbf">,&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">SortField.INTEGER</font><font color="#7f7f9f">&lt;/code&gt;</font><font color="#3f5fbf">,</font><br />
+<a name="line.87"><font color="#808080">87</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">SortField.FLOAT</font><font color="#7f7f9f">&lt;/code&gt;&nbsp;</font><font color="#3f5fbf">or&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">SortField.CUSTOM</font><font color="#7f7f9f">&lt;/code&gt;</font><font color="#3f5fbf">.&nbsp;&nbsp;It&nbsp;is&nbsp;not&nbsp;valid&nbsp;to&nbsp;return&nbsp;</font><font color="#7f7f9f">&lt;code&gt;</font><font color="#3f5fbf">SortField.AUTO</font><font color="#7f7f9f">&lt;/code&gt;</font><font color="#3f5fbf">.</font><br />
+<a name="line.88"><font color="#808080">88</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;This&nbsp;is&nbsp;used&nbsp;by&nbsp;multisearchers&nbsp;to&nbsp;determine&nbsp;how&nbsp;to&nbsp;collate&nbsp;results&nbsp;from&nbsp;their&nbsp;searchers.</font><br />
+<a name="line.89"><font color="#808080">89</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@return&nbsp;</font><font color="#3f5fbf">One&nbsp;of&nbsp;the&nbsp;constants&nbsp;in&nbsp;SortField.</font><br />
+<a name="line.90"><font color="#808080">90</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@see&nbsp;</font><font color="#3f5fbf">SortField</font><br />
+<a name="line.91"><font color="#808080">91</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.92"><font color="#808080">92</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">sortType</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.93"><font color="#808080">93</font>&nbsp;</a><font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+</body></html>

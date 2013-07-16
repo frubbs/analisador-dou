@@ -1,0 +1,38 @@
+// Valentin Tablan, 29/06/2001
+// $id$
+
+
+Phase:assinaturas
+Input: Token SpaceToken Lookup ORGAOCOMPLETO NOMECOMPLETO
+Options: control = appelt
+
+
+MACRO: ASSINATURA
+(
+	({Lookup.majorType == "QuebraLinha"})[1,2]
+	({SpaceToken})[0,3]
+	(NOMECOMPLETO)[1,4]
+	({SpaceToken})[0,3]
+	({Lookup.majorType == "Cargo"})[0,1]
+	({SpaceToken})[0,3]
+	({Lookup.majorType == "QuebraLinha"})[1,2]
+	({SpaceToken})[0,3]
+	(({Lookup.majorType == "InicioPortaria"}) | (ORGAOCOMPLETO))
+
+)	
+
+
+Rule: Assinatura
+(
+	(ASSINATURA)
+)	
+: assinatura
+-->
+:assinatura.Assinatura = { kind = "QLNomeQLInicio" }
+
+
+	
+		
+
+
+		

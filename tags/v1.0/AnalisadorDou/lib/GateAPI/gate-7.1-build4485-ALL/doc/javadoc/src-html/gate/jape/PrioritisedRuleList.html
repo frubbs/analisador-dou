@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>gate/jape/PrioritisedRuleList.java</title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+  <!-- start headline -->
+   <tr>
+    <td colspan="2">
+     <center><font size="+2">
+      <code><b>
+PrioritisedRuleList.java
+      </b></code>
+     </font></center>
+    </td>
+   </tr>
+  <!-- end headline -->
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<a name="line.1"><font color="#808080">001</font>&nbsp;</a><font color="#3f7f5f">/*</font><br />
+<a name="line.2"><font color="#808080">002</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;PrioritisedRuleList.java&nbsp;-&nbsp;transducer&nbsp;class</font><br />
+<a name="line.3"><font color="#808080">003</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.4"><font color="#808080">004</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Copyright&nbsp;(c)&nbsp;1995-2012,&nbsp;The&nbsp;University&nbsp;of&nbsp;Sheffield.&nbsp;See&nbsp;the&nbsp;file</font><br />
+<a name="line.5"><font color="#808080">005</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;COPYRIGHT.txt&nbsp;in&nbsp;the&nbsp;software&nbsp;or&nbsp;at&nbsp;http://gate.ac.uk/gate/COPYRIGHT.txt</font><br />
+<a name="line.6"><font color="#808080">006</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.7"><font color="#808080">007</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;This&nbsp;file&nbsp;is&nbsp;part&nbsp;of&nbsp;GATE&nbsp;(see&nbsp;http://gate.ac.uk/),&nbsp;and&nbsp;is&nbsp;free</font><br />
+<a name="line.8"><font color="#808080">008</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;software,&nbsp;licenced&nbsp;under&nbsp;the&nbsp;GNU&nbsp;Library&nbsp;General&nbsp;Public&nbsp;License,</font><br />
+<a name="line.9"><font color="#808080">009</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Version&nbsp;2,&nbsp;June&nbsp;1991&nbsp;(in&nbsp;the&nbsp;distribution&nbsp;as&nbsp;file&nbsp;licence.html,</font><br />
+<a name="line.10"><font color="#808080">010</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;and&nbsp;also&nbsp;available&nbsp;at&nbsp;http://gate.ac.uk/gate/licence.html).</font><br />
+<a name="line.11"><font color="#808080">011</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.12"><font color="#808080">012</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Hamish&nbsp;Cunningham,&nbsp;27/07/98</font><br />
+<a name="line.13"><font color="#808080">013</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.14"><font color="#808080">014</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;$Id:&nbsp;PrioritisedRuleList.java&nbsp;15333&nbsp;2012-02-07&nbsp;13:18:33Z&nbsp;ian_roberts&nbsp;$</font><br />
+<a name="line.15"><font color="#808080">015</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*/</font><br />
+<a name="line.16"><font color="#808080">016</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.17"><font color="#808080">017</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.18"><font color="#808080">018</font>&nbsp;</a><font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">gate.jape;</font><br />
+<a name="line.19"><font color="#808080">019</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.20"><font color="#808080">020</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.util.ArrayList;</font><br />
+<a name="line.21"><font color="#808080">021</font>&nbsp;</a><font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.util.Iterator;</font><br />
+<a name="line.22"><font color="#808080">022</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.23"><font color="#808080">023</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.24"><font color="#808080">024</font>&nbsp;</a><font color="#3f5fbf">/**</font><br />
+<a name="line.25"><font color="#808080">025</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;A&nbsp;list&nbsp;of&nbsp;rules&nbsp;ordered&nbsp;according&nbsp;to&nbsp;priority.&nbsp;May&nbsp;be&nbsp;used&nbsp;for&nbsp;ordering</font><br />
+<a name="line.26"><font color="#808080">026</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;non-matched&nbsp;rules&nbsp;(in&nbsp;which&nbsp;case&nbsp;the&nbsp;order&nbsp;is&nbsp;based&nbsp;on</font><br />
+<a name="line.27"><font color="#808080">027</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;priority/position),&nbsp;or&nbsp;matched&nbsp;rules&nbsp;(in&nbsp;which&nbsp;case&nbsp;the&nbsp;order&nbsp;is&nbsp;based</font><br />
+<a name="line.28"><font color="#808080">028</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;on&nbsp;matched&nbsp;lenght/priority/position).&nbsp;Note&nbsp;that&nbsp;position&nbsp;represents</font><br />
+<a name="line.29"><font color="#808080">029</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;the&nbsp;idea&nbsp;of&nbsp;order&nbsp;within&nbsp;an&nbsp;input&nbsp;file;&nbsp;it&nbsp;is&nbsp;assumed&nbsp;that&nbsp;this&nbsp;is&nbsp;the</font><br />
+<a name="line.30"><font color="#808080">030</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;same&nbsp;as&nbsp;the&nbsp;order&nbsp;of&nbsp;addition&nbsp;of&nbsp;the&nbsp;rules&nbsp;to&nbsp;the&nbsp;list,&nbsp;i.e.&nbsp;a&nbsp;rule</font><br />
+<a name="line.31"><font color="#808080">031</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;added&nbsp;5th&nbsp;is&nbsp;assumed&nbsp;to&nbsp;occupy&nbsp;5th&nbsp;place&nbsp;in&nbsp;the&nbsp;file&nbsp;(or&nbsp;other&nbsp;rule</font><br />
+<a name="line.32"><font color="#808080">032</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;source).&nbsp;This&nbsp;class&nbsp;is&nbsp;based&nbsp;on&nbsp;JGL's&nbsp;DList,&nbsp;which&nbsp;allows&nbsp;for&nbsp;fast</font><br />
+<a name="line.33"><font color="#808080">033</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;insertion&nbsp;of&nbsp;elements&nbsp;at&nbsp;any&nbsp;point.&nbsp;The&nbsp;highest&nbsp;priority&nbsp;rule&nbsp;is&nbsp;the</font><br />
+<a name="line.34"><font color="#808080">034</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;first&nbsp;in&nbsp;the&nbsp;list,&nbsp;which&nbsp;may&nbsp;be&nbsp;accessed&nbsp;by&nbsp;</font><font color="#7f7f9f">&lt;CODE&gt;</font><font color="#3f5fbf">front()</font><font color="#7f7f9f">&lt;/CODE&gt;</font><font color="#3f5fbf">.</font><br />
+<a name="line.35"><font color="#808080">035</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.36"><font color="#808080">036</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">PrioritisedRuleList&nbsp;</font><font color="#7f0055"><b>extends&nbsp;</b></font><font color="#000000">ArrayList&nbsp;</font><font color="#7f0055"><b>implements&nbsp;</b></font><font color="#000000">java.io.Serializable</font><br />
+<a name="line.37"><font color="#808080">037</font>&nbsp;</a><font color="#000000">{</font><br />
+<a name="line.38"><font color="#808080">038</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Debug&nbsp;flag&nbsp;*/</font><br />
+<a name="line.39"><font color="#808080">039</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;static&nbsp;final&nbsp;</b></font><font color="#7f0055"><b>boolean&nbsp;</b></font><font color="#000000">DEBUG&nbsp;=&nbsp;</font><font color="#7f0055"><b>false</b></font><font color="#000000">;</font><br />
+<a name="line.40"><font color="#808080">040</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.41"><font color="#808080">041</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;Adds&nbsp;a&nbsp;rule&nbsp;in&nbsp;order.&nbsp;Used&nbsp;for&nbsp;non-matched&nbsp;rules.&nbsp;Implements&nbsp;the</font><br />
+<a name="line.42"><font color="#808080">042</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;ordering&nbsp;based&nbsp;on&nbsp;priority/position.</font><br />
+<a name="line.43"><font color="#808080">043</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.44"><font color="#808080">044</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;synchronized&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">add</font><font color="#000000">(</font><font color="#000000">Rule&nbsp;newRule</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.45"><font color="#808080">045</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">/*&nbsp;for&nbsp;each&nbsp;rule,</font><br />
+<a name="line.46"><font color="#808080">046</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;&nbsp;if&nbsp;it&nbsp;is&nbsp;higher&nbsp;priority,&nbsp;continue;</font><br />
+<a name="line.47"><font color="#808080">047</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;&nbsp;else&nbsp;if&nbsp;it&nbsp;is&nbsp;same&nbsp;priority</font><br />
+<a name="line.48"><font color="#808080">048</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;it&nbsp;is&nbsp;higher&nbsp;position,&nbsp;continue;</font><br />
+<a name="line.49"><font color="#808080">049</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else&nbsp;break</font><br />
+<a name="line.50"><font color="#808080">050</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;&nbsp;else&nbsp;(it&nbsp;is&nbsp;lower&nbsp;priority)&nbsp;break</font><br />
+<a name="line.51"><font color="#808080">051</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">*&nbsp;insert&nbsp;newRule&nbsp;before&nbsp;current&nbsp;position&nbsp;(which&nbsp;may&nbsp;be&nbsp;finish)</font><br />
+<a name="line.52"><font color="#808080">052</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">*/</font><br />
+<a name="line.53"><font color="#808080">053</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Iterator&nbsp;iterator&nbsp;=&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.iterator</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.54"><font color="#808080">054</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">i&nbsp;=&nbsp;</font><font color="#990000">0</font><font color="#000000">;</font><br />
+<a name="line.55"><font color="#808080">055</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>for</b></font><font color="#000000">(&nbsp;&nbsp;</font><font color="#000000">;&nbsp;iterator.hasNext</font><font color="#000000">()</font><font color="#000000">;&nbsp;i++</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.56"><font color="#808080">056</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Rule&nbsp;rule&nbsp;&nbsp;=&nbsp;&nbsp;</font><font color="#000000">(</font><font color="#000000">Rule</font><font color="#000000">)&nbsp;</font><font color="#000000">iterator.next</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.57"><font color="#808080">057</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">rulePriority&nbsp;=&nbsp;&nbsp;rule.getPriority</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.58"><font color="#808080">058</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">newRulePriority&nbsp;=&nbsp;&nbsp;newRule.getPriority</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.59"><font color="#808080">059</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">rulePosition&nbsp;=&nbsp;&nbsp;rule.getPosition</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.60"><font color="#808080">060</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>int&nbsp;</b></font><font color="#000000">newRulePosition&nbsp;=&nbsp;&nbsp;newRule.getPosition</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<a name="line.61"><font color="#808080">061</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.62"><font color="#808080">062</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if</b></font><font color="#000000">(</font><font color="#000000">rulePriority&nbsp;&gt;&nbsp;newRulePriority</font><font color="#000000">)</font><br />
+<a name="line.63"><font color="#808080">063</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>continue</b></font><font color="#000000">;</font><br />
+<a name="line.64"><font color="#808080">064</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>else&nbsp;if</b></font><font color="#000000">(</font><font color="#000000">rulePriority&nbsp;==&nbsp;newRulePriority</font><font color="#000000">)&nbsp;{</font><br />
+<a name="line.65"><font color="#808080">065</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if</b></font><font color="#000000">(</font><font color="#000000">rulePosition&nbsp;&lt;&nbsp;newRulePosition</font><font color="#000000">)</font><br />
+<a name="line.66"><font color="#808080">066</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>continue</b></font><font color="#000000">;</font><br />
+<a name="line.67"><font color="#808080">067</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>else</b></font><br />
+<a name="line.68"><font color="#808080">068</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>break</b></font><font color="#000000">;</font><br />
+<a name="line.69"><font color="#808080">069</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#7f0055"><b>else&nbsp;</b></font><font color="#000000">{</font><br />
+<a name="line.70"><font color="#808080">070</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>break</b></font><font color="#000000">;</font><br />
+<a name="line.71"><font color="#808080">071</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<a name="line.72"><font color="#808080">072</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.73"><font color="#808080">073</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;while&nbsp;not&nbsp;hit&nbsp;the&nbsp;end&nbsp;of&nbsp;the&nbsp;rules</font><br />
+<a name="line.74"><font color="#808080">074</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.75"><font color="#808080">075</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.76"><font color="#808080">076</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>this</b></font><font color="#000000">.add</font><font color="#000000">(</font><font color="#000000">i,&nbsp;newRule</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<a name="line.77"><font color="#808080">077</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;add(Rule)</font><br />
+<a name="line.78"><font color="#808080">078</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.79"><font color="#808080">079</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.80"><font color="#808080">080</font>&nbsp;</a><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;class&nbsp;PrioritisedRuleList</font><br />
+<a name="line.81"><font color="#808080">081</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.82"><font color="#808080">082</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.83"><font color="#808080">083</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;$Log$</font><br />
+<a name="line.84"><font color="#808080">084</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.8&nbsp;&nbsp;2005/01/11&nbsp;13:51:36&nbsp;&nbsp;ian</font><br />
+<a name="line.85"><font color="#808080">085</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Updating&nbsp;copyrights&nbsp;to&nbsp;1998-2005&nbsp;in&nbsp;preparation&nbsp;for&nbsp;v3.0</font><br />
+<a name="line.86"><font color="#808080">086</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.87"><font color="#808080">087</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.7&nbsp;&nbsp;2004/07/21&nbsp;17:10:08&nbsp;&nbsp;akshay</font><br />
+<a name="line.88"><font color="#808080">088</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Changed&nbsp;copyright&nbsp;from&nbsp;1998-2001&nbsp;to&nbsp;1998-2004</font><br />
+<a name="line.89"><font color="#808080">089</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.90"><font color="#808080">090</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.6&nbsp;&nbsp;2004/03/25&nbsp;13:01:13&nbsp;&nbsp;valyt</font><br />
+<a name="line.91"><font color="#808080">091</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Imports&nbsp;optimisation&nbsp;throughout&nbsp;the&nbsp;Java&nbsp;sources</font><br />
+<a name="line.92"><font color="#808080">092</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;(to&nbsp;get&nbsp;rid&nbsp;of&nbsp;annoying&nbsp;warnings&nbsp;in&nbsp;Eclipse)</font><br />
+<a name="line.93"><font color="#808080">093</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.94"><font color="#808080">094</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.5&nbsp;&nbsp;2001/09/13&nbsp;12:09:50&nbsp;&nbsp;kalina</font><br />
+<a name="line.95"><font color="#808080">095</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Removed&nbsp;completely&nbsp;the&nbsp;use&nbsp;of&nbsp;jgl.objectspace.Array&nbsp;and&nbsp;such.</font><br />
+<a name="line.96"><font color="#808080">096</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Instead&nbsp;all&nbsp;sources&nbsp;now&nbsp;use&nbsp;the&nbsp;new&nbsp;Collections,&nbsp;typically&nbsp;ArrayList.</font><br />
+<a name="line.97"><font color="#808080">097</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;I&nbsp;ran&nbsp;the&nbsp;tests&nbsp;and&nbsp;I&nbsp;ran&nbsp;some&nbsp;documents&nbsp;and&nbsp;compared&nbsp;with&nbsp;keys.</font><br />
+<a name="line.98"><font color="#808080">098</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;JAPE&nbsp;seems&nbsp;to&nbsp;work&nbsp;well&nbsp;(that's&nbsp;where&nbsp;it&nbsp;all&nbsp;was).&nbsp;If&nbsp;there&nbsp;are&nbsp;problems</font><br />
+<a name="line.99"><font color="#808080">099</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;maybe&nbsp;look&nbsp;at&nbsp;those&nbsp;new&nbsp;structures&nbsp;first.</font><br />
+<a name="line.100"><font color="#808080">100</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.101"><font color="#808080">101</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.4&nbsp;&nbsp;2000/11/08&nbsp;16:35:03&nbsp;&nbsp;hamish</font><br />
+<a name="line.102"><font color="#808080">102</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;formatting</font><br />
+<a name="line.103"><font color="#808080">103</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.104"><font color="#808080">104</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.3&nbsp;&nbsp;2000/10/16&nbsp;16:44:34&nbsp;&nbsp;oana</font><br />
+<a name="line.105"><font color="#808080">105</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Changed&nbsp;the&nbsp;comment&nbsp;of&nbsp;DEBUG&nbsp;variable</font><br />
+<a name="line.106"><font color="#808080">106</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.107"><font color="#808080">107</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.2&nbsp;&nbsp;2000/10/10&nbsp;15:36:36&nbsp;&nbsp;oana</font><br />
+<a name="line.108"><font color="#808080">108</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Changed&nbsp;System.out&nbsp;in&nbsp;Out&nbsp;and&nbsp;System.err&nbsp;in&nbsp;Err;</font><br />
+<a name="line.109"><font color="#808080">109</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Added&nbsp;the&nbsp;DEBUG&nbsp;variable&nbsp;seted&nbsp;on&nbsp;false;</font><br />
+<a name="line.110"><font color="#808080">110</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Added&nbsp;in&nbsp;the&nbsp;header&nbsp;the&nbsp;licence;</font><br />
+<a name="line.111"><font color="#808080">111</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.112"><font color="#808080">112</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.1&nbsp;&nbsp;2000/02/23&nbsp;13:46:10&nbsp;&nbsp;hamish</font><br />
+<a name="line.113"><font color="#808080">113</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;added</font><br />
+<a name="line.114"><font color="#808080">114</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.115"><font color="#808080">115</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.1.1.1&nbsp;&nbsp;1999/02/03&nbsp;16:23:02&nbsp;&nbsp;hamish</font><br />
+<a name="line.116"><font color="#808080">116</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;added&nbsp;gate2</font><br />
+<a name="line.117"><font color="#808080">117</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.118"><font color="#808080">118</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.6&nbsp;&nbsp;1998/10/01&nbsp;16:06:34&nbsp;&nbsp;hamish</font><br />
+<a name="line.119"><font color="#808080">119</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;new&nbsp;appelt&nbsp;transduction&nbsp;style,&nbsp;replacing&nbsp;buggy&nbsp;version</font><br />
+<a name="line.120"><font color="#808080">120</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.121"><font color="#808080">121</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.5&nbsp;&nbsp;1998/09/17&nbsp;10:24:02&nbsp;&nbsp;hamish</font><br />
+<a name="line.122"><font color="#808080">122</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;added&nbsp;options&nbsp;support,&nbsp;and&nbsp;Appelt-style&nbsp;rule&nbsp;application</font><br />
+<a name="line.123"><font color="#808080">123</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.124"><font color="#808080">124</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.4&nbsp;&nbsp;1998/08/12&nbsp;19:05:47&nbsp;&nbsp;hamish</font><br />
+<a name="line.125"><font color="#808080">125</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;fixed&nbsp;multi-part&nbsp;CG&nbsp;bug;&nbsp;set&nbsp;reset&nbsp;to&nbsp;real&nbsp;reset&nbsp;and&nbsp;fixed&nbsp;multi-doc&nbsp;bug</font><br />
+<a name="line.126"><font color="#808080">126</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.127"><font color="#808080">127</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.3&nbsp;&nbsp;1998/07/30&nbsp;11:05:24&nbsp;&nbsp;mks</font><br />
+<a name="line.128"><font color="#808080">128</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;more&nbsp;jape</font><br />
+<a name="line.129"><font color="#808080">129</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.130"><font color="#808080">130</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.2&nbsp;&nbsp;1998/07/29&nbsp;11:07:08&nbsp;&nbsp;hamish</font><br />
+<a name="line.131"><font color="#808080">131</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;first&nbsp;compiling&nbsp;version</font><br />
+<a name="line.132"><font color="#808080">132</font>&nbsp;</a><font color="#3f7f5f">//</font><br />
+<a name="line.133"><font color="#808080">133</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;Revision&nbsp;1.1.1.1&nbsp;&nbsp;1998/07/28&nbsp;16:37:46&nbsp;&nbsp;hamish</font><br />
+<a name="line.134"><font color="#808080">134</font>&nbsp;</a><font color="#3f7f5f">//&nbsp;gate2&nbsp;lives</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+</body></html>

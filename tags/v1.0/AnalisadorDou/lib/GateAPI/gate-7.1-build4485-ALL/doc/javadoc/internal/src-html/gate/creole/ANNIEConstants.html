@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>gate/creole/ANNIEConstants.java</title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 10pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter 5.0 [2006-02-26] by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+  <!-- start headline -->
+   <tr>
+    <td colspan="2">
+     <center><font size="+2">
+      <code><b>
+ANNIEConstants.java
+      </b></code>
+     </font></center>
+    </td>
+   </tr>
+  <!-- end headline -->
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<a name="line.1"><font color="#808080">01</font>&nbsp;</a><font color="#3f7f5f">/*</font><br />
+<a name="line.2"><font color="#808080">02</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;AnnieConstants.java</font><br />
+<a name="line.3"><font color="#808080">03</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.4"><font color="#808080">04</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Copyright&nbsp;(c)&nbsp;1995-2012,&nbsp;The&nbsp;University&nbsp;of&nbsp;Sheffield.&nbsp;See&nbsp;the&nbsp;file</font><br />
+<a name="line.5"><font color="#808080">05</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;COPYRIGHT.txt&nbsp;in&nbsp;the&nbsp;software&nbsp;or&nbsp;at&nbsp;http://gate.ac.uk/gate/COPYRIGHT.txt</font><br />
+<a name="line.6"><font color="#808080">06</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.7"><font color="#808080">07</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;This&nbsp;file&nbsp;is&nbsp;part&nbsp;of&nbsp;GATE&nbsp;(see&nbsp;http://gate.ac.uk/),&nbsp;and&nbsp;is&nbsp;free</font><br />
+<a name="line.8"><font color="#808080">08</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;software,&nbsp;licenced&nbsp;under&nbsp;the&nbsp;GNU&nbsp;Library&nbsp;General&nbsp;Public&nbsp;License,</font><br />
+<a name="line.9"><font color="#808080">09</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Version&nbsp;2,&nbsp;June&nbsp;1991&nbsp;(in&nbsp;the&nbsp;distribution&nbsp;as&nbsp;file&nbsp;licence.html,</font><br />
+<a name="line.10"><font color="#808080">10</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;and&nbsp;also&nbsp;available&nbsp;at&nbsp;http://gate.ac.uk/gate/licence.html).</font><br />
+<a name="line.11"><font color="#808080">11</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.12"><font color="#808080">12</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;Cristian&nbsp;URSU,&nbsp;16/Oct/2001</font><br />
+<a name="line.13"><font color="#808080">13</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*</font><br />
+<a name="line.14"><font color="#808080">14</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*&nbsp;&nbsp;$Id:&nbsp;ANNIEConstants.java&nbsp;15333&nbsp;2012-02-07&nbsp;13:18:33Z&nbsp;ian_roberts&nbsp;$</font><br />
+<a name="line.15"><font color="#808080">15</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#3f7f5f">*/</font><br />
+<a name="line.16"><font color="#808080">16</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.17"><font color="#808080">17</font>&nbsp;</a><font color="#7f0055"><b>package&nbsp;</b></font><font color="#000000">gate.creole;</font><br />
+<a name="line.18"><font color="#808080">18</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.19"><font color="#808080">19</font>&nbsp;</a><font color="#3f5fbf">/**&nbsp;This&nbsp;interface&nbsp;defines&nbsp;constants&nbsp;used&nbsp;by&nbsp;the&nbsp;ANNIE&nbsp;processing&nbsp;resources.&nbsp;*/</font><br />
+<a name="line.20"><font color="#808080">20</font>&nbsp;</a><font color="#7f0055"><b>public&nbsp;interface&nbsp;</b></font><font color="#000000">ANNIEConstants&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.21"><font color="#808080">21</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.22"><font color="#808080">22</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**</font><br />
+<a name="line.23"><font color="#808080">23</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;This&nbsp;is&nbsp;an&nbsp;array&nbsp;of&nbsp;strings&nbsp;containing&nbsp;all&nbsp;class&nbsp;names&nbsp;for&nbsp;all&nbsp;ANNIE&nbsp;PRs.</font><br />
+<a name="line.24"><font color="#808080">24</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f9fbf">@deprecated&nbsp;</font><font color="#3f5fbf">ANNIE&nbsp;must&nbsp;now&nbsp;be&nbsp;loaded&nbsp;from&nbsp;a&nbsp;gapp&nbsp;application&nbsp;file:</font><br />
+<a name="line.25"><font color="#808080">25</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;pre&gt;</font><br />
+<a name="line.26"><font color="#808080">26</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;SerialAnalyserController&nbsp;annie&nbsp;=&nbsp;(SerialAnalyserController)</font><br />
+<a name="line.27"><font color="#808080">27</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;&nbsp;&nbsp;PersistenceManager.loadObjectFromFile(new&nbsp;File(new&nbsp;File(</font><br />
+<a name="line.28"><font color="#808080">28</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gate.getPluginsHome(),&nbsp;ANNIEConstants.PLUGIN_DIR),</font><br />
+<a name="line.29"><font color="#808080">29</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANNIEConstants.DEFAULT_FILE));</font><br />
+<a name="line.30"><font color="#808080">30</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*&nbsp;</font><font color="#7f7f9f">&lt;/pre&gt;</font><br />
+<a name="line.31"><font color="#808080">31</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;</font><font color="#3f5fbf">*/</font><br />
+<a name="line.32"><font color="#808080">32</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String</font><font color="#000000">[]&nbsp;</font><font color="#000000">PR_NAMES&nbsp;=&nbsp;</font><font color="#000000">{</font><br />
+<a name="line.33"><font color="#808080">33</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#2a00ff">&#34;gate.creole.annotdelete.AnnotationDeletePR&#34;</font><font color="#000000">,</font><br />
+<a name="line.34"><font color="#808080">34</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#2a00ff">&#34;gate.creole.tokeniser.DefaultTokeniser&#34;</font><font color="#000000">,</font><br />
+<a name="line.35"><font color="#808080">35</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#2a00ff">&#34;gate.creole.gazetteer.DefaultGazetteer&#34;</font><font color="#000000">,</font><br />
+<a name="line.36"><font color="#808080">36</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#2a00ff">&#34;gate.creole.splitter.SentenceSplitter&#34;</font><font color="#000000">,</font><br />
+<a name="line.37"><font color="#808080">37</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#2a00ff">&#34;gate.creole.POSTagger&#34;</font><font color="#000000">,</font><br />
+<a name="line.38"><font color="#808080">38</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#2a00ff">&#34;gate.creole.ANNIETransducer&#34;</font><font color="#000000">,</font><br />
+<a name="line.39"><font color="#808080">39</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#2a00ff">&#34;gate.creole.orthomatcher.OrthoMatcher&#34;</font><br />
+<a name="line.40"><font color="#808080">40</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><font color="#000000">;</font><br />
+<a name="line.41"><font color="#808080">41</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;PLUGIN_DIR&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;ANNIE&#34;</font><font color="#000000">;</font><br />
+<a name="line.42"><font color="#808080">42</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;DEFAULT_FILE&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;ANNIE_with_defaults.gapp&#34;</font><font color="#000000">;</font><br />
+<a name="line.43"><font color="#808080">43</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.44"><font color="#808080">44</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;feature&nbsp;on&nbsp;Documents&nbsp;that&nbsp;holds&nbsp;coreference&nbsp;matches.&nbsp;*/</font><br />
+<a name="line.45"><font color="#808080">45</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;DOCUMENT_COREF_FEATURE_NAME&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;MatchesAnnots&#34;</font><font color="#000000">;</font><br />
+<a name="line.46"><font color="#808080">46</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.47"><font color="#808080">47</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f5fbf">/**&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;feature&nbsp;on&nbsp;Annotations&nbsp;that&nbsp;holds&nbsp;coreference&nbsp;matches.&nbsp;*/</font><br />
+<a name="line.48"><font color="#808080">48</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;ANNOTATION_COREF_FEATURE_NAME&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;matches&#34;</font><font color="#000000">;</font><br />
+<a name="line.49"><font color="#808080">49</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.50"><font color="#808080">50</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;TOKEN_ANNOTATION_TYPE&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;Token&#34;</font><font color="#000000">;</font><br />
+<a name="line.51"><font color="#808080">51</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;TOKEN_STRING_FEATURE_NAME&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;string&#34;</font><font color="#000000">;</font><br />
+<a name="line.52"><font color="#808080">52</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;TOKEN_CATEGORY_FEATURE_NAME&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;category&#34;</font><font color="#000000">;</font><br />
+<a name="line.53"><font color="#808080">53</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;TOKEN_KIND_FEATURE_NAME&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;kind&#34;</font><font color="#000000">;</font><br />
+<a name="line.54"><font color="#808080">54</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;TOKEN_LENGTH_FEATURE_NAME&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;length&#34;</font><font color="#000000">;</font><br />
+<a name="line.55"><font color="#808080">55</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;TOKEN_ORTH_FEATURE_NAME&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;orth&#34;</font><font color="#000000">;</font><br />
+<a name="line.56"><font color="#808080">56</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.57"><font color="#808080">57</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;SPACE_TOKEN_ANNOTATION_TYPE&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;SpaceToken&#34;</font><font color="#000000">;</font><br />
+<a name="line.58"><font color="#808080">58</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.59"><font color="#808080">59</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;LOOKUP_ANNOTATION_TYPE&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;Lookup&#34;</font><font color="#000000">;</font><br />
+<a name="line.60"><font color="#808080">60</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;LOOKUP_MAJOR_TYPE_FEATURE_NAME&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;majorType&#34;</font><font color="#000000">;</font><br />
+<a name="line.61"><font color="#808080">61</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;LOOKUP_MINOR_TYPE_FEATURE_NAME&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;minorType&#34;</font><font color="#000000">;</font><br />
+<a name="line.62"><font color="#808080">62</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;LOOKUP_LANGUAGE_FEATURE_NAME&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;language&#34;</font><font color="#000000">;&nbsp;&nbsp;</font><br />
+<a name="line.63"><font color="#808080">63</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;LOOKUP_ONTOLOGY_FEATURE_NAME&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;ontology&#34;</font><font color="#000000">;</font><br />
+<a name="line.64"><font color="#808080">64</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;LOOKUP_CLASS_FEATURE_NAME&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;class&#34;</font><font color="#000000">;</font><br />
+<a name="line.65"><font color="#808080">65</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;LOOKUP_INSTANCE_FEATURE_NAME&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;inst&#34;</font><font color="#000000">;</font><br />
+<a name="line.66"><font color="#808080">66</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.67"><font color="#808080">67</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;SENTENCE_ANNOTATION_TYPE&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;Sentence&#34;</font><font color="#000000">;</font><br />
+<a name="line.68"><font color="#808080">68</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.69"><font color="#808080">69</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;PERSON_ANNOTATION_TYPE&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;Person&#34;</font><font color="#000000">;</font><br />
+<a name="line.70"><font color="#808080">70</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;PERSON_GENDER_FEATURE_NAME&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;gender&#34;</font><font color="#000000">;</font><br />
+<a name="line.71"><font color="#808080">71</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.72"><font color="#808080">72</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;ORGANIZATION_ANNOTATION_TYPE&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;Organization&#34;</font><font color="#000000">;</font><br />
+<a name="line.73"><font color="#808080">73</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;LOCATION_ANNOTATION_TYPE&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;Location&#34;</font><font color="#000000">;</font><br />
+<a name="line.74"><font color="#808080">74</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;MONEY_ANNOTATION_TYPE&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;Money&#34;</font><font color="#000000">;</font><br />
+<a name="line.75"><font color="#808080">75</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;DATE_ANNOTATION_TYPE&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;Date&#34;</font><font color="#000000">;</font><br />
+<a name="line.76"><font color="#808080">76</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.77"><font color="#808080">77</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;DATE_POSTED_ANNOTATION_TYPE&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;Date_Posted&#34;</font><font color="#000000">;</font><br />
+<a name="line.78"><font color="#808080">78</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;final&nbsp;</b></font><font color="#000000">String&nbsp;JOB_ID_ANNOTATION_TYPE&nbsp;=&nbsp;</font><font color="#2a00ff">&#34;JobId&#34;</font><font color="#000000">;</font><br />
+<a name="line.79"><font color="#808080">79</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.80"><font color="#808080">80</font>&nbsp;</a><font color="#ffffff"></font><br />
+<a name="line.81"><font color="#808080">81</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}&nbsp;</font><font color="#3f7f5f">//&nbsp;AnnieConstants</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+</body></html>
