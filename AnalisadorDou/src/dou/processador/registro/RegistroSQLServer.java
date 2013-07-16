@@ -30,9 +30,9 @@ public class RegistroSQLServer implements RegistroLigacaoStrategy
 	@Override
 	public void registrar(Ligacao l)
 	{
-		if (l.tipoEntidade == "Orgao")
-			inserirNoBanco(l.entidade, l.identificacaoPortaria, l.textoPortaria, l.inicioPortaria, l.fimPortaria,
-					l.inicioEntidade, l.fimEntidade, l.tipoEntidade, l.data);
+		// if (l.tipoEntidade == "Orgao")
+		inserirNoBanco(l.entidade, l.identificacaoPortaria, l.textoPortaria, l.inicioPortaria, l.fimPortaria, l.inicioEntidade,
+				l.fimEntidade, l.tipoEntidade, l.data);
 	}
 
 	private void inserirNoBanco(String entidade, String identificacaoPortaria, String textoPortaria, Long offsetPortIni,

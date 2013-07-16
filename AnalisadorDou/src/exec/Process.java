@@ -5,13 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import dou.DouProcessor;
-import dou.processador.ProcessadorInicioAssinatura;
-import dou.processador.registro.RegistroCSVFile;
+import dou.processador.ProcessadorInicioInicio;
+import dou.processador.registro.RegistroSQLServer;
 
 public class Process
 {
 
-	private static final String TEMP_DIR = "c:\\TempDir";
+	private static final String TEMP_DIR = "c:\\DouDownload\\TempDir2012";
 	private static ClassLoader cl;
 
 	/**
@@ -38,7 +38,41 @@ public class Process
 				+ "   size: " + arquivo.length() + "###arquivoPequeno: " + arquivoPequeno.getName() + "   size: "
 				+ arquivoPequeno.length());
 
-		new DouProcessor().processFile(gapp, arquivoPequeno, new ProcessadorInicioAssinatura(), new RegistroCSVFile());
+		try
+		{
+
+			new DouProcessor().processFile(gapp, arquivoPequeno, new ProcessadorInicioInicio(), new RegistroSQLServer());
+
+			if (arquivoPequeno.renameTo(new File("C:\\DouDownload\\TempDirSuccess\\" + arquivoPequeno.getName())))
+			{
+				System.out.println("File is moved successful!");
+			} else
+			{
+				System.out.println("File is failed to move!");
+			}
+
+		} catch (Exception e)
+		{
+			System.out.println("Exceção ao processar arquivo: " + arquivoPequeno.getName());
+			e.printStackTrace();
+
+			try
+			{
+
+				if (arquivoPequeno.renameTo(new File("C:\\TempDirError\\" + arquivoPequeno.getName())))
+				{
+					System.out.println("File is moved successful!");
+				} else
+				{
+					System.out.println("File is failed to move!");
+				}
+
+			} catch (Exception ex)
+			{
+				ex.printStackTrace();
+			}
+
+		}
 
 		System.out.println("");
 		// }

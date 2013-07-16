@@ -30,9 +30,9 @@ public class RegistroSiorgSQLServer implements RegistroLigacaoStrategy
 	@Override
 	public void registrar(Ligacao l)
 	{
-		if (l.tipoEntidade == "Orgao")
-			inserirNoBanco(l.entidade, String.valueOf(l.idEntidade), l.particao, l.identificacaoPortaria, l.textoPortaria,
-					l.inicioPortaria, l.fimPortaria, l.inicioEntidade, l.fimEntidade, l.tipoEntidade, l.data);
+		// if (l.tipoEntidade == "Orgao")
+		inserirNoBanco(l.entidade, String.valueOf(l.idEntidade), l.particao, l.identificacaoPortaria, l.textoPortaria,
+				l.inicioPortaria, l.fimPortaria, l.inicioEntidade, l.fimEntidade, l.tipoEntidade, l.data);
 	}
 
 	private void inserirNoBanco(String entidade, String codigoSiorg, int particao, String identificacaoPortaria,
