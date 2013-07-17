@@ -9,5 +9,50 @@
 	<classpathentry kind="lib" path="src/itext-5.4.0/itextpdf-5.4.0.jar"/>
 	<classpathentry kind="lib" path="src/itext-5.4.0/itext-pdfa-5.4.0.jar"/>
 	<classpathentry kind="lib" path="src/itext-5.4.0/itext-xtra-5.4.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/ant.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/ant-launcher.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/aopalliance.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/apache-mime4j-core.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/apache-mime4j-dom.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/bcmail-jdk15.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/bcprov-jdk15.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/commons-codec.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/commons-compress.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/commons-io.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/commons-lang.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/dom4j.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/flying-saucer-core.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/fontbox.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/gate-asm.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/gate-compiler-jdt.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/ivy.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/java-getopt.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/jaxen.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/jdom.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/jempbox.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/junit.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/log4j.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/lucene-core.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/metadata-extractor.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/nekohtml.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/pdfbox.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/poi.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/poi-ooxml.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/poi-ooxml-schemas.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/poi-scratchpad.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/spring-aop.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/spring-beans.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/spring-core.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/stax2-api.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/tika-core.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/tika-parsers.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/woodstox-core-lgpl.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/xmlbeans.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/xmlunit.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/xpp3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/xstream.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/bin/gate.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
