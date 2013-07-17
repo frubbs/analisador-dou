@@ -22,7 +22,8 @@ public class PDFDownloader
 			FileOutputStream fos = new FileOutputStream(fileDestination);
 			Long bytes = fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
 
-			return (bytes > 0);
+			System.out.println("Bytes: " + bytes);
+			return (bytes > 1024); // quando nao existe retorna 414 bytes de lixo. 1024 por segurança
 
 		} catch (Exception e)
 		{
