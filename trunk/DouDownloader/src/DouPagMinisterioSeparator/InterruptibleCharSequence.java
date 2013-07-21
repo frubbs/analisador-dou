@@ -1,4 +1,4 @@
-package DouPdfToText;
+package DouPagMinisterioSeparator;
 
 /**
  * CharSequence that noticed thread interrupts -- as might be necessary 

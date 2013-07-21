@@ -1,4 +1,4 @@
-package DouPdfToText;
+package DouPagMinisterioSeparator;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -8,14 +8,10 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 
+import DouPDFPagesToTextDayConverter.DouPagesToDayConverter;
+
 public class DouPagMinisterioSeparator
 {
-
-	private static String FILEPATERN = "@FILEDATEJOR@-@PAG@.pdf";
-
-	private static final int ESTIMATED_LAST_SECTION_PAGES = 200;
-
-	private static final int FILENAME_DATE_JOR_SIZE = 14; // Tamanho do nome do arquivo até uma posiçao antes da pagina
 
 	/**
 	 * @param args
@@ -40,6 +36,7 @@ public class DouPagMinisterioSeparator
 			}
 		});
 
+		// para cada primeira pagina extrai o summario, move os arquivos e compila as paginas para texto
 		for (final File firstPage : files)
 		{
 			System.out.println("file: " + firstPage.getName());
@@ -52,14 +49,19 @@ public class DouPagMinisterioSeparator
 				{
 					// Processa os arquivos do mesmo dia e jornal do 'firstPage' encontrado
 					return name.endsWith(".pdf")
-							&& name.substring(0, FILENAME_DATE_JOR_SIZE).equals(
-									firstPage.getName().substring(0, FILENAME_DATE_JOR_SIZE));
+							&& name.substring(0, Util.Util.FILENAME_DATE_JOR_SIZE).equals(
+									firstPage.getName().substring(0, Util.Util.FILENAME_DATE_JOR_SIZE));
 				}
 			});
+
+			// move os arquivos
 			for (File currentFileChild : currentfiles)
 			{
 				moveFileToMinisterioFolder(currentFileChild, summ.get(currentFileChild.getName().trim()));
 			}
+
+			// compila os textos dos ministerios em um unico arquivo do dia para cada jornal.
+			DouPagesToDayConverter.convertBasedateFiles(firstPage);
 
 		}
 	}
@@ -100,7 +102,8 @@ public class DouPagMinisterioSeparator
 		try
 		{
 			File file = new File(fileName);
-			String fileNamePattern = FILEPATERN.replace("@FILEDATEJOR@", file.getName().substring(0, FILENAME_DATE_JOR_SIZE));
+			String fileNamePattern = Util.Util.FILEPATERN.replace("@FILEDATEJOR@",
+					file.getName().substring(0, Util.Util.FILENAME_DATE_JOR_SIZE));
 
 			String sumario = SummaryExtractor.extractRawSummaryFromFile(file);
 
@@ -156,7 +159,8 @@ public class DouPagMinisterioSeparator
 
 			// Preenche os arquivos da ultima sessao estimando o numero de paginas que pod ter. nao ha problema ter mais do que
 			// existe de fato
-			for (int i = Integer.parseInt(paginaAnterior); i < Integer.parseInt(paginaAnterior) + ESTIMATED_LAST_SECTION_PAGES; i++)
+			for (int i = Integer.parseInt(paginaAnterior); i < Integer.parseInt(paginaAnterior)
+					+ Util.Util.ESTIMATED_LAST_SECTION_PAGES; i++)
 			{
 				String tempPagina = String.valueOf(i);
 				dic.put(fileNamePattern.replace("@PAG@", tempPagina), ministerioAnterior);

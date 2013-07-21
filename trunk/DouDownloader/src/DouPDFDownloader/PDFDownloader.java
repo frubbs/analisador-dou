@@ -11,7 +11,7 @@ public class PDFDownloader
 {
 	public static boolean DownloadPDF(String url, String fileDestination)
 	{
-		System.out.println(new SimpleDateFormat("dd/MM/yyyy HH:mm:SS").format(new Date()) + " - Processing p: " + url);
+		System.out.println(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()) + " - Processing p: " + url);
 		System.out.println("Downloading r: " + fileDestination);
 
 		URL website;
