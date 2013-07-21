@@ -70,6 +70,7 @@ import com.itextpdf.text.pdf.parser.Vector;
  * 
  * @since 5.0.2
  */
+@Deprecated
 public class CustomLocationTextExtractionStrategy implements TextExtractionStrategy
 {
 

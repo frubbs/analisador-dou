@@ -1,4 +1,4 @@
-package DouPdfToText;
+package DouPagMinisterioSeparator;
 
 import gate.Document;
 import gate.Factory;

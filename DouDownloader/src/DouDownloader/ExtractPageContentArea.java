@@ -27,6 +27,7 @@ import com.itextpdf.text.pdf.parser.RegionTextRenderFilter;
 import com.itextpdf.text.pdf.parser.RenderFilter;
 import com.itextpdf.text.pdf.parser.TextExtractionStrategy;
 
+@Deprecated
 public class ExtractPageContentArea
 {
 

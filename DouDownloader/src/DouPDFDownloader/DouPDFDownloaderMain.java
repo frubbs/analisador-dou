@@ -32,7 +32,8 @@ public class DouPDFDownloaderMain
 		while (data != "fim")
 		{
 			String url = URL.replace("@DATA@", data);
-			String file = FILENAME.replace("@DATA@", data.replaceAll("/", "")).replace("@PATH@", path);
+			String file = FILENAME.replace("@DATA@", data.replaceAll("/", "")).replace("@PATH@", path); // TODO colocar cada dia
+																										// numa pasta
 
 			for (int i = 1; i <= 3; i++)
 			{

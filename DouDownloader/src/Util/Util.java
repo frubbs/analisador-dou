@@ -6,6 +6,13 @@ import java.util.Calendar;
 
 public class Util
 {
+
+	public static String FILEPATERN = "@FILEDATEJOR@-@PAG@.pdf";
+
+	public static final int ESTIMATED_LAST_SECTION_PAGES = 200;
+
+	public static final int FILENAME_DATE_JOR_SIZE = 14; // Tamanho do nome do arquivo até uma posiçao antes da pagina
+
 	public static String getnextDate(String baseDate, String dtlimite)
 	{
 
