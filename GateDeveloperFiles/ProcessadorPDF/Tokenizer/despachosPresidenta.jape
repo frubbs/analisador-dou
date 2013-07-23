@@ -1,0 +1,20 @@
+// Valentin Tablan, 29/06/2001
+// $id$
+
+
+Phase:despachosPresidenta
+Input: Token SpaceToken Lookup NOVALINHA
+Options: control = appelt
+
+MACRO: INICIODESPACHOSPRESIDENTA
+(
+	{Lookup.majorType == "DespachosPresidenta"}
+) 
+
+Rule: IniDesPres
+(
+	(NOVALINHA)(INICIODESPACHOSPRESIDENTA)
+): dp
+-->
+:dp.IniDesPres = {}
+

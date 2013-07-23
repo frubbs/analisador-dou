@@ -1,0 +1,40 @@
+// Valentin Tablan, 29/06/2001
+// $id$
+
+
+Phase:adins
+Input: Token SpaceToken Lookup NOVALINHA DATACOMPLETA
+Options: control = appelt
+
+//PORTARIA INTERMINISTERIAL No- 377,
+//DE 25 DE ABRIL DE 2013
+
+
+MACRO: INICIOPORTARIAINTER
+(
+	{Lookup.majorType == "PortariaInterministerial"}
+	{SpaceToken}
+	({Token.string== "No"} | {Token.string== "No-"})
+	{SpaceToken}
+	({Token.kind== "number"})
+    ({Token.kind== "punctuation"})?
+	({Token.kind== "number"})?
+	({SpaceToken})?
+	{Token.string== ","}
+) 
+
+
+MACRO: FIMPORTARIAINTER
+(
+	({Token.string== "DE"} |{Token.string== "De"})
+    {SpaceToken}
+	(DATACOMPLETA)
+)
+
+Rule: IniporInt
+(
+	(NOVALINHA)(INICIOPORTARIAINTER) ({SpaceToken})? (NOVALINHA) (FIMPORTARIAINTER)
+): pint
+-->
+:pint.IniporInt = {}
+

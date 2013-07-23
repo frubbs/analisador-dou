@@ -14,13 +14,21 @@ public class DouPDFtoTextConverter
 
 	public static String convertFile(File file) throws MalformedURLException, GateException
 	{
-		String fileContent = getFileContent(file);
+		try
+		{
 
-		String adjustedFileContent = adjustLineBreaks(fileContent);
+			String fileContent = getFileContent(file);
 
-		// System.out.println(adjustedFileContent);
+			String adjustedFileContent = adjustLineBreaks(fileContent);
 
-		return adjustedFileContent;
+			// System.out.println(adjustedFileContent);
+
+			return adjustedFileContent;
+		} catch (GateException e)
+		{
+			e.printStackTrace();
+			return "";
+		}
 
 	}
 

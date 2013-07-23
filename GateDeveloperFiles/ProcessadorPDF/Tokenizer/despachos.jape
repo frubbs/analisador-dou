@@ -1,0 +1,45 @@
+// Valentin Tablan, 29/06/2001
+// $id$
+
+
+Phase:despachos
+Input: Token SpaceToken Lookup NOVALINHA DATACOMPLETA
+Options: control = appelt
+
+//DESPACHOS DO DIRETOR-PRESIDENTE
+//Em 25 de junho de 2013
+
+
+MACRO: INICIODESPACHO
+(
+	({Token.string== "Despachos"} | {Token.string== "DESPACHOS"} | {Token.string== "Despacho"} | {Token.string== "DESPACHO"})
+	{SpaceToken}
+	({Token.string== "DO"} | {Token.string== "Do"} | {Token.string== "DA"} | {Token.string== "Da"})
+	{SpaceToken}
+	{Lookup.majorType == "Cargo"}
+) 
+
+MACRO: INICIODESPACHO
+(
+	({Token.string== "Despachos"} | {Token.string== "DESPACHOS"} | {Token.string== "Despacho"} | {Token.string== "DESPACHO"})
+	{SpaceToken}
+	({Token.string== "DO"} | {Token.string== "Do"} | {Token.string== "DA"} | {Token.string== "Da"})
+	{SpaceToken}
+	{Lookup.majorType == "Cargo"}
+) 
+
+MACRO: FIMDESPACHO
+(
+	({Token.string== "Em"})
+    {SpaceToken}
+	(DATACOMPLETA)
+)
+
+
+Rule: IniDes
+(
+	(NOVALINHA)(INICIODESPACHO)	 ({SpaceToken})* (NOVALINHA)(FIMDESPACHO)
+): des
+-->
+:des.IniDespacho = {kind="Inicio"}
+

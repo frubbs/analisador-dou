@@ -1,0 +1,58 @@
+// Valentin Tablan, 29/06/2001
+// $id$
+
+
+Phase:assinaturas
+Input: Token SpaceToken Lookup ORGAOCOMPLETO NOMECOMPLETO
+Options: control = appelt
+
+
+MACRO: _ASSINATURA
+(
+	(NOMECOMPLETO)[1,4]
+	({SpaceToken})[0,3]
+	({Lookup.majorType == "QuebraLinha"})[1,2]
+	({SpaceToken})[0,3]
+	(ORGAOCOMPLETO)[1,6]
+
+)	
+
+
+MACRO: _ASSINATURA2
+(
+	(NOMECOMPLETO)[1,4]
+	({SpaceToken})[0,3]
+	(ORGAOCOMPLETO)[1,6]
+	({Lookup.majorType == "QuebraLinha"})[1,2]
+
+)
+
+MACRO: ASSINATURA
+(
+	(_ASSINATURA) | (_ASSINATURA2)
+)
+
+
+Rule: Assinatura
+(
+	(_ASSINATURA)
+)	
+: assinatura
+-->
+:assinatura.Assinatura = { kind = "NomeLFOrgao" }
+
+
+Rule: Assinatura2	
+(
+	(_ASSINATURA2)
+): assinatura2
+-->
+:assinatura2.Assinatura = { kind = "NomeCargoLF" }
+
+
+
+		
+		
+
+
+		
