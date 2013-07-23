@@ -1,0 +1,29 @@
+// Valentin Tablan, 29/06/2001
+// $id$
+
+
+Phase:adins
+Input: Token SpaceToken Lookup NOVALINHA
+Options: control = appelt
+
+MACRO: INICIOADIN
+(
+	{Lookup.majorType == "Adin"}
+	{SpaceToken}
+	({Token.kind== "number"})[1]
+    ({Token.kind== "punctuation"})?
+	({Token.kind== "number"})?
+	{SpaceToken}
+	({Token.position== "startpunct"})[1]
+	({Token.kind== "number"})[1]
+    ({Token.position== "endpunct"})[1]
+    
+) 
+
+Rule: IniAdin
+(
+	(NOVALINHA)(INICIOADIN)
+): adin
+-->
+:adin.IniAdin = {}
+

@@ -1,0 +1,38 @@
+// Valentin Tablan, 29/06/2001
+// $id$
+
+
+Phase:novalinha
+Input: Token SpaceToken Lookup 
+Options: control = appelt
+
+
+MACRO: DATACOMPLETA
+(
+	({Token.kind== "number"})
+	({Token.string=="o-"})? //dia 1o- de Abril
+    {SpaceToken}
+	({Token.string== "DE"} | {Token.string== "De"} | {Token.string== "de"})
+	{SpaceToken}
+	({Token.kind== "word"})
+	{SpaceToken}
+	({Token.string== "DE"} | {Token.string== "De"} | {Token.string== "de"})
+	{SpaceToken}
+	({Token.kind== "number"})
+)
+
+
+MACRO: NOVALINHA
+(
+({SpaceToken.kind==control})+
+({SpaceToken.kind==space})*
+//({Token})
+) 
+
+Rule: NovaLinha
+(
+	(NOVALINHA)
+): new
+-->
+:new.NovaLinha = {}
+

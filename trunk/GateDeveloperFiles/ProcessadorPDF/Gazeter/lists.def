@@ -1,0 +1,8 @@
+names.lst:Nome:listaSQL
+conectores.lst:Conector:listaBCE
+inicioPortaria.lst:InicioPortaria:listaBCE
+adin.lst:Adin
+lei.lst:Lei
+despachosPresidenta.lst:DespachosPresidenta
+cargos.lst:Cargo
+portariaInterministerial.lst:PortariaInterministerial
