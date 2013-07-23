@@ -71,6 +71,10 @@ public class DouPagMinisterioSeparator
 
 		if (destDir != null)
 		{
+
+			destDir = destDir.trim().replace(" ", "_");
+			destDir = destDir.replaceAll("[^a-zA-Z0-9]+", "");
+
 			File theDir = new File(currentFileChild.getParent() + "\\" + destDir.trim());
 			if (!theDir.exists())
 				if (!theDir.mkdir())
