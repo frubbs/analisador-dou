@@ -31,10 +31,10 @@ MACRO: FIMPORTARIAINTER
 	(DATACOMPLETA)
 )
 
-Rule: IniporInt
+Rule: Inicio
 (
 	(NOVALINHA)(INICIOPORTARIAINTER) ({SpaceToken})? (NOVALINHA) (FIMPORTARIAINTER)
 ): pint
 -->
-:pint.IniporInt = {}
+:pint.Inicio = {kind = "IniporInt"}
 

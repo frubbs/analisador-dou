@@ -11,10 +11,10 @@ MACRO: INICIODESPACHOSPRESIDENTA
 	{Lookup.majorType == "DespachosPresidenta"}
 ) 
 
-Rule: IniDesPres
+Rule: Inicio
 (
 	(NOVALINHA)(INICIODESPACHOSPRESIDENTA)
 ): dp
 -->
-:dp.IniDesPres = {}
+:dp.Inicio = { kind = "IniDesPres"}
 
