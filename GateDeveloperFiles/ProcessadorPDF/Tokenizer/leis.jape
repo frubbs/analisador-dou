@@ -25,10 +25,10 @@ MACRO: INICIOLEI
 	(DATACOMPLETA)
 ) 
 
-Rule: IniLei
+Rule: Inicio
 (
 	(NOVALINHA)(INICIOLEI)
 ): lei
 -->
-:lei.IniLei = {}
+:lei.Inicio = {kind = "IniLei"}
 

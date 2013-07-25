@@ -20,10 +20,10 @@ MACRO: INICIOADIN
     
 ) 
 
-Rule: IniAdin
+Rule: Inicio
 (
 	(NOVALINHA)(INICIOADIN)
 ): adin
 -->
-:adin.IniAdin = {}
+:adin.Inicio = {kind = "IniAdin"}
 

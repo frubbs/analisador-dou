@@ -36,10 +36,10 @@ MACRO: FIMDESPACHO
 )
 
 
-Rule: IniDes
+Rule: Inicio
 (
 	(NOVALINHA)(INICIODESPACHO)	 ({SpaceToken})* (NOVALINHA)(FIMDESPACHO)
 ): des
 -->
-:des.IniDespacho = {kind="Inicio"}
+:des.Inicio = {kind="InicioDespacho"}
 

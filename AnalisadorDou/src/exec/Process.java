@@ -11,9 +11,6 @@ import dou.processador.registro.RegistroSQLServer;
 public class Process
 {
 
-	private static final String TEMP_DIR = "c:\\DouDownload\\TempDir2012";
-	private static ClassLoader cl;
-
 	/**
 	 * @param args
 	 * @throws Exception
@@ -43,13 +40,17 @@ public class Process
 
 			new DouProcessor().processFile(gapp, arquivoPequeno, new ProcessadorInicioInicio(), new RegistroSQLServer());
 
-			if (arquivoPequeno.renameTo(new File("C:\\DouDownload\\TempDirSuccess\\" + arquivoPequeno.getName())))
-			{
-				System.out.println("File is moved successful!");
-			} else
-			{
-				System.out.println("File is failed to move!");
-			}
+			File newFile = new File(arquivoPequeno.getAbsolutePath().replace("\\txt\\", "\\ProcessedTxt\\"));
+
+			File theDir = new File(newFile.getParent());
+			if (!theDir.exists())
+				theDir.mkdir();
+
+			System.out.println("NewFile: " + newFile.getAbsolutePath());
+			/*
+			 * if (arquivoPequeno.renameTo(newFile)) { System.out.println("File is moved successful!"); } else {
+			 * System.out.println("File is failed to move!"); }
+			 */
 
 		} catch (Exception e)
 		{
