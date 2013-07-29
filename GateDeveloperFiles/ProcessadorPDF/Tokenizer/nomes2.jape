@@ -1,0 +1,55 @@
+// Valentin Tablan, 29/06/2001
+// $id$
+
+
+Phase:nomes2
+Input: Token SpaceToken Lookup
+Options: control = appelt
+
+
+
+MACRO: SequenciaIniMaiuscula
+(
+	({Token.orth == "upperInitial"})
+	({SpaceToken, SpaceToken.kind!=control})[1,2]
+	(
+		({Token.orth == "upperInitial"} | {Lookup.majorType == "Conector"})
+		({SpaceToken, SpaceToken.kind!=control})[0,2]
+	)[1,8]
+	({Token.string == "/"}{Token.orth == "allCaps", Token.length == "2"})?
+)
+
+MACRO: SequenciaMaiuscula
+(
+	({Token.orth == "allCaps"})
+	({SpaceToken, SpaceToken.kind!=control})[1,2]
+	(
+		({Token.orth == "allCaps"} | {Lookup.majorType == "Conector"})
+		({SpaceToken, SpaceToken.kind!=control})[0,2]
+	)[1,8]
+	({Token.string == "/"}{Token.orth == "allCaps", Token.length == "2"})?
+)
+
+Rule: Seq	
+(
+//	({NomeSimples within {SequenciaIniMaiuscula}})
+//(NomeSimples)
+//(SequenciaIniMaiuscula)
+
+(SequenciaIniMaiuscula)	| (SequenciaMaiuscula)
+): sequ
+-->
+:sequ.Seq = { kind = "Sequencia" }
+
+
+
+
+
+
+
+
+		
+		
+
+
+		

@@ -15,13 +15,13 @@ MACRO: CompletoMaiusculo
 (
     (
 		({Token.orth == "allCaps", Token.string != "Rua"})
-		({SpaceToken})[1,3]
+		({SpaceToken, SpaceToken.kind!=control})[1,3]
 	)[0,4]
 	{Lookup.majorType == [TipoEntidade]}
-	({SpaceToken})[1,3]
+	({SpaceToken, SpaceToken.kind!=control})[1,3]
     (
 		({Token.orth == "allCaps"} | {Lookup.majorType == "Conector"})
-		({SpaceToken})[0,3]
+		({SpaceToken, SpaceToken.kind!=control})[0,3]
 		
 	)[1,4]
 )
@@ -30,13 +30,13 @@ MACRO: CompletoInicial
 (
     (
 		({Token.orth == "upperInitial" , Token.string != "Rua"})
-		({SpaceToken})[1,3]
+		({SpaceToken, SpaceToken.kind!=control})[1,3]
 	)[0,4]
 	{Lookup.majorType == [TipoEntidade]}
-	({SpaceToken})[1,3]
+	({SpaceToken, SpaceToken.kind!=control})[1,3]
     (
 		({Token.orth == "upperInitial"} | {Lookup.majorType == "Conector"} )
-		({SpaceToken})[0,3]
+		({SpaceToken, SpaceToken.kind!=control})[0,3]
 	)[1,4]
 )
 

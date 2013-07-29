@@ -6,6 +6,15 @@ Phase:novalinha
 Input: Token SpaceToken Lookup 
 Options: control = appelt
 
+MACRO: CABECALHO
+(
+	(
+		({Token.orth == "allCaps" , Token notWithin {EntidadeIdentificada.kind == "Nome"}}
+		 | {Token.orth == "upperInitial" , Token.length == 1}
+		) 
+		({SpaceToken})[0,3]
+	)[0,15]
+)
 
 MACRO: DATACOMPLETA
 (
@@ -29,10 +38,13 @@ MACRO: NOVALINHA
 //({Token})
 ) 
 
+
 Rule: NovaLinha
 (
 	(NOVALINHA)
 ): new
 -->
 :new.NovaLinha = {}
+
+
 
