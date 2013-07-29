@@ -1,0 +1,32 @@
+// Valentin Tablan, 29/06/2001
+// $id$
+
+
+Phase:nomes3
+Input: Token SpaceToken Lookup Seq
+Options: control = appelt
+
+
+
+
+MACRO: NomeSimples
+(
+	{
+		Seq.kind == "Sequencia", 
+		Seq contains {Lookup.majorType == "Nome"}, 
+		Seq notContains {Lookup.majorType == "naoNome"}
+	}
+)
+
+
+Rule: Nome2	
+(
+//	({NomeSimples within {SequenciaIniMaiuscula}})
+//(NomeSimples)
+//(SequenciaIniMaiuscula)
+(NomeSimples)
+	
+): nomeCompleto2
+-->
+:nomeCompleto2.Nome2 = { kind = "Nome2" }
+

@@ -3,21 +3,13 @@
 
 
 Phase:despachos
-Input: Token SpaceToken Lookup NOVALINHA DATACOMPLETA
+Input: Token SpaceToken Lookup NOVALINHA DATACOMPLETA ORGAOCABECALHO
 Options: control = appelt
 
+//CASA CIVIL
 //DESPACHOS DO DIRETOR-PRESIDENTE
 //Em 25 de junho de 2013
 
-
-MACRO: INICIODESPACHO
-(
-	({Token.string== "Despachos"} | {Token.string== "DESPACHOS"} | {Token.string== "Despacho"} | {Token.string== "DESPACHO"})
-	{SpaceToken}
-	({Token.string== "DO"} | {Token.string== "Do"} | {Token.string== "DA"} | {Token.string== "Da"})
-	{SpaceToken}
-	{Lookup.majorType == "Cargo"}
-) 
 
 MACRO: INICIODESPACHO
 (
@@ -35,11 +27,26 @@ MACRO: FIMDESPACHO
 	(DATACOMPLETA)
 )
 
+/*
+Rule: Inicio2
+(
+	((NOVALINHA)({Lookup.majorType == "Orgao"}))[0,2]
+	(NOVALINHA)(INICIODESPACHO)	 ({SpaceToken})* 
+	(NOVALINHA)(FIMDESPACHO)
+): des
+-->
+:des.Inicio2 = {kind="InicioDespacho"}
+*/
+
 
 Rule: Inicio
 (
-	(NOVALINHA)(INICIODESPACHO)	 ({SpaceToken})* (NOVALINHA)(FIMDESPACHO)
+	(CABECALHO)
+	(NOVALINHA)(INICIODESPACHO)	 ({SpaceToken})* 
+	(NOVALINHA)(FIMDESPACHO)
 ): des
 -->
 :des.Inicio = {kind="InicioDespacho"}
+
+
 

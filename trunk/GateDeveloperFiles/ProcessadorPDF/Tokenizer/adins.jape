@@ -22,6 +22,7 @@ MACRO: INICIOADIN
 
 Rule: Inicio
 (
+	(CABECALHO)
 	(NOVALINHA)(INICIOADIN)
 ): adin
 -->

@@ -27,6 +27,7 @@ MACRO: INICIOLEI
 
 Rule: Inicio
 (
+	(CABECALHO)
 	(NOVALINHA)(INICIOLEI)
 ): lei
 -->
