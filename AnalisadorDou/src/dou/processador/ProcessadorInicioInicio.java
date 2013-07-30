@@ -4,6 +4,7 @@ import gate.AnnotationSet;
 import gate.Document;
 import gate.SimpleFeatureMap;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class ProcessadorInicioInicio implements ProcessadorAnotacoes
 {
 
 	@Override
-	public void process(String docFile, Document doc, RegistroLigacaoStrategy strategy)
+	public void process(File docFile, Document doc, RegistroLigacaoStrategy strategy)
 	{
 
 		try
@@ -27,7 +28,7 @@ public class ProcessadorInicioInicio implements ProcessadorAnotacoes
 			List<gate.Annotation> inicioList = gate.Utils.inDocumentOrder(todasAnnots.get("Inicio"));
 			List<gate.Annotation> entidadeList = gate.Utils.inDocumentOrder(todasAnnots.get("EntidadeIdentificada"));
 			long annotEnd = System.currentTimeMillis();
-			System.out.println("Extrair as anotações: " + (annotEnd - annotStart) + " ms");
+			// System.out.println("Extrair as anotações: " + (annotEnd - annotStart) + " ms");
 
 			// Para cada inicio procura a proxima assinatura, que indica o fim
 			// da portaria
@@ -57,7 +58,7 @@ public class ProcessadorInicioInicio implements ProcessadorAnotacoes
 				 * long ordemEnd = System.currentTimeMillis(); System.out.println("Ordenar: " + (ordemEnd - ordemStart) + " ms");
 				 */
 
-				String identificacaoPortaria = Util.gerarIdentificacaoUnicaPortaria(annIni, docFile);
+				String identificacaoPortaria = Util.gerarIdentificacaoUnicaPortaria(annIni, docFile.getName());
 
 				// se chegamos aqui temos uma portaria identificada. vamos
 				// anotar as entidades nela presentes.
@@ -125,8 +126,8 @@ public class ProcessadorInicioInicio implements ProcessadorAnotacoes
 							long textStart = System.currentTimeMillis();
 							String textoPortaria = doc.getContent().getContent(inicioPortaria, fimPortaria).toString();
 							long textEnd = System.currentTimeMillis();
-							System.out.println("ExtraiTextoPortaria (" + identificacaoPortaria + ") : " + (textEnd - textStart)
-									+ " ms");
+							// System.out.println("ExtraiTextoPortaria (" + identificacaoPortaria + ") : " + (textEnd - textStart)
+							// + " ms");
 
 							int particao = featureMap.get("Particao") != null ? Integer.parseInt(featureMap.get("Particao")
 									.toString()) : 0;
@@ -137,15 +138,16 @@ public class ProcessadorInicioInicio implements ProcessadorAnotacoes
 																									// resolver
 																									// o
 																									// kind
-									docFile, Util.extrairDataDoNomeDoArquivo(docFile)));
+									docFile.getAbsolutePath(), Util.extrairDataDoNomeDoArquivo(docFile.getName())));
 
 							entidadesEncontradas.add(annEnt);
 						}// TODO se falhar aqui ja pode sair fora. a lista esta
 							// ordenada.
 						else
 						{
-							System.out.println("saind pois inicioEntidade (" + inicioEntidade + ") > fimportaria (" + fimPortaria
-									+ ")");
+							// System.out.println("saind pois inicioEntidade (" + inicioEntidade + ") > fimportaria (" +
+							// fimPortaria
+							// + ")");
 							break;
 						}
 					}
@@ -168,7 +170,7 @@ public class ProcessadorInicioInicio implements ProcessadorAnotacoes
 				 */
 
 				long entidadeEnd = System.currentTimeMillis();
-				System.out.println("entidades: " + (entidadeEnd - entidadeStart) + "ms");
+				// System.out.println("entidades: " + (entidadeEnd - entidadeStart) + "ms");
 				// System.in.read();
 			}// fim. vamos para o proximo inicio de portaria
 

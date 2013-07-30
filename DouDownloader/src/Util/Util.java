@@ -13,6 +13,23 @@ public class Util
 
 	public static final int FILENAME_DATE_JOR_SIZE = 14; // Tamanho do nome do arquivo até uma posiçao antes da pagina
 
+	public static String getDate(String baseDate)
+	{
+
+		String dt = baseDate;// "2008-01-01"; // Start date
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Calendar c = Calendar.getInstance();
+		try
+		{
+			c.setTime(sdf.parse(dt));
+		} catch (ParseException e)
+		{
+			// TODO Auto-generated catch block
+			return "fim";
+		}
+		return sdf.format(c.getTime());
+	}
+
 	public static String getnextDate(String baseDate, String dtlimite)
 	{
 
@@ -25,7 +42,7 @@ public class Util
 		} catch (ParseException e)
 		{
 			// TODO Auto-generated catch block
-			return "";
+			return "fim";
 		}
 
 		c.add(Calendar.DATE, -1); // number of days to add
@@ -37,7 +54,7 @@ public class Util
 		} catch (ParseException e)
 		{
 			// TODO Auto-generated catch block
-			return "";
+			return "fim";
 		}
 
 		if (!c.before(climite))

@@ -9,6 +9,7 @@ import gate.util.GateException;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,6 +54,33 @@ public class SummaryExtractor
 	static String extractRawSummaryFromFile(File file) throws GateException, ResourceInstantiationException,
 			MalformedURLException, Exception
 	{
+
+		Properties props = System.getProperties();
+		// props.setProperty("gate.plugins.home", ".\\plugins\\ANNIE");
+		props.setProperty("gate.home",
+				"C:\\Users\\Rafael\\workspace\\analisador-dou\\AnalisadorDou\\lib\\GateAPI\\gate-7.1-build4485-ALL");
+		// props.setProperty("gate.site.config", ".\\gate.xml");
+
+		/*
+		 * Properties props = System.getProperties(); props.setProperty("gate.plugins.home", ".\\plugins\\ANNIE");
+		 * props.setProperty("gate.home", ".\\bin\\gate.jar"); props.setProperty("gate.site.config", ".\\gate.xml");
+		 * 
+		 * String gateHomeStr = System.getProperty(Gate.GATE_HOME_PROPERTY_NAME);
+		 * 
+		 * // gateHomeStr = // Thread.currentThread().getContextClassLoader().getResource ("gate/Gate.class").toString();
+		 * 
+		 * System.out.println("#########8gfah: " + gateHomeStr);
+		 */
+
+		//
+		//
+		String gateHomeStr = System.getProperty(Gate.GATE_HOME_PROPERTY_NAME);
+
+		// //gateHomeStr =
+		// Thread.currentThread().getContextClassLoader().getResource("gate/Gate.class").toString();
+		//
+		System.out.println("#########8gfah: " + gateHomeStr);
+
 		Gate.init();
 
 		Document doc = Factory.newDocument(file.toURL(), null);

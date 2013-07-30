@@ -81,7 +81,7 @@ public class DouProcessor
 
 		long portariaStart = System.currentTimeMillis();
 
-		processador.process(docFile.getName(), doc, registroStrategy);
+		processador.process(docFile, doc, registroStrategy);
 
 		long portariaEnd = System.currentTimeMillis();
 		System.out.println("Portaria: " + (portariaEnd - portariaStart) + " ms");

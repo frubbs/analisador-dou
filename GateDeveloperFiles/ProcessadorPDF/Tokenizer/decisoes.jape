@@ -1,0 +1,35 @@
+// Valentin Tablan, 29/06/2001
+// $id$
+
+
+Phase:decisoes
+Input: Token SpaceToken Lookup NOVALINHA ORGAOCABECALHO
+Options: control = appelt
+
+// MINISTÉRIO PÚBLICO MILITAR
+// PROCURADORIA-GERAL DA JUSTIÇA MILITAR
+// DECISÕES DO PROCURADOR-GERAL
+
+
+
+MACRO: INICIODESPACHO
+(
+	({Token.string== "DECISÕES"} | {Token.string== "DECISÃO"} | {Token.string== "Decisões"} | {Token.string== "Decisão"})
+	{SpaceToken}
+	({Token.string== "DO"} | {Token.string== "Do"} | {Token.string== "DA"} | {Token.string== "Da"})
+	{SpaceToken}
+	{Lookup.majorType == "Cargo"}
+) 
+
+
+Rule: Inicio
+(
+	(CABECALHO)
+	(NOVALINHA)(INICIODESPACHO)	 ({SpaceToken})* 
+	(NOVALINHA)
+): des
+-->
+:des.Inicio = {kind="InicioDecisao"}
+
+
+

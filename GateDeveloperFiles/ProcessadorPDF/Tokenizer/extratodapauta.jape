@@ -1,0 +1,34 @@
+// Valentin Tablan, 29/06/2001
+// $id$
+
+
+Phase:extratodapauta
+Input: Token SpaceToken Lookup NOVALINHA
+Options: control = appelt
+
+// EXTRATO DA PAUTA Nº 13 (ORDINÁRIA)
+
+MACRO: INICIOEXTRATOPAUTA
+(
+	{Token.string == "EXTRATO"}
+	{SpaceToken}
+	{Token.string == "DA"}
+	{SpaceToken}
+	{Token.string == "PAUTA"}
+	{SpaceToken}
+	({Token.string== "No"} | {Token.string== "No-"} | {Token.string== "Nº"})
+	{SpaceToken}
+	({Token.kind== "number"})
+    ({Token.kind== "punctuation"})?
+	({Token.kind== "number"})?
+	({SpaceToken})?
+) 
+
+Rule: Inicio
+(
+	(CABECALHO)
+	(NOVALINHA)(INICIOEXTRATOPAUTA)
+): lei
+-->
+:lei.Inicio = {kind = "IniExtrPauta"}
+

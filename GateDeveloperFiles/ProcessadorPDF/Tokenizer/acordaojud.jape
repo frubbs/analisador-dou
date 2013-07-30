@@ -1,0 +1,26 @@
+// Valentin Tablan, 29/06/2001
+// $id$
+
+
+Phase:acordao
+Input: Token SpaceToken Lookup NOVALINHA
+Options: control = appelt
+
+// ACÓRDÃO
+
+MACRO: ACORDAOJUD
+(
+	{Token.string == "ACÓRDÃO"}
+	({SpaceToken})?
+) 
+
+Rule: Inicio
+(
+	(CABECALHO)
+	(NOVALINHA)
+	(ACORDAOJUD)
+	(NOVALINHA)
+): lei
+-->
+:lei.Inicio = {kind = "IniAcordao"}
+

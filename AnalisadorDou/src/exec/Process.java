@@ -47,10 +47,14 @@ public class Process
 				theDir.mkdir();
 
 			System.out.println("NewFile: " + newFile.getAbsolutePath());
-			/*
-			 * if (arquivoPequeno.renameTo(newFile)) { System.out.println("File is moved successful!"); } else {
-			 * System.out.println("File is failed to move!"); }
-			 */
+
+			if (arquivoPequeno.renameTo(newFile))
+			{
+				System.out.println("File is moved successful!");
+			} else
+			{
+				System.out.println("File is failed to move!");
+			}
 
 		} catch (Exception e)
 		{

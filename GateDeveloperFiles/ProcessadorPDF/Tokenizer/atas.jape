@@ -1,0 +1,43 @@
+// Valentin Tablan, 29/06/2001
+// $id$
+
+
+Phase:atas
+Input: Token SpaceToken Lookup NOVALINHA DATACOMPLETA
+Options: control = appelt
+
+// ATA DA 307ª SESSÃO ORDINÁRIA
+// REALIZADA EM 26 DE MARÇO DE 2013
+// Outro tipo de ata é detectado pela LEI ( ATA nxx de ....)
+
+MACRO: INICIOATA
+(
+	{Token.string == "ATA"}
+	{SpaceToken}
+	{Token.string == "DA"}
+	{SpaceToken}
+	({Token.kind== "number"})
+    ({Token.kind== "punctuation"})?
+	({Token.kind== "number"})?
+	({SpaceToken})?
+	({Token.string== "ª"})
+	{SpaceToken}
+	{Token.string== "SESSÃO"}
+	{SpaceToken}
+	{Token.string== "ORDINÁRIA"}
+	{SpaceToken}
+	({Token.string== "REALIZADA"})
+	{SpaceToken}
+	({Token.string== "EM"})
+	{SpaceToken}
+	(DATACOMPLETA)
+) 
+
+Rule: Inicio
+(
+	(CABECALHO)
+	(NOVALINHA)(INICIOATA)
+): lei
+-->
+:lei.Inicio = {kind = "IniAta"}
+
