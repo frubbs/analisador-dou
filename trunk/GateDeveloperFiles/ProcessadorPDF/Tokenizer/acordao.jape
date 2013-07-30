@@ -1,0 +1,38 @@
+// Valentin Tablan, 29/06/2001
+// $id$
+
+
+Phase:acordao
+Input: Token SpaceToken Lookup NOVALINHA
+Options: control = appelt
+
+// ACÓRDÃO Nº 2341/2013 - TCU - 1ª Câmara
+
+MACRO: ACORDAOTCU
+(
+	{Token.string == "ACÓRDÃO"}
+	{SpaceToken}
+	({Token.string== "No"} | {Token.string== "No-"} | {Token.string== "Nº"})
+	{SpaceToken}
+	({Token.kind== "number"})
+    ({Token.kind== "punctuation"})?
+	({Token.kind== "number"})?
+	({SpaceToken})?
+	({Token.string== "/"})
+	({SpaceToken})?
+	({Token.kind== "number"})
+    {SpaceToken}
+	{Token.string== "-"}
+	{SpaceToken}
+	({Token.string== "TCU"})
+) 
+
+Rule: Inicio
+(
+	(CABECALHO)
+	(NOVALINHA)
+	(ACORDAOTCU)
+): lei
+-->
+:lei.Inicio = {kind = "IniAcordao"}
+

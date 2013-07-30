@@ -27,9 +27,9 @@ public class DouPDFDownloaderMain
 		String endDate = args[1];
 		String path = args[2];
 
-		String data = Util.getnextDate(endDate, iniDate);
+		String data = endDate.equals(iniDate) ? Util.getDate(endDate) : Util.getnextDate(endDate, iniDate);
 
-		while (data != "fim")
+		do
 		{
 			String url = URL.replace("@DATA@", data);
 			String file = FILENAME.replace("@DATA@", data.replaceAll("/", "")).replace("@PATH@", path); // TODO colocar cada dia
@@ -58,7 +58,7 @@ public class DouPDFDownloaderMain
 
 			}
 			data = Util.getnextDate(data, iniDate);
-		}
+		} while (data != "fim");
 		System.out.println("Fim do processamento!");
 	}
 

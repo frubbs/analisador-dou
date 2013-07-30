@@ -5,6 +5,7 @@ import gate.AnnotationSet;
 import gate.Document;
 import gate.SimpleFeatureMap;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class ProcessadorInicioAssinatura implements ProcessadorAnotacoes
 {
 
 	@Override
-	public void process(String docFile, Document doc, RegistroLigacaoStrategy strategy)
+	public void process(File docFile, Document doc, RegistroLigacaoStrategy strategy)
 	{
 
 		try
@@ -50,7 +51,7 @@ public class ProcessadorInicioAssinatura implements ProcessadorAnotacoes
 					break; // inconsistencia. fim do processamento.
 				}
 
-				String identificacaoPortaria = Util.gerarIdentificacaoUnicaPortaria(annInicioPortaria, docFile);
+				String identificacaoPortaria = Util.gerarIdentificacaoUnicaPortaria(annInicioPortaria, docFile.getName());
 
 				// se chegamos aqui temos uma portaria identificada. vamos
 				// processar as entidades nela presentes.
@@ -89,7 +90,8 @@ public class ProcessadorInicioAssinatura implements ProcessadorAnotacoes
 
 							strategy.registrar(new Ligacao(entidade, IdOrgao, particao, identificacaoPortaria, textoPortaria,
 									inicioPortaria, fimPortaria, // annFim.getEndNode().getOffset(),
-									inicioEntidade, fimEntidade, tipo, docFile, Util.extrairDataDoNomeDoArquivo(docFile)));
+									inicioEntidade, fimEntidade, tipo, docFile.getName(), Util.extrairDataDoNomeDoArquivo(docFile
+											.getName())));
 
 							entidadesEncontradas.add(annEntidade);
 						}// TODO se falhar aqui ja pode sair fora. a lista esta

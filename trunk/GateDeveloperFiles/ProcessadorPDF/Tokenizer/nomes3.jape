@@ -19,7 +19,7 @@ MACRO: NomeSimples
 )
 
 
-Rule: Nome2	
+Rule: EntidadeIdentificada	
 (
 //	({NomeSimples within {SequenciaIniMaiuscula}})
 //(NomeSimples)
@@ -28,5 +28,5 @@ Rule: Nome2
 	
 ): nomeCompleto2
 -->
-:nomeCompleto2.Nome2 = { kind = "Nome2" }
+:nomeCompleto2.EntidadeIdentificada = { kind = "Nome" }
 
