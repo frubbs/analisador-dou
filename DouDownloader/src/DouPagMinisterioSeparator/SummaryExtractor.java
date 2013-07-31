@@ -34,7 +34,14 @@ public class SummaryExtractor
 			{
 				Pattern p2 = Pattern.compile("([\\p{L}|[\\,]]+\\s?)+[\\.]+(^|\\s)([0-9]+)($|\\s)");
 
-				String summaryCandidate = pageText.substring(0, MAX_SUMMARY_LEN);
+				String summaryCandidate = "";
+				try
+				{
+					summaryCandidate = pageText.substring(0, MAX_SUMMARY_LEN);
+				} catch (StringIndexOutOfBoundsException e)
+				{
+					summaryCandidate = pageText;
+				}
 				Matcher m2 = p2.matcher(new InterruptibleCharSequence(summaryCandidate));
 
 				// System.out.println(summaryCandidate);
@@ -79,7 +86,7 @@ public class SummaryExtractor
 		// //gateHomeStr =
 		// Thread.currentThread().getContextClassLoader().getResource("gate/Gate.class").toString();
 		//
-		System.out.println("#########8gfah: " + gateHomeStr);
+		// System.out.println("#########8gfah: " + gateHomeStr);
 
 		Gate.init();
 
@@ -91,7 +98,7 @@ public class SummaryExtractor
 
 		// System.out.println(pageText);
 
-		pageText = moveCursor(pageText, "Sumário", file);
+		// pageText = moveCursor(pageText, "Sumário", file);
 		pageText = moveCursorEnd(pageText, "PÁGINA", file);
 
 		Thread t = new Thread(new MatcherRunner());
@@ -99,7 +106,7 @@ public class SummaryExtractor
 
 		while (t.isAlive())
 		{
-			t.join(1500);
+			t.join(15000000);
 			if (t.isAlive())
 			{
 				t.interrupt();
@@ -121,7 +128,7 @@ public class SummaryExtractor
 		int idxSumario = input.indexOf(toFind);
 
 		if (idxSumario < 0)
-			throw new Exception("Não achei a palávra Sumário no arquivo '" + file.getName() + "'");
+			throw new Exception("Não achei a palavra " + toFind + " no arquivo '" + file.getName() + "'");
 
 		input = input.substring(idxSumario);
 
