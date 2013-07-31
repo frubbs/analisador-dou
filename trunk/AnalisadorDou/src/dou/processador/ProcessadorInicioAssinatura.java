@@ -45,6 +45,9 @@ public class ProcessadorInicioAssinatura implements ProcessadorAnotacoes
 				long inicioPortaria = annInicioPortaria.getStartNode().getOffset();
 				long fimPortaria = detectaFimPortaria(i, inicioList, assinaturaList);
 
+				SimpleFeatureMap fMap = annInicioPortaria.getFeatures();
+				String tipoPortaria = fMap.get("kind") != null ? fMap.get("kind").toString() : "";
+
 				if (fimPortaria == 0)
 				{
 					System.out.println("FimPortaria == 0 ->  nao foi possivel determinar o proximo fim.");
@@ -90,8 +93,8 @@ public class ProcessadorInicioAssinatura implements ProcessadorAnotacoes
 
 							strategy.registrar(new Ligacao(entidade, IdOrgao, particao, identificacaoPortaria, textoPortaria,
 									inicioPortaria, fimPortaria, // annFim.getEndNode().getOffset(),
-									inicioEntidade, fimEntidade, tipo, docFile.getName(), Util.extrairDataDoNomeDoArquivo(docFile
-											.getName())));
+									inicioEntidade, fimEntidade, tipo, tipoPortaria, docFile.getName(), Util
+											.extrairDataDoNomeDoArquivo(docFile.getName())));
 
 							entidadesEncontradas.add(annEntidade);
 						}// TODO se falhar aqui ja pode sair fora. a lista esta

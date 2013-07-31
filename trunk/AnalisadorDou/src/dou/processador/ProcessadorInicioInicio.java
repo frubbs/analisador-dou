@@ -39,6 +39,9 @@ public class ProcessadorInicioInicio implements ProcessadorAnotacoes
 				gate.Annotation annIni = inicioList.get(i);
 				long inicioPortaria = annIni.getStartNode().getOffset();
 
+				SimpleFeatureMap fMap = annIni.getFeatures();
+				String tipoPortaria = fMap.get("kind") != null ? fMap.get("kind").toString() : "";
+
 				long fimPortaria;
 				if (i == inicioList.size() - 1) // se estivermos no ultimo
 												// inicio, o fim é o fim e nao a
@@ -134,11 +137,8 @@ public class ProcessadorInicioInicio implements ProcessadorAnotacoes
 
 							strategy.registrar(new Ligacao(entidade, null, particao, identificacaoPortaria, textoPortaria,
 									inicioPortaria, fimPortaria, // annFim.getEndNode().getOffset(),
-									inicioEntidade, fimEntidade, featureMap.get("kind").toString(), // TODO
-																									// resolver
-																									// o
-																									// kind
-									docFile.getAbsolutePath(), Util.extrairDataDoNomeDoArquivo(docFile.getName())));
+									inicioEntidade, fimEntidade, featureMap.get("kind").toString(), tipoPortaria, docFile
+											.getAbsolutePath(), Util.extrairDataDoNomeDoArquivo(docFile.getName())));
 
 							entidadesEncontradas.add(annEnt);
 						}// TODO se falhar aqui ja pode sair fora. a lista esta

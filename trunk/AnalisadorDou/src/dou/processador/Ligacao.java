@@ -7,7 +7,7 @@ public class Ligacao
 
 	public Ligacao(String _entidade, String _idEntidade, int _particao, String _identificacaoPortaria, String _textoPortaria,
 			long _inicioPortaria, long _fimPortaria, long _inicioEntidade, long _fimEntidade, String _tipoEntidade,
-			String _nomeArquivo, Date _data)
+			String _tipoPortaria, String _nomeArquivo, Date _data)
 	{
 		entidade = _entidade.trim().replace('\n', ' ');
 		try
@@ -25,6 +25,7 @@ public class Ligacao
 		inicioEntidade = _inicioEntidade;
 		fimEntidade = _fimEntidade;
 		tipoEntidade = _tipoEntidade;
+		tipoPortaria = _tipoPortaria;
 		nomeArquivo = _nomeArquivo;
 		data = _data;
 	}
@@ -39,6 +40,7 @@ public class Ligacao
 	public long inicioEntidade;
 	public long fimEntidade;
 	public String tipoEntidade;
+	public String tipoPortaria;
 	public String nomeArquivo;
 	public Date data;
 }

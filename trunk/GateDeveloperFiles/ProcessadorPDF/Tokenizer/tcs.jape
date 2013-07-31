@@ -43,14 +43,12 @@ MACRO: TCESPACOS
 
 Rule: Inicio
 (
-//	(NOVALINHA)
-//	((TCNORMAL) | (TCESPACOS))
-//	(NOVALINHA)
-
-(TCESPACOS)
+	(NOVALINHA)
+	((TCNORMAL) | (TCESPACOS))
+	(NOVALINHA)
 
 
 ): lei
 -->
-:lei.Inicio = {kind = "IniAta"}
+:lei.Inicio = {kind = "IniTC"}
 
