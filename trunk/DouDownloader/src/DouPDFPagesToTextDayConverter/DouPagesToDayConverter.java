@@ -5,6 +5,8 @@ import gate.util.GateException;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import org.apache.commons.io.FileUtils;
 
@@ -49,6 +51,30 @@ public class DouPagesToDayConverter
 					}
 				});
 
+				try
+				{
+					// ordena os arquivos de acordo com a pagina
+					Arrays.sort(currentfiles, new Comparator<File>()
+					{
+						public int compare(File o1, File o2)
+						{
+							int ext1 = o1.getName().indexOf(".pdf");
+							int dash1 = o1.getName().lastIndexOf("-");
+							int ext2 = o2.getName().indexOf(".pdf");
+							int dash2 = o2.getName().lastIndexOf("-");
+
+							String p1 = o1.getName().substring(dash1 + 1, ext1);
+							String p2 = o2.getName().substring(dash2 + 1, ext2);
+
+							return new Integer(Integer.parseInt(p1)).compareTo(new Integer(Integer.parseInt(p2)));
+						}
+					});
+				} catch (Exception e)
+				{
+					System.out.println("*ERRO ****** Exceção ao ordenar lista de arquivos. Processamento continuará normalmente");
+					e.printStackTrace();
+				}
+				// joga o conteudo de todos os pdf em um unico txt
 				StringBuilder sbFinalContent = new StringBuilder();
 				for (File currentFileChild : currentfiles)
 				{
