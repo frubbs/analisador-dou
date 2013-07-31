@@ -2,6 +2,8 @@ package DouPagMinisterioSeparator;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,9 +39,11 @@ public class DouPagMinisterioSeparator
 		});
 
 		// para cada primeira pagina extrai o summario, move os arquivos e compila as paginas para texto
-		for (final File firstPage : files)
+		// for (final File firstPage : files)
+		final File firstPage = files[0];
 		{
-			System.out.println("file: " + firstPage.getName());
+			String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+			System.out.println(timeStamp + "Procesando file: " + firstPage.getName());
 			HashMap<String, String> summ = readSummary(firstPage.getAbsolutePath());
 
 			File[] currentfiles = dir.listFiles(new FilenameFilter()
@@ -82,7 +86,7 @@ public class DouPagMinisterioSeparator
 
 			try
 			{
-				System.out.println("Movendo '" + currentFileChild + "' para '" + destDir + "'");
+				// System.out.println("Movendo '" + currentFileChild + "' para '" + destDir + "'");
 
 				FileUtils.moveFileToDirectory(currentFileChild, theDir, true);
 
@@ -154,8 +158,8 @@ public class DouPagMinisterioSeparator
 
 				}
 
-				System.out.println("m: " + ministerio + "| mA: " + ministerioAnterior);
-				System.out.println("p: " + pagina + "| pA: " + paginaAnterior);
+				// System.out.println("m: " + ministerio + "| mA: " + ministerioAnterior);
+				// System.out.println("p: " + pagina + "| pA: " + paginaAnterior);
 
 				// System.out.println("min: " + ministerio + " | pag: " + pagina);
 
@@ -171,7 +175,7 @@ public class DouPagMinisterioSeparator
 			}
 
 			// System.out.println(sumario);
-			System.out.println("FIM");
+			// System.out.println("FIM");
 
 		} catch (Exception e)
 		{
