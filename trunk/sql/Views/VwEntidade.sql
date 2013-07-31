@@ -1,7 +1,7 @@
 USE [dou]
 GO
 
-/****** Object:  View [dbo].[VwEntidade]    Script Date: 04/05/2013 12:45:26 ******/
+/****** Object:  View [dbo].[VwEntidade]    Script Date: 31/07/2013 17:29:51 ******/
 SET ANSI_NULLS ON
 GO
 

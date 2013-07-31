@@ -1,7 +1,7 @@
 USE [dou]
 GO
 
-/****** Object:  Table [dbo].[TbPortaria]    Script Date: 04/05/2013 12:49:21 ******/
+/****** Object:  Table [dbo].[TbPortaria]    Script Date: 31/07/2013 17:29:00 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -17,6 +17,8 @@ CREATE TABLE [dbo].[TbPortaria](
 	[Texto] [varchar](max) NOT NULL,
 	[StartOffset] [int] NOT NULL,
 	[EndOffset] [int] NOT NULL,
+	[NomeArquivo] [nvarchar](max) NULL,
+	[TipoPortaria] [nvarchar](50) NULL,
 	[Data] [date] NOT NULL,
  CONSTRAINT [PK_TbPortaria_1] PRIMARY KEY CLUSTERED 
 (

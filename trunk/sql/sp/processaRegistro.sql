@@ -1,16 +1,17 @@
 USE [dou]
 GO
 
-/****** Object:  StoredProcedure [dbo].[processaRegistro]    Script Date: 04/05/2013 12:47:27 ******/
+/****** Object:  StoredProcedure [dbo].[processaRegistro]    Script Date: 31/07/2013 17:29:29 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
+
 CREATE procedure [dbo].[processaRegistro]
 (
-	@Entidade varchar(50),
+	@Entidade varchar(100),
 	@Identificacao bigint,
 	@TextoPortaria nvarchar(MAX),
 	@PortariaStart int,
@@ -18,6 +19,8 @@ CREATE procedure [dbo].[processaRegistro]
 	@EntidadeStart int,
 	@EntidadeEnd int,
 	@TipoEntidade nvarchar(10),
+	@TipoPortaria nvarchar(50),
+	@NomeArquivo nvarchar(MAX),
 	@Data date
 	
 )
@@ -49,8 +52,8 @@ AS
     WHEN MATCHED THEN 
         UPDATE SET @UpdateVariable = 1
     WHEN NOT MATCHED THEN    
-        INSERT (Identificacao, Texto, StartOffset, EndOffset, Data)
-        VALUES (source.Identificacao, @TextoPortaria, @PortariaStart,@PortariaEnd, @Data)
+        INSERT (Identificacao, Texto, StartOffset, EndOffset, NomeArquivo, TipoPortaria, Data)
+        VALUES (source.Identificacao, @TextoPortaria, @PortariaStart,@PortariaEnd, @NomeArquivo, @TipoPortaria, @Data)
 	OUTPUT  inserted.IdPortaria INTO @ChangeResultPortaria;
 	
 	DECLARE @IdPortaria int
@@ -58,7 +61,7 @@ AS
 	
 	/*cria a ligacao. em nome do desempenho nao vamos fazer merge aqui. se ocorrer inconsistencias teremos que fazer.*/
 	INSERT INTO tbPortariaEntidade (IdPortaria, IdEntidade, TipoLigacao,Tempo)
-	VALUES (@IdPortaria, @IdEntidade, 1, @Data); -- tipo de ligacao 1 = relacao no dou. 2 - contrato
+	VALUES (@IdPortaria, @IdEntidade, 2, @Data); -- tipo de ligacao 1 = relacao no dou. 2 - contrato
 
 
 	select 1
@@ -72,6 +75,7 @@ AS
  select * from tbPortaria
 
  */
+
 GO
 
 

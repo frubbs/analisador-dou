@@ -106,7 +106,7 @@ public class SummaryExtractor
 
 		while (t.isAlive())
 		{
-			t.join(15000000);
+			t.join(1000);
 			if (t.isAlive())
 			{
 				t.interrupt();
