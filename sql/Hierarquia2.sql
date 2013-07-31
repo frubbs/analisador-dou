@@ -1,0 +1,200 @@
+USE [SiorgSQL]
+GO
+
+SELECT *--N.No_Orgao, N.Co_Orgao , ','
+FROM 
+	[dbo].[Vw_Nomes_Orgaos] N --WHERE Co_Orgao = 26
+LEFT JOIN 
+	[dbo].[Vw_Nomes_Orgaos] N2 ON N.Co_Orgao = N2.Co_Orgao_Pai
+LEFT JOIN 
+	[dbo].[Vw_Nomes_Orgaos] N3 ON N2.Co_Orgao = N3.Co_Orgao_Pai
+LEFT JOIN 
+	[dbo].[Vw_Nomes_Orgaos] N4 ON N3.Co_Orgao = N4.Co_Orgao_Pai
+LEFT JOIN 
+	[dbo].[Vw_Nomes_Orgaos] N5 ON N4.Co_Orgao = N5.Co_Orgao_Pai
+LEFT JOIN 
+	[dbo].[Vw_Nomes_Orgaos] N6 ON N5.Co_Orgao = N6.Co_Orgao_Pai
+LEFT JOIN 
+	[dbo].[Vw_Nomes_Orgaos] N7 ON N6.Co_Orgao = N7.Co_Orgao_Pai
+LEFT JOIN 
+	[dbo].[Vw_Nomes_Orgaos] N8 ON N7.Co_Orgao = N8.Co_Orgao_Pai
+LEFT JOIN 
+	[dbo].[Vw_Nomes_Orgaos] N9 ON N8.Co_Orgao = N9.Co_Orgao_Pai
+LEFT JOIN 
+	[dbo].[Vw_Nomes_Orgaos] N10 ON N9.Co_Orgao = N10.Co_Orgao_Pai
+LEFT JOIN 
+	[dbo].[Vw_Nomes_Orgaos] N11 ON N10.Co_Orgao = N11.Co_Orgao_Pai
+WHERE 
+/*N10.Co_Orgao_Pai is not null
+AND*/
+N.Co_Orgao in (26,
+75043,
+814,
+75028,
+75032,
+75037,
+75038,
+75065,
+91865,
+75027,
+75035,
+75045,
+75040,
+75046,
+75066,
+75068,
+75039,
+75044,
+75047,
+75053,
+93286,
+86569,
+80393,
+79346,
+79347,
+75036,
+75042,
+88321,
+86134,
+41589,
+41590,
+75030,
+75033,
+75034,
+75052,
+75064,
+75069,
+119842,
+78459,
+75041,
+94288,
+53679,
+85722,
+83591,
+75049,
+75050,
+75051,
+75048,
+75063,
+75067,
+75029,
+61438,
+61501,
+62823,
+62824,
+62840,
+62841,
+62842,
+62847,
+62848,
+62849,
+62850,
+62851,
+62852,
+62853,
+62854,
+62855,
+62856,
+62857,
+62858,
+62859,
+62860,
+62861,
+62862,
+62863,
+62864,
+62865,
+62866,
+62867,
+62868,
+62869,
+62870,
+62871,
+62872,
+62873,
+62874,
+62875,
+62876,
+62877,
+62878,
+62879,
+62880,
+62881,
+62882,
+62899,
+62900,
+62901,
+62902,
+62903,
+62904,
+62905,
+62906,
+62907,
+62908,
+62909,
+62910,
+62911,
+62912,
+62913,
+62914,
+62915,
+62916,
+62917,
+62918,
+63243,
+63546,
+63550,
+63555,
+63726,
+64442,
+64443,
+64444,
+64445,
+64446,
+64447,
+64448,
+64449,
+64450,
+64654,
+64670,
+65113,
+65114,
+65163,
+65164,
+65268,
+65458,
+66047,
+66202,
+66389,
+66424,
+66425,
+66426,
+66427,
+66803,
+66804,
+67238,
+67239,
+67471,
+67487,
+67488,
+67489,
+67490,
+67536,
+67630,
+67631,
+69488,
+90938,
+119618,
+98087,
+103981,
+109992,
+110032) 
+--GROUP BY N.No_Orgao, N.Co_Orgao
+
+order by 1 desc ,2 desc
+
+--
+
+GO
+
+

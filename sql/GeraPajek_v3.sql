@@ -1,6 +1,19 @@
 use dou
+/*
+drop table #PortariaEntidadeFiltrada
+drop table #EntidadeFiltrada
+*/
 
---drop table #PortariaEntidadeFiltrada
+SELECT 
+	E.*
+INTO
+	#EntidadeFiltrada
+FROM
+	TbEntidade E
+WHERE
+	--E.Texto like '%Ministério%'
+	E.TipoEntidade = 'Orgao'
+
 
 SELECT 
 	PE.*
@@ -12,6 +25,7 @@ JOIN
 	TbPortariaEntidade PE ON P.IdPortaria = PE.IdPortaria
 WHERE
 	P.Texto like '%%'
+	AND PE.IdEntidade in (SELECT IdEntidade FROM #EntidadeFiltrada)
 
 
 declare @entidades bigint
@@ -37,7 +51,8 @@ INSERT INTO
 	@Vertice
 SELECT 
 	IdEntidade as IdOriginal,
-	'"' + SUBSTRING(Texto,0,30) + '"                                      0.0000    0.0000    0.5000 ' AS Entidade
+	-- '"' + SUBSTRING(Texto,0,130) + '"                                      0.0000    0.0000    0.5000 ' AS Entidade
+	'"' + Texto + '"                                      0.0000    0.0000    0.5000 ' AS Entidade
 FROM 
 	VwEntidade
 WHERE 
@@ -48,7 +63,8 @@ INSERT INTO
 	@Vertice
 SELECT
 	IdPortaria as IdOriginal,
-	 '"' + SUBSTRING(cast(Identificacao as nvarchar),0,30) + '"                    0.0000    0.0000    0.5000 ' AS Entidade
+--	 '"' + SUBSTRING(cast(Identificacao as nvarchar),0,130) + '"                    0.0000    0.0000    0.5000 ' AS Entidade
+	 '"' + cast(Identificacao as nvarchar) + '"                    0.0000    0.0000    0.5000 ' AS Entidade
 FROM 
 	TbPortaria
 WHERE 
