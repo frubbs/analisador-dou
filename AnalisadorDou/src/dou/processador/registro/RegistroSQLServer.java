@@ -32,11 +32,12 @@ public class RegistroSQLServer implements RegistroLigacaoStrategy
 	{
 		// if (l.tipoEntidade == "Orgao")
 		inserirNoBanco(l.entidade, l.identificacaoPortaria, l.textoPortaria, l.inicioPortaria, l.fimPortaria, l.inicioEntidade,
-				l.fimEntidade, l.tipoEntidade, l.nomeArquivo, l.data);
+				l.fimEntidade, l.tipoEntidade, l.tipoPortaria, l.nomeArquivo, l.data);
 	}
 
 	private void inserirNoBanco(String entidade, String identificacaoPortaria, String textoPortaria, Long offsetPortIni,
-			Long offsetPortEnd, Long offsetEntIni, Long offsetEntEnd, String tipo, String nomeArquivo, Date data)
+			Long offsetPortEnd, Long offsetEntIni, Long offsetEntEnd, String tipo, String tipoPortaria, String nomeArquivo,
+			Date data)
 	{
 
 		try
@@ -44,7 +45,7 @@ public class RegistroSQLServer implements RegistroLigacaoStrategy
 
 			long insertStart = System.currentTimeMillis();
 
-			String SPsql = "EXEC [processaRegistro] ?,?,?,?,?,?,?,?,?,?";
+			String SPsql = "EXEC [processaRegistro] ?,?,?,?,?,?,?,?,?,?,?";
 
 			PreparedStatement ps = conn.prepareStatement(SPsql);
 			ps.setEscapeProcessing(true);
@@ -58,8 +59,9 @@ public class RegistroSQLServer implements RegistroLigacaoStrategy
 			ps.setLong(6, offsetEntIni);
 			ps.setLong(7, offsetEntEnd);
 			ps.setString(8, tipo);
-			ps.setString(9, nomeArquivo);
-			ps.setDate(10, new java.sql.Date(data.getTime()));
+			ps.setString(9, tipoPortaria);
+			ps.setString(10, nomeArquivo);
+			ps.setDate(11, new java.sql.Date(data.getTime()));
 
 			ps.executeQuery();
 
@@ -72,7 +74,7 @@ public class RegistroSQLServer implements RegistroLigacaoStrategy
 		{
 			System.out.println("Parametros: " + entidade + ", " + identificacaoPortaria + ", " + "textoPortaria" + ", "
 					+ offsetPortIni + ", " + offsetPortEnd + ", " + offsetEntIni + ", " + offsetEntEnd + ", " + tipo + ", "
-					+ data);
+					+ tipoPortaria + ", " + data);
 			System.out.println("Exception: " + e.getMessage());
 			e.printStackTrace();
 		}
