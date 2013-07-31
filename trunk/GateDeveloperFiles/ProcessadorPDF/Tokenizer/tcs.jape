@@ -1,0 +1,56 @@
+// Valentin Tablan, 29/06/2001
+// $id$
+
+
+Phase:tcs
+Input: Token SpaceToken Lookup NOVALINHA DATACOMPLETA
+Options: control = appelt
+
+//T C - 0 3 4 . 5 2 1 / 2 0 11 - 9
+// OU
+// TC-042.015/2012-0
+
+MACRO: TCNORMAL
+(
+	{Token.string == "TC-"}
+	{Token.kind== "number"}
+    {Token.kind== "punctuation"}
+	{Token.kind== "number"}
+	{Token.string== "/"}
+	{Token.kind== "number"}
+	{Token.string == "-"}
+	{Token.kind== "number"}
+	({SpaceToken})?
+) 
+
+MACRO: TCESPACOS
+(
+	(
+		({Token.string == "T"} {SpaceToken} {Token.string == "C"} {SpaceToken} {Token.string == "-"}) |
+		({Token.string == "TC"} {SpaceToken} {Token.string == "-"}) |
+		({Token.string == "T"} {SpaceToken} {Token.string == "C-"}) |
+		({Token.string == "TC-"})
+	)
+	({SpaceToken})?
+	({Token.kind== "number"}({SpaceToken})?)[1,3]
+	{Token.kind== "punctuation"}({SpaceToken})?
+	({Token.kind== "number"}({SpaceToken})?)[1,3]
+	{Token.string== "/"}({SpaceToken})?
+	({Token.kind== "number"}({SpaceToken})?)[1,4]
+	{Token.string == "-"}({SpaceToken})?
+	{Token.kind== "number"}	({SpaceToken})?
+) 
+
+Rule: Inicio
+(
+//	(NOVALINHA)
+//	((TCNORMAL) | (TCESPACOS))
+//	(NOVALINHA)
+
+(TCESPACOS)
+
+
+): lei
+-->
+:lei.Inicio = {kind = "IniAta"}
+
