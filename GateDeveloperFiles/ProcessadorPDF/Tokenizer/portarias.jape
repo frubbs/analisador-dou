@@ -1,0 +1,29 @@
+// Valentin Tablan, 29/06/2001
+// $id$
+
+
+Phase:portarias
+Input: Token SpaceToken Lookup NOVALINHA DATACOMPLETA
+Options: control = appelt
+
+// PORTARIAS DE 19 DE ABRIL DE 2013
+// Atenção. Portaria normal vai como lei
+
+
+MACRO: INICIOPORTS
+(
+	{Token.string == "PORTARIAS"}
+	{SpaceToken}
+	{Token.string == "DE"}
+	{SpaceToken}
+	(DATACOMPLETA)
+) 
+
+Rule: Inicio
+(
+	(CABECALHO)
+	(NOVALINHA)(INICIOPORTS)
+): lei
+-->
+:lei.Inicio = {kind = "IniPortarias"}
+
