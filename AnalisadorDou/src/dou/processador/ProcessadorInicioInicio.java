@@ -135,6 +135,9 @@ public class ProcessadorInicioInicio implements ProcessadorAnotacoes
 							int particao = featureMap.get("Particao") != null ? Integer.parseInt(featureMap.get("Particao")
 									.toString()) : 0;
 
+							// Se houver sinonimo, usa
+							entidade = featureMap.get("Sinonimo") != null ? featureMap.get("Sinonimo").toString() : entidade;
+
 							strategy.registrar(new Ligacao(entidade, null, particao, identificacaoPortaria, textoPortaria,
 									inicioPortaria, fimPortaria, // annFim.getEndNode().getOffset(),
 									inicioEntidade, fimEntidade, featureMap.get("kind").toString(), tipoPortaria, docFile
@@ -181,5 +184,4 @@ public class ProcessadorInicioInicio implements ProcessadorAnotacoes
 		}
 
 	}
-
 }

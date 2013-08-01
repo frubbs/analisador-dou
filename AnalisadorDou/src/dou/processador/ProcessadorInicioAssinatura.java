@@ -91,6 +91,9 @@ public class ProcessadorInicioAssinatura implements ProcessadorAnotacoes
 
 							String tipo = featureMap.get("kind") != null ? featureMap.get("kind").toString() : "";
 
+							// Se houver sinonimo, usa
+							entidade = featureMap.get("Sinonimo") != null ? featureMap.get("Sinonimo").toString() : entidade;
+
 							strategy.registrar(new Ligacao(entidade, IdOrgao, particao, identificacaoPortaria, textoPortaria,
 									inicioPortaria, fimPortaria, // annFim.getEndNode().getOffset(),
 									inicioEntidade, fimEntidade, tipo, tipoPortaria, docFile.getName(), Util
