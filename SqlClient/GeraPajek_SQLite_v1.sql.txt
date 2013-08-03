@@ -1,0 +1,98 @@
+
+-- Cria tabela temporaria
+drop table if exists EntidadeFiltrada
+CREATE TABLE if not exists EntidadeFiltrada
+(
+	IdEntidade INTEGER NOT NULL,
+	Texto NVARCHAR(100),
+	TipoEntidade NVARCHAR(10),
+PRIMARY KEY (IdEntidade ),
+UNIQUE (IdEntidade ))
+
+drop table if exists PortariaEntidadeFiltrada
+CREATE TABLE if not exists PortariaEntidadeFiltrada
+(
+	IdPortaria INTEGER NOT NULL,
+	IdEntidade INTEGER NOT NULL,
+	TipoLigacao INTEGER,
+	Tempo datetime
+)
+
+--Faz os filtros
+INSERT INTO EntidadeFiltrada 
+	SELECT * FROM TbEntidade
+	WHERE
+		--Texto like '%Ministério%' -- Configurar
+		TipoEntidade = 'Orgao' --Configurar
+		
+INSERT INTO PortariaEntidadeFiltrada 
+	SELECT 
+		TbPortariaEntidade.*
+	FROM 
+		TbPortaria 
+	JOIN
+		TbPortariaEntidade  ON TbPortaria.IdPortaria = TbPortariaEntidade.IdPortaria
+	WHERE
+		TbPortaria.Texto like '%%' --Configurar
+		AND TbPortariaEntidade.IdEntidade in (SELECT IdEntidade FROM EntidadeFiltrada)
+
+		
+		
+SELECT
+	'*Vertices ' ||
+	(
+		CAST((SELECT count(*) from TbEntidade WHERE IdEntidade in (SELECT IdEntidade FROM PortariaEntidadeFiltrada)) AS INTEGER) 
+		+ CAST((SELECT count(*) from TbPortaria WHERE IdPortaria in (SELECT IdPortaria FROM PortariaEntidadeFiltrada)) AS INTEGER)
+	) ||
+	' ' ||
+	(SELECT count(*) from TbEntidade WHERE IdEntidade in (SELECT IdEntidade FROM PortariaEntidadeFiltrada))
+
+
+drop table if exists Vertice
+CREATE TABLE if not exists Vertice
+(
+	ID INTEGER PRIMARY KEY AUTOINCREMENT,
+	IdOriginal BIGINT,
+	Entidade NVARCHAR(300)
+)
+	
+INSERT INTO Vertice (IdOriginal, Entidade)
+SELECT 
+	IdEntidade as IdOriginal,	
+	'"' || Texto || '"                                      0.0000    0.0000    0.5000 ' AS Entidade
+FROM 
+	TbEntidade
+WHERE 
+	IdEntidade in (SELECT IdEntidade FROM PortariaEntidadeFiltrada)
+	
+	
+INSERT INTO Vertice (IdOriginal, Entidade)
+SELECT
+	IdPortaria as IdOriginal,
+	 '"' || cast(Identificacao as nvarchar) || '"                    0.0000    0.0000    0.5000 ' AS Entidade
+FROM 
+	TbPortaria
+WHERE 
+	IdPortaria in (SELECT IdPortaria FROM PortariaEntidadeFiltrada)	
+	
+	
+SELECT  
+	CAST(ID as NVARCHAR) ||  '  ' || Entidade  AS Vertices
+FROM
+	Vertice	
+	
+
+SELECT 
+	'*Arcs' 	
+	
+	
+SELECT
+	cast(v.ID as nvarchar) || ' ' || cast(v2.id as nvarchar) || ' 1 [' || cast(pe.Tempo as nvarchar) || ']' 
+FROM
+	PortariaEntidadeFiltrada pe 
+LEFT JOIN 
+	Vertice v on pe.IDEntidade = v.IdOriginal
+LEFT JOIN 
+	Vertice v2 on pe.IdPortaria = v2.IdOriginal	
+ORDER BY pe.Tempo	
+	

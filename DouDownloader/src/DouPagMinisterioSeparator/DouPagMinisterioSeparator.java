@@ -1,7 +1,11 @@
 package DouPagMinisterioSeparator;
 
+import gate.creole.ResourceInstantiationException;
+import gate.util.GateException;
+
 import java.io.File;
 import java.io.FilenameFilter;
+import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -101,87 +105,85 @@ public class DouPagMinisterioSeparator
 	}
 
 	/* Dicionario de arquivo-ministerio. Dado o arquivo (jornal/data/pagina) fala qual ministerio (pasta) ele vai */
-	private static HashMap<String, String> readSummary(String fileName)
+	private static HashMap<String, String> readSummary(String fileName) throws ResourceInstantiationException,
+			MalformedURLException, GateException, Exception
 	{
 
 		HashMap<String, String> dic;
 		dic = new HashMap<String, String>();
 
-		try
+		File file = new File(fileName);
+		String fileNamePattern = Util.Util.FILEPATERN.replace("@FILEDATEJOR@",
+				file.getName().substring(0, Util.Util.FILENAME_DATE_JOR_SIZE));
+
+		String sumario = SummaryExtractor.extractRawSummaryFromFile(file);
+
+		System.out.println("Summario: " + sumario);
+
+		if (sumario.equals(""))
+			throw new Exception("Não foi possivel extrair o sumario!");
+
+		Pattern p = Pattern.compile("(^|\\s)([0-9]+)($|\\s)");
+		Matcher m = p.matcher(sumario);
+
+		// Pattern p2 = Pattern.compile("(\\p{L}+\\s?)+");
+		Pattern p2 = Pattern.compile("([\\p{L}|[\\,]]+\\s?)+");
+		Matcher m2 = p2.matcher(sumario);
+
+		String ministerio = "";
+		String pagina = "";
+		String ministerioAnterior = "";
+		String paginaAnterior = "";
+
+		do
 		{
-			File file = new File(fileName);
-			String fileNamePattern = Util.Util.FILEPATERN.replace("@FILEDATEJOR@",
-					file.getName().substring(0, Util.Util.FILENAME_DATE_JOR_SIZE));
+			ministerioAnterior = ministerio;
+			paginaAnterior = pagina;
+			ministerio = "";
+			pagina = "";
 
-			String sumario = SummaryExtractor.extractRawSummaryFromFile(file);
-
-			Pattern p = Pattern.compile("(^|\\s)([0-9]+)($|\\s)");
-			Matcher m = p.matcher(sumario);
-
-			// Pattern p2 = Pattern.compile("(\\p{L}+\\s?)+");
-			Pattern p2 = Pattern.compile("([\\p{L}|[\\,]]+\\s?)+");
-			Matcher m2 = p2.matcher(sumario);
-
-			String ministerio = "";
-			String pagina = "";
-			String ministerioAnterior = "";
-			String paginaAnterior = "";
-
-			do
+			if (m.find())
 			{
-				ministerioAnterior = ministerio;
-				paginaAnterior = pagina;
-				ministerio = "";
-				pagina = "";
-
-				if (m.find())
-				{
-					// System.out.println(m.group(2));
-					pagina = m.group(2);
-				}
-
-				if (m2.find())
-				{
-					// System.out.println(m2.group());
-					ministerio = m2.group();
-				}
-
-				dic.put(fileNamePattern.replace("@PAG@", pagina), ministerio);
-
-				if (!ministerioAnterior.equals("") && !paginaAnterior.equals("") && !ministerio.equals("") && !pagina.equals(""))
-				{
-					for (int i = Integer.parseInt(paginaAnterior); i < Integer.parseInt(pagina); i++)
-					{
-						String tempPagina = String.valueOf(i);
-						dic.put(fileNamePattern.replace("@PAG@", tempPagina), ministerioAnterior);
-					}
-
-				}
-
-				// System.out.println("m: " + ministerio + "| mA: " + ministerioAnterior);
-				// System.out.println("p: " + pagina + "| pA: " + paginaAnterior);
-
-				// System.out.println("min: " + ministerio + " | pag: " + pagina);
-
-			} while (!ministerio.equals("") && !pagina.equals(""));
-
-			// Preenche os arquivos da ultima sessao estimando o numero de paginas que pod ter. nao ha problema ter mais do que
-			// existe de fato
-			for (int i = Integer.parseInt(paginaAnterior); i < Integer.parseInt(paginaAnterior)
-					+ Util.Util.ESTIMATED_LAST_SECTION_PAGES; i++)
-			{
-				String tempPagina = String.valueOf(i);
-				dic.put(fileNamePattern.replace("@PAG@", tempPagina), ministerioAnterior);
+				// System.out.println(m.group(2));
+				pagina = m.group(2);
 			}
 
-			// System.out.println(sumario);
-			// System.out.println("FIM");
+			if (m2.find())
+			{
+				// System.out.println(m2.group());
+				ministerio = m2.group();
+			}
 
-		} catch (Exception e)
+			dic.put(fileNamePattern.replace("@PAG@", pagina), ministerio);
+
+			if (!ministerioAnterior.equals("") && !paginaAnterior.equals("") && !ministerio.equals("") && !pagina.equals(""))
+			{
+				for (int i = Integer.parseInt(paginaAnterior); i < Integer.parseInt(pagina); i++)
+				{
+					String tempPagina = String.valueOf(i);
+					dic.put(fileNamePattern.replace("@PAG@", tempPagina), ministerioAnterior);
+				}
+
+			}
+
+			// System.out.println("m: " + ministerio + "| mA: " + ministerioAnterior);
+			// System.out.println("p: " + pagina + "| pA: " + paginaAnterior);
+
+			// System.out.println("min: " + ministerio + " | pag: " + pagina);
+
+		} while (!ministerio.equals("") && !pagina.equals(""));
+
+		// Preenche os arquivos da ultima sessao estimando o numero de paginas que pod ter. nao ha problema ter mais do que
+		// existe de fato
+		for (int i = Integer.parseInt(paginaAnterior); i < Integer.parseInt(paginaAnterior)
+				+ Util.Util.ESTIMATED_LAST_SECTION_PAGES; i++)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			String tempPagina = String.valueOf(i);
+			dic.put(fileNamePattern.replace("@PAG@", tempPagina), ministerioAnterior);
 		}
+
+		// System.out.println(sumario);
+		// System.out.println("FIM");
 
 		// for (Entry<String, String> entry : dic.entrySet())
 		// {

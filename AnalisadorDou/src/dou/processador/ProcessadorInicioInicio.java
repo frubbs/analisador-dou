@@ -179,6 +179,7 @@ public class ProcessadorInicioInicio implements ProcessadorAnotacoes
 
 		} catch (Exception e)
 		{
+			System.out.println("Exception: " + e.getMessage());
 			e.printStackTrace();
 
 		}
