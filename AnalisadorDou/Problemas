@@ -2,8 +2,8 @@ Problemas a resolver
 
 - Menção de conta bancária confundida com citação de entidade bancária. Ex: Dados bancarios para captação de recursos: Banco do Brasil agencia: 23376-3 Conta: 2617-1
 
-- Acordãos do tcu e extratos de contratos nao sao assinados
+- portarias que citam orgaos sem que estjam necessariamente relacionados (autorizacao de cursos de universidades -> PORTARIA No- 1.077, DE 31 DE AGOSTO DE 2012 (MINISTRO DE ESTADO DA EDUCAÇÃO))
 
-- Portarias interministeriais nao citam o ministerio, mas o ministro. Ex:Ao inves de falar "Ministerio da fazenda e Ministerio da cultura", fala "Ministros da Fazenda e da cultura"
+- Problema da api do gate com divisao entre ministerios
 
 
