@@ -8,11 +8,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import dou.processador.registro.RegistroLigacaoStrategy;
 import dou.util.Util;
 
 public class ProcessadorInicioInicio implements ProcessadorAnotacoes
 {
+	protected final Logger log = Logger.getLogger(ProcessadorInicioInicio.class);
 
 	@Override
 	public void process(File docFile, Document doc, RegistroLigacaoStrategy strategy)
@@ -28,11 +31,11 @@ public class ProcessadorInicioInicio implements ProcessadorAnotacoes
 			List<gate.Annotation> inicioList = gate.Utils.inDocumentOrder(todasAnnots.get("Inicio"));
 			List<gate.Annotation> entidadeList = gate.Utils.inDocumentOrder(todasAnnots.get("EntidadeIdentificada"));
 			long annotEnd = System.currentTimeMillis();
-			// System.out.println("Extrair as anotações: " + (annotEnd - annotStart) + " ms");
+			// log.warn("Extrair as anotações: " + (annotEnd - annotStart) + " ms");
 
 			// Para cada inicio procura a proxima assinatura, que indica o fim
 			// da portaria
-			System.out.println("Quantidade portarias: " + inicioList.size());
+			log.warn("Quantidade portarias: " + inicioList.size());
 			// for (gate.Annotation annIni : inicioList) {
 			for (int i = 0; i < inicioList.size(); i++)
 			{
@@ -53,12 +56,12 @@ public class ProcessadorInicioInicio implements ProcessadorAnotacoes
 					fimPortaria = inicioList.get(i + 1).getStartNode().getOffset();
 				}
 
-				// System.out.println("#### Processando : " + "port: " +
+				// log.warn("#### Processando : " + "port: " +
 				// annIni.getStartNode().getOffset());
 
 				// long ordemStart = System.currentTimeMillis();
 				/*
-				 * long ordemEnd = System.currentTimeMillis(); System.out.println("Ordenar: " + (ordemEnd - ordemStart) + " ms");
+				 * long ordemEnd = System.currentTimeMillis(); log.warn("Ordenar: " + (ordemEnd - ordemStart) + " ms");
 				 */
 
 				String identificacaoPortaria = Util.gerarIdentificacaoUnicaPortaria(annIni, docFile.getName());
@@ -71,17 +74,17 @@ public class ProcessadorInicioInicio implements ProcessadorAnotacoes
 
 				// long offsetEnd = System.currentTimeMillis();
 				// if ((offsetEnd - offsetIni)>0)
-				// System.out.println("offset iiniport: " + (offsetEnd -
+				// log.warn("offset iiniport: " + (offsetEnd -
 				// offsetIni) + " ms");
 
 				// offsetIni = System.currentTimeMillis();
 
 				// offsetEnd = System.currentTimeMillis();
 				// if ((offsetEnd - offsetIni)>0)
-				// System.out.println("offset fimport: " + (offsetEnd -
+				// log.warn("offset fimport: " + (offsetEnd -
 				// offsetIni) + " ms");
 
-				System.out.println("Entidades size: " + entidadeList.size());
+				log.warn("Entidades size: " + entidadeList.size());
 
 				List<gate.Annotation> entidadesEncontradas = new ArrayList<gate.Annotation>();
 				// for (gate.Annotation annEnt : entidadeList) {
@@ -97,12 +100,12 @@ public class ProcessadorInicioInicio implements ProcessadorAnotacoes
 
 					// offsetEnd = System.currentTimeMillis();
 					// if ((offsetEnd - offsetIni)>0)
-					// System.out.println("offset ini ent: " + (offsetEnd -
+					// log.warn("offset ini ent: " + (offsetEnd -
 					// offsetIni) + " ms");
 
 					if (inicioEntidade >= inicioPortaria)
 					{
-						if (inicioEntidade <= fimPortaria) // Se esta entre o
+						if (inicioEntidade < fimPortaria) // Se esta entre o
 															// inicio e o final,
 															// pertence à
 															// portaria
@@ -114,14 +117,14 @@ public class ProcessadorInicioInicio implements ProcessadorAnotacoes
 
 							// offsetEnd = System.currentTimeMillis();
 							// if ((offsetEnd - offsetIni)>0)
-							// System.out.println("offset fim ent: " +
+							// log.warn("offset fim ent: " +
 							// (offsetEnd - offsetIni) + " ms");
 
 							// offsetIni = System.currentTimeMillis();
 							String entidade = doc.getContent().getContent(inicioEntidade, fimEntidade).toString();
 							// offsetEnd = System.currentTimeMillis();
 							// if ((offsetEnd - offsetIni)>0)
-							// System.out.println("get content: " + (offsetEnd -
+							// log.warn("get content: " + (offsetEnd -
 							// offsetIni) + " ms");
 
 							SimpleFeatureMap featureMap = annEnt.getFeatures();
@@ -129,7 +132,7 @@ public class ProcessadorInicioInicio implements ProcessadorAnotacoes
 							long textStart = System.currentTimeMillis();
 							String textoPortaria = doc.getContent().getContent(inicioPortaria, fimPortaria).toString();
 							long textEnd = System.currentTimeMillis();
-							// System.out.println("ExtraiTextoPortaria (" + identificacaoPortaria + ") : " + (textEnd - textStart)
+							// log.warn("ExtraiTextoPortaria (" + identificacaoPortaria + ") : " + (textEnd - textStart)
 							// + " ms");
 
 							int particao = featureMap.get("Particao") != null ? Integer.parseInt(featureMap.get("Particao")
@@ -148,19 +151,19 @@ public class ProcessadorInicioInicio implements ProcessadorAnotacoes
 							// ordenada.
 						else
 						{
-							// System.out.println("saind pois inicioEntidade (" + inicioEntidade + ") > fimportaria (" +
+							// log.warn("saind pois inicioEntidade (" + inicioEntidade + ") > fimportaria (" +
 							// fimPortaria
 							// + ")");
 							break;
 						}
 					}
 					/*
-					 * else { System.out.println("saind pois inicioEntidade (" + inicioEntidade + ") < inicioportaria (" +
-					 * fimPortaria + ")" ); break; }
+					 * else { log.warn("saind pois inicioEntidade (" + inicioEntidade + ") < inicioportaria (" + fimPortaria + ")"
+					 * ); break; }
 					 */
 
 				}
-				System.out.println("Encontradas: " + entidadesEncontradas.size());
+				log.warn("Encontradas: " + entidadesEncontradas.size());
 				for (gate.Annotation e : entidadesEncontradas)
 				{
 					entidadeList.remove(e);
@@ -168,18 +171,18 @@ public class ProcessadorInicioInicio implements ProcessadorAnotacoes
 
 				/*
 				 * if(entidadesEncontradas.size() == 0) { String textoPortaria = doc
-				 * .getContent().getContent(inicioPortaria,fimPortaria).toString ();
-				 * System.out.println("Nao encontrei entidades em : " + textoPortaria); }
+				 * .getContent().getContent(inicioPortaria,fimPortaria).toString (); log.warn("Nao encontrei entidades em : " +
+				 * textoPortaria); }
 				 */
 
 				long entidadeEnd = System.currentTimeMillis();
-				// System.out.println("entidades: " + (entidadeEnd - entidadeStart) + "ms");
+				// log.warn("entidades: " + (entidadeEnd - entidadeStart) + "ms");
 				// System.in.read();
 			}// fim. vamos para o proximo inicio de portaria
 
 		} catch (Exception e)
 		{
-			System.out.println("Exception: " + e.getMessage());
+			log.warn("Exception: " + e.getMessage());
 			e.printStackTrace();
 
 		}

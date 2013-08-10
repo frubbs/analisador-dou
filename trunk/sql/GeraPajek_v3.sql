@@ -11,7 +11,7 @@ INTO
 FROM
 	TbEntidade E
 WHERE
-	--E.Texto like '%Ministério%'
+	E.Texto like '%Universidade%' AND
 	E.TipoEntidade = 'Orgao'
 
 
@@ -88,7 +88,9 @@ SELECT
 	'[' + cast(DENSE_RANK() OVER (ORDER BY Tempo DESC) as nvarchar) +']',
 	v2.*  
 	*/
-	cast(v.ID as nvarchar) + ' ' + cast(v2.id as nvarchar) + ' 1 [' + cast(DENSE_RANK() OVER (ORDER BY Tempo DESC) as nvarchar) +']' 
+pe.Tempo, pe.IDEntidade, pe.IdPortaria,
+	 cast(v.ID as nvarchar) + ' ' + cast(v2.id as nvarchar) + ' 1 [' + cast(DENSE_RANK() OVER (ORDER BY pe.Tempo DESC) as nvarchar) +']' 
+
 FROM
 	#PortariaEntidadeFiltrada pe 
 LEFT JOIN 
@@ -96,6 +98,6 @@ LEFT JOIN
 LEFT JOIN 
 	@Vertice v2 on pe.IdPortaria = v2.IdOriginal
 
-
+Order by pe.Tempo
 	
 

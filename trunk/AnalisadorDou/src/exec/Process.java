@@ -4,12 +4,15 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
+
 import dou.DouProcessor;
 import dou.processador.ProcessadorInicioInicio;
 import dou.processador.registro.RegistroSQLServer;
 
 public class Process
 {
+	protected static final Logger log = Logger.getLogger(Process.class);
 
 	/**
 	 * @param args
@@ -24,8 +27,8 @@ public class Process
 			File arquivo = new File(args[1]);
 			File gapp = new File(args[0]);
 
-			System.out.println("Argumento [0] : " + args[0]);
-			System.out.println("Argumento [1] : " + args[1]);
+			log.warn("Argumento [0] : " + args[0]);
+			log.warn("Argumento [1] : " + args[1]);
 
 			// File[] arquivosPequenos = new Separador().separa(arquivo, TEMP_DIR);
 
@@ -33,11 +36,11 @@ public class Process
 
 			File arquivoPequeno = arquivo;
 
-			System.out.println(new SimpleDateFormat("dd-MM-yyyy hh:mm:ss").format(new Date()) + "IOPA ###Process: "
-					+ arquivo.getName() + "   size: " + arquivo.length() + "###arquivoPequeno: " + arquivoPequeno.getName()
-					+ "   size: " + arquivoPequeno.length());
+			log.warn(new SimpleDateFormat("dd-MM-yyyy hh:mm:ss").format(new Date()) + "IOPA ###Process: " + arquivo.getName()
+					+ "   size: " + arquivo.length() + "###arquivoPequeno: " + arquivoPequeno.getName() + "   size: "
+					+ arquivoPequeno.length());
 
-			if (arquivoPequeno.length() > 0)
+			if (arquivoPequeno.length() > -5)
 			{
 				try
 				{
@@ -50,48 +53,48 @@ public class Process
 					if (!theDir.exists())
 						theDir.mkdir();
 
-					System.out.println("NewFile: " + newFile.getAbsolutePath());
+					log.warn("NewFile: " + newFile.getAbsolutePath());
 
 					if (arquivoPequeno.renameTo(newFile))
 					{
-						System.out.println("File is moved successful!");
+						log.warn("File is moved successful!");
 					} else
 					{
-						System.out.println("File is failed to move! ok  " + newFile.getAbsolutePath());
+						log.warn("File is failed to move! ok  " + newFile.getAbsolutePath());
 					}
 
 				} catch (Exception e)
 				{
-					System.out.println("Exception: " + e.getMessage());
-					System.out.println("Exceção ao processar arquivo: " + arquivoPequeno.getName());
+					log.warn("Exception: " + e.getMessage());
+					log.warn("Exceção ao processar arquivo: " + arquivoPequeno.getName());
 
 					try
 					{
 
 						if (arquivoPequeno.renameTo(new File("C:\\TempDirError\\" + arquivoPequeno.getName())))
 						{
-							System.out.println("File is moved successful!");
+							log.warn("File is moved successful!");
 						} else
 						{
-							System.out.println("File is failed to move! ex " + arquivoPequeno.getAbsolutePath());
+							log.warn("File is failed to move! ex " + arquivoPequeno.getAbsolutePath());
 						}
 
 					} catch (Exception ex)
 					{
-						System.out.println("Exception ao mover: " + ex.getMessage());
+						log.warn("Exception ao mover: " + ex.getMessage());
 
 					}
 
 				}
 			} else
 			{
-				System.out.println("Size <= 0 :  Nothing to do here...");
+				log.warn("Size <= 0 :  Nothing to do here...");
 			}
 
 			// }
 		} catch (Exception e)
 		{
-			System.out.println("Exception: " + e.getMessage());
+			log.warn("Exception: " + e.getMessage());
 
 		}
 

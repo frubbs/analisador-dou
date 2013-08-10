@@ -27,6 +27,8 @@ import gate.util.persistence.PersistenceManager;
 import java.io.File;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
+
 import dou.processador.ProcessadorAnotacoes;
 import dou.processador.registro.RegistroLigacaoStrategy;
 
@@ -36,6 +38,8 @@ import dou.processador.registro.RegistroLigacaoStrategy;
  */
 public class DouProcessor
 {
+
+	protected final Logger log = Logger.getLogger(DouProcessor.class);
 
 	public void processFile(File gappFile, File docFile, ProcessadorAnotacoes processador,
 			RegistroLigacaoStrategy registroStrategy) throws Exception
@@ -74,7 +78,7 @@ public class DouProcessor
 		long appExecStart = System.currentTimeMillis();
 		application.execute();
 		long appExecEnd = System.currentTimeMillis();
-		System.out.println("appExecute: " + (appExecEnd - appExecStart) + " ms");
+		log.warn("appExecute: " + (appExecEnd - appExecStart) + " ms");
 
 		// remove the document from the corpus again
 		corpus.clear();
@@ -84,17 +88,17 @@ public class DouProcessor
 		processador.process(docFile, doc, registroStrategy);
 
 		long portariaEnd = System.currentTimeMillis();
-		System.out.println("Portaria: " + (portariaEnd - portariaStart) + " ms");
+		log.warn("Portaria: " + (portariaEnd - portariaStart) + " ms");
 
 		// Release the document, as it is no longer needed
 		Factory.deleteResource(doc);
 
-		System.out.println("done");
+		log.warn("done");
 		long arquivoEnd = System.currentTimeMillis();
-		System.out.println("Arquivo: " + (arquivoEnd - arquivoStart) + "ms");
+		log.warn("Arquivo: " + (arquivoEnd - arquivoStart) + "ms");
 
 		long stopTime = System.currentTimeMillis();
-		System.out.println("Fim do programa: " + (stopTime - startTime) + " ms");
+		log.warn("Fim do programa: " + (stopTime - startTime) + " ms");
 
 	}
 
@@ -104,6 +108,7 @@ public class DouProcessor
 		// props.setProperty("gate.plugins.home", ".\\plugins\\ANNIE");
 		props.setProperty("gate.home",
 				"C:\\Users\\Rafael\\workspace\\analisador-dou\\AnalisadorDou\\lib\\GateAPI\\gate-7.1-build4485-ALL");
+
 		// props.setProperty("gate.site.config", ".\\gate.xml");
 
 		/*
@@ -114,7 +119,7 @@ public class DouProcessor
 		 * 
 		 * // gateHomeStr = // Thread.currentThread().getContextClassLoader().getResource ("gate/Gate.class").toString();
 		 * 
-		 * System.out.println("#########8gfah: " + gateHomeStr);
+		 * log.warn("#########8gfah: " + gateHomeStr);
 		 */
 
 		//
@@ -124,7 +129,8 @@ public class DouProcessor
 		// //gateHomeStr =
 		// Thread.currentThread().getContextClassLoader().getResource("gate/Gate.class").toString();
 		//
-		System.out.println("#########8gfah: " + gateHomeStr);
+		log.warn("## Gate home: " + gateHomeStr);
+
 	}
 
 	/** Diretorion onde estao os arquivos a serem processados. */

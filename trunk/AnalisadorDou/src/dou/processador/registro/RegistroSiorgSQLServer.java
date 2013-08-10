@@ -6,12 +6,15 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
+
 import dou.processador.Ligacao;
 
 public class RegistroSiorgSQLServer implements RegistroLigacaoStrategy
 {
 
 	Connection conn;
+	protected final Logger log = Logger.getLogger(RegistroSiorgSQLServer.class);
 
 	public RegistroSiorgSQLServer()
 	{
@@ -68,14 +71,13 @@ public class RegistroSiorgSQLServer implements RegistroLigacaoStrategy
 			long insertEnd = System.currentTimeMillis();
 
 			if ((insertEnd - insertStart) > 200)
-				System.out.println("Insert: " + (insertEnd - insertStart) + " ms");
+				log.warn("Insert: " + (insertEnd - insertStart) + " ms");
 
 		} catch (Exception e)
 		{
-			System.out.println("Parametros: " + entidade + ", " + identificacaoPortaria + ", " + "textoPortaria" + ", "
-					+ offsetPortIni + ", " + offsetPortEnd + ", " + offsetEntIni + ", " + offsetEntEnd + ", " + tipo + ", "
-					+ data);
-			System.out.println("Exception: " + e.getMessage());
+			log.warn("Parametros: " + entidade + ", " + identificacaoPortaria + ", " + "textoPortaria" + ", " + offsetPortIni
+					+ ", " + offsetPortEnd + ", " + offsetEntIni + ", " + offsetEntEnd + ", " + tipo + ", " + data);
+			log.warn("Exception: " + e.getMessage());
 			e.printStackTrace();
 		}
 
