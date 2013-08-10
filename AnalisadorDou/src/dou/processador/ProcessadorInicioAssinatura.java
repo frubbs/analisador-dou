@@ -9,11 +9,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import dou.processador.registro.RegistroLigacaoStrategy;
 import dou.util.Util;
 
 public class ProcessadorInicioAssinatura implements ProcessadorAnotacoes
 {
+
+	protected final Logger log = Logger.getLogger(ProcessadorInicioAssinatura.class);
 
 	@Override
 	public void process(File docFile, Document doc, RegistroLigacaoStrategy strategy)
@@ -30,16 +34,16 @@ public class ProcessadorInicioAssinatura implements ProcessadorAnotacoes
 			List<gate.Annotation> assinaturaList = gate.Utils.inDocumentOrder(todasAnnots.get("Assinatura"));
 			List<gate.Annotation> entidadeList = gate.Utils.inDocumentOrder(todasAnnots.get("EntidadeIdentificada"));
 			long annotEnd = System.currentTimeMillis();
-			System.out.println("Extrair as anotações: " + (annotEnd - annotStart) + " ms");
+			log.warn("Extrair as anotações: " + (annotEnd - annotStart) + " ms");
 
 			// Para cada inicio procura a proxima assinatura, que indica o fim
 			// da portaria
 
-			System.out.println("Quantidade portarias: " + inicioList.size());
+			log.warn("Quantidade portarias: " + inicioList.size());
 			for (int i = 0; i < inicioList.size(); i++)
 			{
 				gate.Annotation annInicioPortaria = inicioList.get(i);
-				// System.out.println("#### Processando : " + "port: " +
+				// log.warn("#### Processando : " + "port: " +
 				// annIni.getStartNode().getOffset());
 
 				long inicioPortaria = annInicioPortaria.getStartNode().getOffset();
@@ -50,7 +54,7 @@ public class ProcessadorInicioAssinatura implements ProcessadorAnotacoes
 
 				if (fimPortaria == 0)
 				{
-					System.out.println("FimPortaria == 0 ->  nao foi possivel determinar o proximo fim.");
+					log.warn("FimPortaria == 0 ->  nao foi possivel determinar o proximo fim.");
 					break; // inconsistencia. fim do processamento.
 				}
 
@@ -60,7 +64,7 @@ public class ProcessadorInicioAssinatura implements ProcessadorAnotacoes
 				// processar as entidades nela presentes.
 				long entidadeStart = System.currentTimeMillis();
 
-				System.out.println("Entidades size: " + entidadeList.size());
+				log.warn("Entidades size: " + entidadeList.size());
 
 				List<gate.Annotation> entidadesEncontradas = new ArrayList<gate.Annotation>();
 				// for (gate.Annotation annEnt : entidadeList) {
@@ -104,26 +108,26 @@ public class ProcessadorInicioAssinatura implements ProcessadorAnotacoes
 							// ordenada.
 						else
 						{
-							System.out.println("saind pois inicioEntidade (" + inicioEntidade + ") > fimportaria (" + fimPortaria
-									+ ")");
+							log.warn("saind pois inicioEntidade (" + inicioEntidade + ") > fimportaria (" + fimPortaria + ")");
 							break;
 						}
 					}
 				}
 
-				System.out.println("Encontradas: " + entidadesEncontradas.size());
+				log.warn("Encontradas: " + entidadesEncontradas.size());
 				for (gate.Annotation e : entidadesEncontradas)
 				{
 					entidadeList.remove(e);
 				}
 
 				long entidadeEnd = System.currentTimeMillis();
-				System.out.println("entidades: " + (entidadeEnd - entidadeStart) + "ms");
+				log.warn("entidades: " + (entidadeEnd - entidadeStart) + "ms");
 				// System.in.read();
 			}// fim. vamos para o proximo inicio de portaria
 
 		} catch (Exception e)
 		{
+			log.warn("Exceção :" + e.getMessage());
 			e.printStackTrace();
 
 		}
@@ -163,7 +167,7 @@ public class ProcessadorInicioAssinatura implements ProcessadorAnotacoes
 	 * Esse metodo verifica se as anotações de inicio de portaria e assinatura, que indica fim de portaria, estao em ordem. Se a
 	 * assinatura estiver antes do inicio, pula pra proxima. isso nao deveria ocorrer, mas se acontecer, estamos preparados.
 	 */
-	private static gate.Annotation validaOrdemInicioAssinatura(List<gate.Annotation> assinaturaList, gate.Annotation annIni,
+	private gate.Annotation validaOrdemInicioAssinatura(List<gate.Annotation> assinaturaList, gate.Annotation annIni,
 			gate.Annotation annFim)
 	{
 
@@ -171,14 +175,14 @@ public class ProcessadorInicioAssinatura implements ProcessadorAnotacoes
 
 		while ((annFim.getStartNode().getOffset() < annIni.getEndNode().getOffset()) && !assinaturaList.isEmpty())
 		{
-			System.out.println("annFim menor que inicio: annFim.getStartNode().getOffset():" + annFim.getStartNode().getOffset());
+			log.warn("annFim menor que inicio: annFim.getStartNode().getOffset():" + annFim.getStartNode().getOffset());
 
 			annFim = null;
 
 			assinaturaList.remove(0);
 			if (assinaturaList.isEmpty())
 			{
-				System.out.println("assinaturaList.isEmpty()2");
+				log.warn("assinaturaList.isEmpty()2");
 				break; // Se nao há assinatura correspondente, há
 						// inconsistencia. fim do processamento.
 			}
@@ -186,7 +190,7 @@ public class ProcessadorInicioAssinatura implements ProcessadorAnotacoes
 		}
 
 		long ordemEnd = System.currentTimeMillis();
-		System.out.println("ValidaOrdemInicioAssinatura: " + (ordemEnd - ordemStart) + " ms");
+		log.warn("ValidaOrdemInicioAssinatura: " + (ordemEnd - ordemStart) + " ms");
 
 		return annFim;
 	}

@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/log4j.properties</name>
+			<type>1</type>
+			<location>C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/src/log4j.properties</location>
+		</link>
+	</linkedResources>
 </projectDescription>

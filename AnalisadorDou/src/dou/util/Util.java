@@ -6,48 +6,53 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Util {
+import org.apache.log4j.Logger;
 
-	public static Date extrairDataDoNomeDoArquivo(String name) {
+public class Util
+{
 
-		//Formato do nome: Dou-<ddMMyyyy>-<tipojornal>.txt   exemplo: Dou23031983-2.txt
+	protected final static Logger log = Logger.getLogger(Util.class);
 
-		int i = name.indexOf("Dou")+"Dou".length()+1;
-		int f = i+"ddMMyyyy".length();
-		String data = name.substring(i,f);
+	public static Date extrairDataDoNomeDoArquivo(String name)
+	{
 
-		//System.out.println("Data: " + data);
+		// Formato do nome: Dou-<ddMMyyyy>-<tipojornal>.txt exemplo: Dou23031983-2.txt
 
+		int i = name.indexOf("Dou") + "Dou".length() + 1;
+		int f = i + "ddMMyyyy".length();
+		String data = name.substring(i, f);
+
+		// log.warn("Data: " + data);
 
 		Date date;
-		try {
+		try
+		{
 			date = new SimpleDateFormat("ddMMyyyy").parse(data);
-		} catch (ParseException e) {
-			System.out.println("Nome de arquivo Invalido:" + name);
+		} catch (ParseException e)
+		{
+			log.warn("Nome de arquivo Invalido:" + name);
 			date = null;
 		}
 
-		
-//		System.out.println("data: " + new SimpleDateFormat("yyyy-MM-dd").format(date));
-		
+		// log.warn("data: " + new SimpleDateFormat("yyyy-MM-dd").format(date));
+
 		return date;
-		//return new SimpleDateFormat("yyyy-MM-dd").format(date);
+		// return new SimpleDateFormat("yyyy-MM-dd").format(date);
 	}
 
-	public static String gerarIdentificacaoUnicaPortaria(Annotation annIni,
-			String arquivo) {
+	public static String gerarIdentificacaoUnicaPortaria(Annotation annIni, String arquivo)
+	{
 
 		String somenteNumeros = arquivo.replaceAll("[^0-9]", "");
-		String offsetInicial = 	annIni.getStartNode().getOffset().toString();
+		String offsetInicial = annIni.getStartNode().getOffset().toString();
 		String offsetFinal = annIni.getEndNode().getOffset().toString();
 
 		String result = somenteNumeros + offsetInicial + offsetFinal;
-		
+
 		if (result.length() > 20)
-			return result.substring(0,19);
+			return result.substring(0, 19);
 		else
 			return result;
 	}
-
 
 }

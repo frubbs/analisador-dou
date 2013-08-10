@@ -53,6 +53,6 @@
 	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/xmlunit.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/xpp3.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/xstream.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/bin/gate.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/bin/gate.jar" sourcepath="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

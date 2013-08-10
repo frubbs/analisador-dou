@@ -6,10 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
+
 import dou.processador.Ligacao;
 
 public class RegistroSQLServer implements RegistroLigacaoStrategy
 {
+
+	protected final Logger log = Logger.getLogger(RegistroSQLServer.class);
 
 	Connection conn;
 
@@ -22,7 +26,7 @@ public class RegistroSQLServer implements RegistroLigacaoStrategy
 					.getConnection("jdbc:jtds:sqlserver://RAFAEL-PC:1433/dou;instance=SQLEXPRESS;user=douuser;password=1234");
 		} catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
+			log.warn("Exceção :" + e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -68,14 +72,14 @@ public class RegistroSQLServer implements RegistroLigacaoStrategy
 			long insertEnd = System.currentTimeMillis();
 
 			if ((insertEnd - insertStart) > 200)
-				System.out.println("Insert: " + (insertEnd - insertStart) + " ms");
+				log.warn("Insert: " + (insertEnd - insertStart) + " ms");
 
 		} catch (Exception e)
 		{
-			System.out.println("Parametros: " + entidade + ", " + identificacaoPortaria + ", " + "textoPortaria" + ", "
-					+ offsetPortIni + ", " + offsetPortEnd + ", " + offsetEntIni + ", " + offsetEntEnd + ", " + tipo + ", "
-					+ tipoPortaria + ", " + data);
-			System.out.println("Exception: " + e.getMessage());
+			log.warn("Parametros: " + entidade + ", " + identificacaoPortaria + ", " + "textoPortaria" + ", " + offsetPortIni
+					+ ", " + offsetPortEnd + ", " + offsetEntIni + ", " + offsetEntEnd + ", " + tipo + ", " + tipoPortaria + ", "
+					+ data);
+			log.warn("Exception: " + e.getMessage());
 			e.printStackTrace();
 		}
 

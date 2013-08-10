@@ -31,7 +31,7 @@
 	<classpathentry kind="lib" path="lib/GateAPI/gate-7.1-build4485-ALL/lib/jdom.jar"/>
 	<classpathentry kind="lib" path="lib/GateAPI/gate-7.1-build4485-ALL/lib/jempbox.jar"/>
 	<classpathentry kind="lib" path="lib/GateAPI/gate-7.1-build4485-ALL/lib/junit.jar"/>
-	<classpathentry kind="lib" path="lib/GateAPI/gate-7.1-build4485-ALL/lib/log4j.jar"/>
+	<classpathentry kind="lib" path="lib/GateAPI/gate-7.1-build4485-ALL/lib/log4j.jar" sourcepath="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/log4j-1.2.17-sources.jar"/>
 	<classpathentry kind="lib" path="lib/GateAPI/gate-7.1-build4485-ALL/lib/lucene-core.jar"/>
 	<classpathentry kind="lib" path="lib/GateAPI/gate-7.1-build4485-ALL/lib/metadata-extractor.jar"/>
 	<classpathentry kind="lib" path="lib/GateAPI/gate-7.1-build4485-ALL/lib/nekohtml.jar"/>
@@ -52,7 +52,7 @@
 	<classpathentry kind="lib" path="lib/GateAPI/gate-7.1-build4485-ALL/lib/xmlunit.jar"/>
 	<classpathentry kind="lib" path="lib/GateAPI/gate-7.1-build4485-ALL/lib/xpp3.jar"/>
 	<classpathentry kind="lib" path="lib/GateAPI/gate-7.1-build4485-ALL/lib/xstream.jar"/>
-	<classpathentry kind="lib" path="lib/GateAPI/gate-7.1-build4485-ALL/bin/gate.jar"/>
+	<classpathentry kind="lib" path="lib/GateAPI/gate-7.1-build4485-ALL/bin/gate.jar" sourcepath="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/src"/>
 	<classpathentry kind="lib" path="lib/GateAPI/gate-7.1-build4485-ALL/bin/gateLauncher.jar"/>
 	<classpathentry kind="lib" path="lib/jtds/jtds-1.3.0-dist/jtds-1.3.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
