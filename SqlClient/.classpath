@@ -4,5 +4,6 @@
 	<classpathentry kind="lib" path="sqlite-jdbc-3.7.15-SNAPSHOT-2.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/commons-io.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rafael/workspace/analisador-dou/AnalisadorDou/lib/GateAPI/gate-7.1-build4485-ALL/lib/log4j.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
