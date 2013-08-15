@@ -6,9 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 
 import dou.processador.Ligacao;
+import dou.processador1modo.Entidade;
+import dou.processador1modo.Portaria;
 
 public class RegistroSiorgSQLServer implements RegistroLigacaoStrategy
 {
@@ -80,6 +83,13 @@ public class RegistroSiorgSQLServer implements RegistroLigacaoStrategy
 			log.warn("Exception: " + e.getMessage());
 			e.printStackTrace();
 		}
+
+	}
+
+	@Override
+	public void registrar1Modo(Entidade entidadeA, Entidade entidadeB, Portaria portaria)
+	{
+		throw new NotImplementedException();
 
 	}
 
