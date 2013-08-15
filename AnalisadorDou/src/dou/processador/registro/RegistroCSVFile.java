@@ -5,7 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 
+import org.apache.commons.lang.NotImplementedException;
+
 import dou.processador.Ligacao;
+import dou.processador1modo.Entidade;
+import dou.processador1modo.Portaria;
 
 public class RegistroCSVFile implements RegistroLigacaoStrategy
 {
@@ -68,5 +72,12 @@ public class RegistroCSVFile implements RegistroLigacaoStrategy
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void registrar1Modo(Entidade entidadeA, Entidade entidadeB, Portaria portaria)
+	{
+		throw new NotImplementedException();
+
 	}
 }

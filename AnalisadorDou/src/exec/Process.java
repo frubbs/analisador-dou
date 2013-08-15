@@ -7,8 +7,8 @@ import java.util.Date;
 import org.apache.log4j.Logger;
 
 import dou.DouProcessor;
-import dou.processador.ProcessadorInicioInicio;
-import dou.processador.registro.RegistroSQLServer;
+import dou.processador1modo.ProcessadorInicioInicio1Modo;
+import dou.processador1modo.registro.RegistroSQLServer1Modo;
 
 public class Process
 {
@@ -45,7 +45,8 @@ public class Process
 				try
 				{
 
-					new DouProcessor().processFile(gapp, arquivoPequeno, new ProcessadorInicioInicio(), new RegistroSQLServer());
+					new DouProcessor().processFile(gapp, arquivoPequeno, new ProcessadorInicioInicio1Modo(),
+							new RegistroSQLServer1Modo());
 
 					File newFile = new File(arquivoPequeno.getAbsolutePath().replace("\\txt\\", "\\ProcessedTxt\\"));
 
@@ -55,7 +56,7 @@ public class Process
 
 					log.warn("NewFile: " + newFile.getAbsolutePath());
 
-					if (arquivoPequeno.renameTo(newFile))
+					if (true)// arquivoPequeno.renameTo(newFile))
 					{
 						log.warn("File is moved successful!");
 					} else
@@ -71,7 +72,7 @@ public class Process
 					try
 					{
 
-						if (arquivoPequeno.renameTo(new File("C:\\TempDirError\\" + arquivoPequeno.getName())))
+						if (arquivoPequeno.renameTo(new File("C:\\TempDirError2\\" + arquivoPequeno.getName())))
 						{
 							log.warn("File is moved successful!");
 						} else
