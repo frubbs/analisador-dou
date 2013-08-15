@@ -19,8 +19,8 @@ INTO
 FROM
 	TbEntidade E
 WHERE
-	--E.Texto like '%Universidade%' AND
-	E.TipoEntidade = 'Nome'
+	E.Texto like '%Universidade%' AND
+	E.TipoEntidade = 'Orgao'
 
 
 SELECT 
@@ -32,20 +32,15 @@ FROM
 JOIN
 	TbPortariaEntidade PE ON P.IdPortaria = PE.IdPortaria
 WHERE
-	P.Texto like '%Segurança%'
+	P.Texto like '%%'
 	AND PE.IdEntidade in (SELECT IdEntidade FROM #EntidadeFiltrada)
 
 
-
 declare @entidades bigint
-declare @portarias bigint
-
 
 select @entidades = count(*) from VwEntidade WHERE IdEntidade in (SELECT IdEntidade FROM #PortariaEntidadeFiltrada)
 
-select @portarias = count(*) from TbPortaria WHERE IdPortaria in (SELECT IdPortaria FROM #PortariaEntidadeFiltrada)
-
-select '*Vertices ' + cast((@entidades + @portarias) as nvarchar) + ' ' + cast(@entidades as nvarchar)
+select '*Vertices ' + cast(@entidades as nvarchar)
 
 
 DECLARE @Vertice TABLE (
@@ -67,7 +62,7 @@ FROM
 WHERE 
 	IdEntidade in (SELECT IdEntidade FROM #PortariaEntidadeFiltrada)
 
-
+/*
 INSERT INTO 
 	@Vertice
 SELECT
@@ -78,7 +73,7 @@ FROM
 	TbPortaria
 WHERE 
 	IdPortaria in (SELECT IdPortaria FROM #PortariaEntidadeFiltrada)
-
+*/
 
 Select CAST(ID as NVARCHAR) + '  ' + Entidade from @Vertice
 
@@ -97,16 +92,24 @@ SELECT
 	'[' + cast(DENSE_RANK() OVER (ORDER BY Tempo DESC) as nvarchar) +']',
 	v2.*  
 	*/
-pe.Tempo, pe.IDEntidade, pe.IdPortaria,
-	 cast(v.ID as nvarchar) + ' ' + cast(v2.id as nvarchar) + ' 1 [' + cast(DENSE_RANK() OVER (ORDER BY pe.Tempo DESC) as nvarchar) +']' 
-
+	distinct cast(v.ID as nvarchar) + ' ' + cast(v2.id as nvarchar) + ' 1 [' + cast(DENSE_RANK() OVER (ORDER BY pe.Tempo DESC) as nvarchar) +']' as ligacao, pe.Tempo
+INTO 
+	#finalResult
 FROM
 	#PortariaEntidadeFiltrada pe 
+JOIN 
+	#PortariaEntidadeFiltrada pe2 on (pe.idPortaria = pe2.idPortaria) AND (pe.IDEntidade > pe2.IDEntidade)
 LEFT JOIN 
 	@Vertice v on pe.IDEntidade = v.IdOriginal
 LEFT JOIN 
-	@Vertice v2 on pe.IdPortaria = v2.IdOriginal
+	@Vertice v2 on pe2.IDEntidade = v2.IdOriginal
 
-Order by pe.Tempo
+
+
+SELECT ligacao from
+	#finalResult
+Order by Tempo
+
+
 	
 
