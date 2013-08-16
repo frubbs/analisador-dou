@@ -16,6 +16,27 @@ MACRO: CABECALHO
 	)[0,15]
 )
 
+MACRO: NUMEROPORTARIA
+(
+	(
+		  {Token.string== "No"} 
+		| {Token.string== "No-"} 
+		| {Token.string== "Nº"}  
+		| {Token.string== "N°"}  
+		| ({Token.string== "N"}{Token.string== "o"})
+		| ({Token.string== "N"}{Token.string== "o-"})
+		| ({Token.string== "N"}{Token.string== "°"})
+		| ({Token.string== "N"}{Token.string== "º"})
+		| ({Token.string== "No"}{Token.string== "-"})
+	)
+	{SpaceToken}
+	({Token.kind== "number"})
+	({Token.kind== "punctuation"})?
+	({Token.kind== "number"})?
+	({SpaceToken})?
+	{Token.string== ","}
+)
+
 MACRO: DATACOMPLETA
 (
 	({Token.kind== "number"})
