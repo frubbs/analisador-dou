@@ -6,12 +6,12 @@ Phase:adins
 Input: Token SpaceToken Lookup NOVALINHA DATACOMPLETA NUMEROPORTARIA
 Options: control = appelt
 
-//LEI No 12.835, DE 26 DE JUNHO DE 2013
+//DECRETO No 12.835, DE 26 DE JUNHO DE 2013
+//DECRETO DE 16 DE OUTUBRO DE 2012
 
-
-MACRO: INICIOLEI
+MACRO: INICIODECRETO
 (
-	{Lookup.majorType == "Lei"}
+	({Token.string == "DECRETO"} | {Token.string == "DECRETOS"})
 	{SpaceToken}
 	(NUMEROPORTARIA)?
 	({SpaceToken})?
@@ -23,8 +23,8 @@ MACRO: INICIOLEI
 Rule: Inicio
 (
 	(CABECALHO)
-	(NOVALINHA)(INICIOLEI)
-): lei
+	(NOVALINHA)(INICIODECRETO)
+): dec
 -->
-:lei.Inicio = {kind = "IniLei"}
+:dec.Inicio = {kind = "IniDecreto"}
 
