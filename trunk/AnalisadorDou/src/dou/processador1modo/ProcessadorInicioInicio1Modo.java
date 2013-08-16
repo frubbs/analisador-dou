@@ -7,6 +7,7 @@ import gate.SimpleFeatureMap;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -64,11 +65,14 @@ public class ProcessadorInicioInicio1Modo implements ProcessadorAnotacoes
 				// anotar as entidades nela presentes.
 				long entidadeStart = System.currentTimeMillis();
 
-				log.warn("Entidades size: " + entidadeList.size());
+				log.warn("Entidades no arquivo: " + entidadeList.size());
 
 				List<gate.Annotation> entidadesEncontradasGate = new ArrayList<gate.Annotation>();
 
-				List<Entidade> entidadesEncontradas = new ArrayList<Entidade>();
+				// List<Entidade> entidadesEncontradasNome = new ArrayList<Entidade>();
+				HashMap<String, Entidade> entidadesEncontradasNome = new HashMap<String, Entidade>();
+				// List<Entidade> entidadesEncontradasOrgao = new ArrayList<Entidade>();
+				HashMap<String, Entidade> entidadesEncontradasOrgao = new HashMap<String, Entidade>();
 
 				String textoPortaria = doc.getContent().getContent(inicioPortaria, fimPortaria).toString();
 				String identificacaoPortaria = Util.gerarIdentificacaoUnicaPortaria(annIni, docFile.getName());
@@ -111,8 +115,14 @@ public class ProcessadorInicioInicio1Modo implements ProcessadorAnotacoes
 							Entidade entidade = new Entidade(entidadeText, null, particao, inicioEntidade, fimEntidade,
 									featureMap.get("kind").toString());
 
-							entidadesEncontradas.add(entidade);
+							if (entidade.tipoEntidade.equals("Orgao"))
+								entidadesEncontradasOrgao.put(entidade.entidade, entidade); // entidadesEncontradasOrgao.add(entidade);
+							else
+								entidadesEncontradasNome.put(entidade.entidade, entidade);// .add(entidade);
+
+							// adiciona para remover da lista depois. se achou nessa portaria, nao estara em nenhuma outra
 							entidadesEncontradasGate.add(annEnt);
+
 						}// TODO se falhar aqui ja pode sair fora. a lista esta
 							// ordenada.
 						else
@@ -130,24 +140,9 @@ public class ProcessadorInicioInicio1Modo implements ProcessadorAnotacoes
 
 				}
 
-				for (int k = 0; k < entidadesEncontradas.size(); k++)
-				{
-					for (int j = k + 1; j < entidadesEncontradas.size(); j++)
-					{
-						Entidade entidadeA = entidadesEncontradas.get(k);
-						Entidade entidadeB = entidadesEncontradas.get(j);
+				geraLigacoesEntreEntidades(strategy, entidadesEncontradasOrgao, portaria);
+				geraLigacoesEntreEntidades(strategy, entidadesEncontradasNome, portaria);
 
-						// log.warn("L: " + entidadeA.entidade + " | " + entidadeB.entidade + " | " +
-						// portaria.identificacaoPortaria);
-						if ((entidadeA.tipoEntidade.equals(entidadeB.tipoEntidade))
-								&& (!entidadeA.entidade.equals(entidadeB.entidade)))
-						{
-							strategy.registrar1Modo(entidadeA, entidadeB, portaria);
-						}
-					}
-				}
-
-				log.warn("Encontradas: " + entidadesEncontradasGate.size());
 				for (gate.Annotation e : entidadesEncontradasGate)
 				{
 					entidadeList.remove(e);
@@ -172,4 +167,49 @@ public class ProcessadorInicioInicio1Modo implements ProcessadorAnotacoes
 		}
 
 	}
+
+	private void geraLigacoesEntreEntidades(RegistroLigacaoStrategy strategy, HashMap<String, Entidade> mapentidadesEncontradas,
+			Portaria portaria)
+	{
+
+		Entidade[] entidadesEncontradasOrgao = mapentidadesEncontradas.values().toArray(new Entidade[0]);
+		int countProcessed = 0;
+		int countTotal = calculaLigacoes(entidadesEncontradasOrgao.length);
+
+		log.warn("entidadesEncontradas na portaria: " + entidadesEncontradasOrgao.length + "| ligacoes: " + countTotal);
+
+		for (int k = 0; k < entidadesEncontradasOrgao.length; k++)
+		{
+			for (int j = k + 1; j < entidadesEncontradasOrgao.length; j++)
+			{
+
+				Entidade entidadeA = entidadesEncontradasOrgao[k];
+				Entidade entidadeB = entidadesEncontradasOrgao[j];
+
+				// log.warn("L: " + entidadeA.entidade + " | " + entidadeB.entidade + " | " +
+				// portaria.identificacaoPortaria);
+				if (!entidadeA.entidade.equals(entidadeB.entidade))
+				{
+					strategy.registrar1Modo(entidadeA, entidadeB, portaria);
+				}
+				if ((countProcessed++ % 100) == 0)
+					log.warn("Processadas ligacoes[" + entidadeA.tipoEntidade + "]: " + countProcessed + "|" + countTotal);
+
+			}
+		}
+	}
+
+	private int calculaLigacoes(int size)
+	{
+		int count = 0;
+		for (int k = 0; k < size; k++)
+		{
+			for (int j = k + 1; j < size; j++)
+			{
+				count++;
+			}
+		}
+		return count;
+	}
+
 }

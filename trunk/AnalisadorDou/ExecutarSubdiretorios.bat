@@ -17,7 +17,7 @@ for /F %%x in ('dir /B/A:-D-S/S %MYDIR%') do (
 
  IF "!SUBSTRING!" == "-1.txt" (
 	echo processar : %%x 
-	java -Xmx1300M  -jar ProcessFile.jar %XAPP% %%x >> C:\Users\Rafael\Desktop\MestradoApresentacao1\Metodo2b\loging.syso.log
+	java -Xmx1300M  -jar ProcessFile1modo.jar %XAPP% %%x >> C:\Users\Rafael\Desktop\MestradoApresentacao1\Metodo2b\loging.syso.log
  ) else (
 	echo Nao vamos processar arquivos do segundo ou terceiro jornal: %%x
  ) 
