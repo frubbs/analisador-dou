@@ -56,7 +56,7 @@ public class Process
 
 					log.warn("NewFile: " + newFile.getAbsolutePath());
 
-					if (true)// arquivoPequeno.renameTo(newFile))
+					if (arquivoPequeno.renameTo(newFile))
 					{
 						log.warn("File is moved successful!");
 					} else
