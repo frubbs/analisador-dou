@@ -5,11 +5,13 @@ import gate.Document;
 import gate.SimpleFeatureMap;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
 import dou.processador.ProcessadorAnotacoes;
@@ -172,29 +174,64 @@ public class ProcessadorInicioInicio1Modo implements ProcessadorAnotacoes
 			Portaria portaria)
 	{
 
-		Entidade[] entidadesEncontradasOrgao = mapentidadesEncontradas.values().toArray(new Entidade[0]);
+		Entidade[] entidadesEncontradas = mapentidadesEncontradas.values().toArray(new Entidade[0]);
 		int countProcessed = 0;
-		int countTotal = calculaLigacoes(entidadesEncontradasOrgao.length);
+		int countTotal = calculaLigacoes(entidadesEncontradas.length);
 
-		log.warn("entidadesEncontradas na portaria: " + entidadesEncontradasOrgao.length + "| ligacoes: " + countTotal);
+		log.warn("entidadesEncontradas na portaria: " + entidadesEncontradas.length + "| ligacoes: " + countTotal);
 
-		for (int k = 0; k < entidadesEncontradasOrgao.length; k++)
+		if (countTotal > 10000)
 		{
-			for (int j = k + 1; j < entidadesEncontradasOrgao.length; j++)
+			log.warn("Total(" + countTotal + ") maior que 10000.");
+			String novoNome = portaria.identificacaoPortaria + ".txt";
+
+			File novo = new File(novoNome);
+
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("Portaria: ");
+			sb.append(portaria.identificacaoPortaria + "|" + portaria.nomeArquivo + "|" + portaria.textoPortaria.substring(0, 50));
+			sb.append('\n');
+
+			for (Entidade entidade : entidadesEncontradas)
 			{
+				sb.append('\n');
+				sb.append(entidade.entidade + " | " + entidade.tipoEntidade);
+			}
+			sb.append('\n');
+			sb.append("Fim");
 
-				Entidade entidadeA = entidadesEncontradasOrgao[k];
-				Entidade entidadeB = entidadesEncontradasOrgao[j];
+			try
+			{
+				FileUtils.writeStringToFile(novo, sb.toString());
+				log.warn("Arquivo gravado: " + novo.getAbsolutePath());
+			} catch (IOException e)
+			{
+				log.warn("Exceção ao gravar portaria: " + portaria.identificacaoPortaria + "|" + portaria.nomeArquivo + "|"
+						+ portaria.textoPortaria.substring(0, 50));
+				log.warn(e.getMessage());
+			}
+		} else
+		{
 
-				// log.warn("L: " + entidadeA.entidade + " | " + entidadeB.entidade + " | " +
-				// portaria.identificacaoPortaria);
-				if (!entidadeA.entidade.equals(entidadeB.entidade))
+			for (int k = 0; k < entidadesEncontradas.length; k++)
+			{
+				for (int j = k + 1; j < entidadesEncontradas.length; j++)
 				{
-					strategy.registrar1Modo(entidadeA, entidadeB, portaria);
-				}
-				if ((countProcessed++ % 100) == 0)
-					log.warn("Processadas ligacoes[" + entidadeA.tipoEntidade + "]: " + countProcessed + "|" + countTotal);
 
+					Entidade entidadeA = entidadesEncontradas[k];
+					Entidade entidadeB = entidadesEncontradas[j];
+
+					// log.warn("L: " + entidadeA.entidade + " | " + entidadeB.entidade + " | " +
+					// portaria.identificacaoPortaria);
+					if (!entidadeA.entidade.equals(entidadeB.entidade))
+					{
+						strategy.registrar1Modo(entidadeA, entidadeB, portaria);
+					}
+					if ((countProcessed++ % 100) == 0)
+						log.warn("Processadas ligacoes[" + entidadeA.tipoEntidade + "]: " + countProcessed + "|" + countTotal);
+
+				}
 			}
 		}
 	}

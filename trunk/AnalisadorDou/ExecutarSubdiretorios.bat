@@ -3,7 +3,7 @@ cls
 setlocal enableDelayedExpansion 
 
 set MYDIR=C:\Users\Rafael\Desktop\MestradoApresentacao1\Metodo2b\txt\
-set XAPP=C:\Users\Rafael\workspace\analisador-dou\GateDeveloperFiles\ProcessadorPDF\ProcessadorPDF_v5.xapp
+set XAPP=C:\Users\Rafael\workspace\analisador-dou\GateDeveloperFiles\ProcessadorPDF\ProcessadorPDF_v7.xapp
 
 dir /A:-D-S/S %MYDIR%
 pause
