@@ -48,6 +48,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.txtTipoPortaria = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.douDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.douDataSetBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GVRelacionamentos)).BeginInit();
@@ -102,7 +104,6 @@
             this.TxtFiltroEntidades.Name = "TxtFiltroEntidades";
             this.TxtFiltroEntidades.Size = new System.Drawing.Size(431, 20);
             this.TxtFiltroEntidades.TabIndex = 4;
-            this.TxtFiltroEntidades.Text = "(Universidade AND Federal)";
             // 
             // TxtFiltroPortarias
             // 
@@ -110,7 +111,6 @@
             this.TxtFiltroPortarias.Name = "TxtFiltroPortarias";
             this.TxtFiltroPortarias.Size = new System.Drawing.Size(431, 20);
             this.TxtFiltroPortarias.TabIndex = 5;
-            this.TxtFiltroPortarias.Text = "(Seleção OR Vestibular OR Enem OR Sisu)";
             // 
             // TxtTipoEntidade
             // 
@@ -177,6 +177,7 @@
             this.TxtPortaria.Location = new System.Drawing.Point(826, 25);
             this.TxtPortaria.Multiline = true;
             this.TxtPortaria.Name = "TxtPortaria";
+            this.TxtPortaria.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.TxtPortaria.Size = new System.Drawing.Size(405, 604);
             this.TxtPortaria.TabIndex = 12;
             // 
@@ -216,11 +217,30 @@
             this.label7.TabIndex = 16;
             this.label7.Text = "Texto Portaria";
             // 
+            // txtTipoPortaria
+            // 
+            this.txtTipoPortaria.Location = new System.Drawing.Point(8, 151);
+            this.txtTipoPortaria.Name = "txtTipoPortaria";
+            this.txtTipoPortaria.Size = new System.Drawing.Size(79, 20);
+            this.txtTipoPortaria.TabIndex = 17;
+            this.txtTipoPortaria.Text = "IniporInt";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(8, 138);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(72, 13);
+            this.label8.TabIndex = 18;
+            this.label8.Text = "Tipo Portarias";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1243, 641);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.txtTipoPortaria);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -270,6 +290,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtTipoPortaria;
+        private System.Windows.Forms.Label label8;
     }
 }
 

@@ -29,7 +29,7 @@ namespace WindowsFormsApplication1
             conn.ConnectionString = ConnectionString;
         }
 
-        public DataSet geraRede(String filtroPortarias, String filtroEntidades, String tiposEntidade, BackgroundWorker _worker = null)
+        public DataSet geraRede(String filtroPortarias, String filtroEntidades, String tiposEntidade, String tiposPortaria, BackgroundWorker _worker = null)
         {
             this.worker = _worker;
 
@@ -44,7 +44,7 @@ namespace WindowsFormsApplication1
             if (worker != null) worker.ReportProgress(0, "Populando tabelas auxiliares..." + getAARowCount());
 
             populaTabelasAuxiliares(conn, filtroEntidades, filtroPortarias,
-                    tiposEntidade);
+                    tiposEntidade, tiposPortaria);
 
             if (worker != null) worker.ReportProgress(0, "Tabelas auxiliares populadas!" + getAARowCount());
             if (worker != null) worker.ReportProgress(0, "Populando tabela de vertices...");
@@ -118,21 +118,15 @@ namespace WindowsFormsApplication1
             */
 
 
-            String sql = " SELECT " +
-                         " distinct cast(v.ID as nvarchar) + ' ' + cast(v2.id as nvarchar) + ' 1 [' + cast(DENSE_RANK() OVER (ORDER BY pe.Tempo DESC) as nvarchar) +']' as ligacao, " +
-                         " v.IdOriginal, " +
-                         " v2.IdOriginal, " +
-                         " pe.Tempo, "+
-	                     " pe.IdPortaria " +
-                        // " INTO #finalResult " +
-                         " FROM " +
-	                     "   PortariaEntidadeFiltrada pe " +
-                         " JOIN " + 
-	                     "   PortariaEntidadeFiltrada pe2 on (pe.idPortaria = pe2.idPortaria) AND (pe.IDEntidade > pe2.IDEntidade) " +
-                         " LEFT JOIN " +
-	                     "   Vertice v on pe.IDEntidade = v.IdOriginal " +
-                         " LEFT JOIN " +
-	                     "   Vertice v2 on pe2.IDEntidade = v2.IdOriginal ";
+            String sql = "   SELECT "+
+                    //   "	        distinct cast(v.ID as nvarchar) + ' ' + cast(v2.id as nvarchar) + ' 1 [' + cast(DENSE_RANK() OVER (ORDER BY ee.Tempo DESC) as nvarchar) +']' as ligacao, ee.Tempo " +
+                         "          v.IdOriginal, v2.IdOriginal, ee.tempo, ee.IdPortaria    " +
+                         "   FROM " +
+	                     "          EntidadeEntidadeFiltrada_aux3 ee  " + 
+                         "   LEFT JOIN  " +
+	                     "          Vertice v on ee.IDEntidadeA = v.IdOriginal " +
+                         "   LEFT JOIN  " +
+	                     "          Vertice v2 on ee.IDEntidadeB = v2.IdOriginal";
 
 
             return buscaRegistros(conn, "Arcos", sql);
@@ -182,14 +176,15 @@ namespace WindowsFormsApplication1
         private void populaTabeladeVertices(SqlConnection conn)
         {
 
-            String queryString = ("INSERT INTO Vertice (IdOriginal, Entidade)"
-                    + "		SELECT"
-                    + "			IdEntidade as IdOriginal,"
-                    + "			\'\"\' + Texto + \'\"                                      0.0000    0.0000    0.5000 \' AS Entidade"
-                    + "		FROM"
-                    + "			TbEntidade"
-                    + "		WHERE"
-                    + "			IdEntidade in (SELECT IdEntidade FROM PortariaEntidadeFiltrada)");
+            String queryString =  " INSERT INTO " +
+                                  "   Vertice " +
+                                  " SELECT " +
+                                  "   IdEntidade as IdOriginal, " +
+                                  "	'\"\'   + Texto + \'\"                                      0.0000    0.0000    0.5000 \' AS Entidade " + 
+                                  " FROM " +
+                                  "     TbEntidade " +
+                                  " WHERE " +
+                                  "     IdEntidade in (SELECT IdEntidade FROM EntidadeFiltrada)";
 
             executeCommand(conn, queryString);
 
@@ -208,29 +203,75 @@ namespace WindowsFormsApplication1
         }
 
         private void populaTabelasAuxiliares(SqlConnection conn,
-                String filtroEntidades, String filtroPortarias, String tiposEntidade)
+                String filtroEntidades, String filtroPortarias, String tiposEntidade, String tiposPortaria)
         {
 
 
 
-            String sqlEnt = " INSERT INTO EntidadeFiltrada"
-                    + " 	SELECT IdEntidade, Texto, TipoEntidade FROM TbEntidade"
-                    + "	 @WHERECLAUSE@	";
+            String sqlEnt = "SELECT " +
+	                        "       E.* " +
+                            "INTO " +
+	                        "       EntidadeFiltrada " +
+                            "FROM " +
+	                        "       TbEntidade E " +
+                            " @WHERECLAUSE@	";
 
             executeCommand(conn, sqlEnt.Replace("@WHERECLAUSE@",
-                    preparaFiltro(tiposEntidade, filtroEntidades)));
+                    "WHERE TipoEntidade = '" + tiposEntidade + "'"));
 
-            String sqlPortEnt = "	INSERT INTO PortariaEntidadeFiltrada"
-                    + "			SELECT"
-                    + "				TbPortariaEntidade.IdPortaria, TbPortariaEntidade.IdEntidade, TbPortariaEntidade.TipoLigacao, TbPortariaEntidade.Tempo "
-                    + "			FROM"
-                    + "				TbPortaria"
-                    + "			JOIN"
-                    + "				TbPortariaEntidade  ON TbPortaria.IdPortaria = TbPortariaEntidade.IdPortaria"
-                    + "	 @WHERECLAUSE@	";
+            
+            String sqlPortEnt = "	SELECT " +
+                                "       EE.* " +
+                                "   INTO " + 
+	                            "       EntidadeEntidadeFiltrada_aux1 " + 
+                                "   FROM " +
+	                            "       TbEntidadeEntidade EE " +
+                                "   JOIN " + 
+	                            "       TbPortaria P ON P.IdPortaria = EE.IdPortaria " +
+                                " @WHERECLAUSE@	";
 
-            executeCommand(conn, sqlPortEnt.Replace("@WHERECLAUSE@",
+/*            executeCommand(conn, sqlPortEnt.Replace("@WHERECLAUSE@",
                     preparaFiltro(filtroPortarias)));
+*/
+              executeCommand(conn, sqlPortEnt.Replace("@WHERECLAUSE@",
+                    "WHERE P.TipoPortaria = '" + tiposPortaria + "'"));
+
+
+            String sqlPortEnt2 = "	SELECT " + 
+                                 "  	EE.* " +
+                                 "  INTO " +
+	                             "     EntidadeEntidadeFiltrada_aux2 " +
+                                 "  FROM " + 
+	                             "     EntidadeEntidadeFiltrada_aux1 EE " +
+                                 "  WHERE " +
+	                             "     EE.IdEntidadeA in (SELECT IdEntidade FROM EntidadeFiltrada) "; 
+
+            executeCommand(conn, sqlPortEnt2);
+
+            String sqlPortEnt3 = "	SELECT " +
+	                             "      EE.* " +
+                                 "  INTO " +
+	                             "      EntidadeEntidadeFiltrada_aux3 " +
+                                 "  FROM  " +
+	                             "      EntidadeEntidadeFiltrada_aux2 EE " + 
+                                 "  WHERE " +
+	                             "      EE.IdEntidadeB in (SELECT IdEntidade FROM EntidadeFiltrada) ";
+
+            executeCommand(conn, sqlPortEnt3);
+
+
+            
+            String sqlPortEnt4 = "	SELECT * INTO EntidadeEntidadeFiltrada " + 
+                                 "  FROM " +
+                                 "  ( " +
+                                 "      SELECT IdEntidadeA as IdEntidade FROM 	EntidadeEntidadeFiltrada_aux3 " +
+                                 "      UNION " +
+                                 "      SELECT IdEntidadeB as IdEntidade FROM 	EntidadeEntidadeFiltrada_aux3 " +
+                                 "  ) AS tmp ";
+
+            executeCommand(conn, sqlPortEnt4);
+
+            
         }
 
         public String preparaFiltro(String filtroTexto)
@@ -307,37 +348,40 @@ namespace WindowsFormsApplication1
             return WClause;
         }
 
+
+        private void dropTableExists(SqlConnection conn, String table)
+        {
+
+            String comm = " IF OBJECT_ID('{0}') IS NOT NULL " +
+                          " DROP TABLE {0} ";
+
+            executeCommand(conn, string.Format(comm,table));
+
+        }
+
+
         // Cria as tabelas temporarias
         public void preparaBanco(SqlConnection conn)
         {
-            String comm =  "IF OBJECT_ID('EntidadeFiltrada') IS NOT NULL " +
-                                    "  DROP TABLE EntidadeFiltrada ";
+
+            dropTableExists(conn, "EntidadeEntidadeFiltrada");
+            dropTableExists(conn, "EntidadeEntidadeFiltrada_aux0");
+            dropTableExists(conn, "EntidadeEntidadeFiltrada_aux1");
+            dropTableExists(conn, "EntidadeEntidadeFiltrada_aux2");
+            dropTableExists(conn, "EntidadeEntidadeFiltrada_aux3");
+            dropTableExists(conn, "EntidadeFiltrada");
+            dropTableExists(conn, "finalResult");
+            dropTableExists(conn, "Vertice");
+
+
+            String comm = " CREATE TABLE Vertice ( " +
+                          "  ID INT IDENTITY(1,1), " +
+	                      "  IdOriginal BIGINT, " +
+	                      "  Entidade NVARCHAR(MAX)) ";
 
             executeCommand(conn, comm);
 
-            executeCommand(conn, " CREATE TABLE EntidadeFiltrada" + "		("
-                    + "			IdEntidade INTEGER NOT NULL," + "			Texto NVARCHAR(100),"
-                    + "			TipoEntidade NVARCHAR(10),"
-                    + "		PRIMARY KEY (IdEntidade )," + "		UNIQUE (IdEntidade )) ");
-
-            executeCommand(conn, "IF OBJECT_ID('PortariaEntidadeFiltrada') IS NOT NULL " +
-                                    "  DROP TABLE PortariaEntidadeFiltrada ");
-            executeCommand(conn, " CREATE TABLE PortariaEntidadeFiltrada"
-                    + "		(" + "			IdPortaria INTEGER NOT NULL,"
-                    + "			IdEntidade INTEGER NOT NULL," + "			TipoLigacao INTEGER,"
-                    + "			Tempo datetime" + "		)");
-
-            executeCommand(conn, " IF OBJECT_ID('Vertice') IS NOT NULL " +
-                                    "  DROP TABLE Vertice ");
-
-            comm = " CREATE TABLE Vertice  ( " +
- 			        " ID INTEGER IDENTITY, " + 	
-			        " IdOriginal BIGINT," +
-			        " Entidade NVARCHAR(300) " +
-                    " )"; 
-
-
-            executeCommand(conn, comm);
+ 
 
         }
     }

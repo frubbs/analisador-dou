@@ -40,6 +40,7 @@ WHERE
 	--AND
 	E.TipoEntidade = 'Orgao'
 
+/*
 
 SELECT 
 	EE.*
@@ -53,56 +54,52 @@ WHERE
     TipoPortaria = 'IniporInt'
 	--P.TipoPortaria <> 'IniAcordao' AND P.TipoPortaria <> 'IniTC'
 
-
+	*/
 
 SELECT 
 	EE.*
 INTO
 	#EntidadeEntidadeFiltrada_aux1
 FROM 
-	#EntidadeEntidadeFiltrada_aux0 EE
+	TbEntidadeEntidade EE
 JOIN
 	 TbPortaria P ON P.IdPortaria = EE.IdPortaria
 WHERE
-P.Texto Like '%consumo de massa%' OR
-P.Texto Like '%mercado interno%' OR
-P.Texto Like '%distribuição de renda%' OR
-P.Texto Like '%vulnerabilidade externa%' OR
-P.Texto Like '%infraestrutura%' OR
-P.Texto Like '%mercado mundial%' OR
-P.Texto Like '%diferenças sociais%' OR
-P.Texto Like '%diferenças regionais%' OR
-P.Texto Like '%salário mínimo%' OR
-P.Texto Like '%Programa Bolsa Família%' OR
-P.Texto Like '%Plano de Desenvolvimento da Educação%' OR
-P.Texto Like '%PAC%' OR
-P.Texto Like '%desigualdades sociais%' OR
-P.Texto Like '%desigualdades regionais%' OR
-P.Texto Like '%Política Nacional de Desenvolvimento Regional%' OR
-P.Texto Like '%Territórios da Cidadania%' OR
-P.Texto Like '%meio rural%' OR
-P.Texto Like '%meio urbano%' OR
-P.Texto Like '%desigualdades inter-regionais%' OR
-P.Texto Like '%desigualdades intrarregionais%' OR
-P.Texto Like '%Arranjos Produtivos Locais%' OR
-P.Texto Like '%Economia Solidária%' OR
-P.Texto Like '%Brasil Sem Miséria%' OR
-P.Texto Like '%Programa Brasil Maior%' OR
-P.Texto Like '%PAC 2%' OR
-P.Texto Like '%articulação intersetorial%' OR
-P.Texto Like '%eficiência energética%' OR
-P.Texto Like '%exploração sustentável%' OR
-P.Texto Like '%potencial florestal%' OR
-P.Texto Like '%recursos hídricos%' OR
-P.Texto Like '%mudanças climáticas%' OR
-P.Texto Like '%controle ambiental%' OR
-P.Texto Like '%Plano Brasil Maior%' OR
-P.Texto Like '%Assistência técnica e extensão rural%' OR
-P.Texto Like '%agricultura familiar%' OR
-P.Texto Like '%Programa Trabalho, Emprego e Renda%' OR
-P.Texto Like '%crédito produtivo%' OR
-P.Texto Like '%microcrédito%' OR
-P.Texto Like '%indutoras do trabalho%'
+P.Texto Like '%CONHECIMENTO, EDUCAÇÃO E CULTURA%' OR
+P.Texto Like '%Conhecimento, educação e cultura%' OR
+P.Texto Like '%Educação e cultura%' OR
+P.Texto Like '%educação básica%' OR
+P.Texto Like '%piso nacional do magistério%' OR
+P.Texto Like '%PROUNI%' OR
+P.Texto Like '%educação superior%' OR
+P.Texto Like '%mestres e doutores%' OR
+P.Texto Like '%gestão da escola%' OR
+P.Texto Like '%Educação Básica%' OR
+P.Texto Like '%Educação Profissional e Tecnológica%' OR
+P.Texto Like '%Educação Superior%' OR
+P.Texto Like '%Pesquisa e Extensão%' OR
+P.Texto Like '%Quadras esportivas escolares%' OR
+P.Texto Like '%Educação infantil%' OR
+P.Texto Like '%educação profissional%' OR
+P.Texto Like '%PRONATEC%' OR
+P.Texto Like '%rede federal de educação%' OR
+P.Texto Like '%Rede Federal de Educação Superior%' OR
+P.Texto Like '% Universidades Federais%' OR
+P.Texto Like '%Arte e cultura%' OR
+P.Texto Like '%política de cultura%' OR
+P.Texto Like '%Sistema Nacional de Cultura%' OR
+P.Texto Like '%Praças dos Esportes e da Cultura%' OR
+P.Texto Like '%economia criativa%' OR
+P.Texto Like '%esporte na inclusão social%' OR
+P.Texto Like '%potencial econômico do esporte%' OR
+P.Texto Like '%eventos esportivos%' OR
+P.Texto Like '%Copa 2014%' OR
+P.Texto Like '%Olimpíadas%' OR
+P.Texto Like '%legado esportivo%' OR
+P.Texto Like '%esporte de alto rendimento%' OR
+P.Texto Like '%olímpico%' OR
+P.Texto Like '%legado social%' OR
+P.Texto Like '%esporte educativo%' 
 
 
 

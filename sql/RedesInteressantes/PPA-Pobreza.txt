@@ -1,0 +1,24 @@
+P.Texto Like '%Crescimento econômico%' OR
+P.Texto Like '%desigualdades%' OR
+P.Texto Like '%pobreza%' OR
+P.Texto Like '%analfabetos%' OR
+P.Texto Like '%analfabetismo%' OR
+P.Texto Like '%água e esgoto%' OR
+P.Texto Like '%Plano Brasil Sem Miséria%' OR
+P.Texto Like '%acesso a serviços públicos%' OR
+P.Texto Like '%inclusão produtiva%' OR
+P.Texto Like '%inclusão no mercado%' OR
+P.Texto Like '%universalização do acesso à água%' OR
+P.Texto Like '%Brasil Sem Miséria%' OR
+P.Texto Like '%direitos sociais%' OR
+P.Texto Like '%qualidade de vida%' OR
+P.Texto Like '%diversidade geracional%' OR
+P.Texto Like '%Segurança Alimentar e Nutricional%' OR
+P.Texto Like '%Sistema Único de Assistência Social%' OR
+P.Texto Like '%Biodiversidade%' OR
+P.Texto Like '%Agricultura Familiar%' OR
+P.Texto Like '%Educação Profissional e Tecnológica%' OR
+P.Texto Like '%Resíduos Sólidos%' OR
+P.Texto Like '%Reforma Agrária%' OR
+P.Texto Like '%Ordenamento da Estrutura Fundiária%' OR
+P.Texto Like '%Programa de Aquisição de Alimentos%' OR

@@ -58,8 +58,9 @@ namespace WindowsFormsApplication1
                     String filtroEntidades = TxtFiltroEntidades.Text;
                     String tipoEntidades = TxtTipoEntidade.Text;
                     String filtroPortarias = TxtFiltroPortarias.Text;
+                    String tipoPortarias = txtTipoPortaria.Text;
 
-                    ds = ds = ng.geraRede(filtroPortarias, filtroEntidades, tipoEntidades, worker); 
+                    ds = ds = ng.geraRede(filtroPortarias, filtroEntidades, tipoEntidades, tipoPortarias, worker); 
 
                 }
 
@@ -113,13 +114,20 @@ namespace WindowsFormsApplication1
         private void GVRelacionamentos_CellClick(object sender, DataGridViewCellEventArgs e)
         {
 
-            String IdE1 = GVRelacionamentos.Rows[e.RowIndex].Cells[1].Value.ToString();
-            String IdE2 = GVRelacionamentos.Rows[e.RowIndex].Cells[2].Value.ToString();
-            String IdP = GVRelacionamentos.Rows[e.RowIndex].Cells[4].Value.ToString();
+            String IdE1 = GVRelacionamentos.Rows[e.RowIndex].Cells[0].Value.ToString();
+            String IdE2 = GVRelacionamentos.Rows[e.RowIndex].Cells[1].Value.ToString();
+            String IdP = GVRelacionamentos.Rows[e.RowIndex].Cells[3].Value.ToString();
 
 
             String sql = string.Format("SELECT Texto, TipoEntidade FROM TbEntidade where IdEntidade in ({0},{1})", IdE1, IdE2);
             DataSet dsDetalhes = buscaRegistros("dummy", sql);
+
+            DataTable dt = new DataTable();
+            dt = dsDetalhes.Tables[0];
+
+            String ent1 = dt.Rows[0][0].ToString();
+            String ent2 = dt.Rows[1][0].ToString();
+
 
             GVENtidadePortariaDetalhes.DataSource = dsDetalhes;
             GVENtidadePortariaDetalhes.DataMember = "dummy";
@@ -132,10 +140,17 @@ namespace WindowsFormsApplication1
             GVPortaria.DataMember = "dummy";
 
 
-            DataTable dt = new DataTable();
-            dt = dsDetalhesP.Tables[0];
+            DataTable dtP = new DataTable();
+            dtP = dsDetalhesP.Tables[0];
 
-            TxtPortaria.Text = dt.Rows[0][0].ToString();
+
+            String textoPortaria = dtP.Rows[0][0].ToString();
+            textoPortaria = textoPortaria.Replace(ent1, "    $$$$ " + ent1 + " $$$$    ");
+            textoPortaria = textoPortaria.Replace(ent2, "    $$$$ " + ent2 + " $$$$    ");
+
+
+
+            TxtPortaria.Text = textoPortaria;
 
         }
 
