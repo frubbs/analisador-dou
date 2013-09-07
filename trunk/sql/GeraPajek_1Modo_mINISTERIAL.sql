@@ -41,10 +41,12 @@ WHERE
 	E.TipoEntidade = 'Orgao'
 
 
+
+
 SELECT 
 	EE.*
 INTO
-	#EntidadeEntidadeFiltrada_aux0
+SELECT * FROM	#EntidadeEntidadeFiltrada_aux1
 FROM 
 	TbEntidadeEntidade EE
 JOIN
@@ -53,6 +55,10 @@ WHERE
     TipoPortaria = 'IniporInt'
 	--P.TipoPortaria <> 'IniAcordao' AND P.TipoPortaria <> 'IniTC'
 
+
+
+
+/*
 
 
 SELECT 
@@ -64,46 +70,35 @@ FROM
 JOIN
 	 TbPortaria P ON P.IdPortaria = EE.IdPortaria
 WHERE
-P.Texto Like '%consumo de massa%' OR
-P.Texto Like '%mercado interno%' OR
-P.Texto Like '%distribuição de renda%' OR
-P.Texto Like '%vulnerabilidade externa%' OR
-P.Texto Like '%infraestrutura%' OR
-P.Texto Like '%mercado mundial%' OR
-P.Texto Like '%diferenças sociais%' OR
-P.Texto Like '%diferenças regionais%' OR
-P.Texto Like '%salário mínimo%' OR
-P.Texto Like '%Programa Bolsa Família%' OR
-P.Texto Like '%Plano de Desenvolvimento da Educação%' OR
-P.Texto Like '%PAC%' OR
-P.Texto Like '%desigualdades sociais%' OR
-P.Texto Like '%desigualdades regionais%' OR
-P.Texto Like '%Política Nacional de Desenvolvimento Regional%' OR
-P.Texto Like '%Territórios da Cidadania%' OR
-P.Texto Like '%meio rural%' OR
-P.Texto Like '%meio urbano%' OR
-P.Texto Like '%desigualdades inter-regionais%' OR
-P.Texto Like '%desigualdades intrarregionais%' OR
-P.Texto Like '%Arranjos Produtivos Locais%' OR
-P.Texto Like '%Economia Solidária%' OR
-P.Texto Like '%Brasil Sem Miséria%' OR
-P.Texto Like '%Programa Brasil Maior%' OR
-P.Texto Like '%PAC 2%' OR
-P.Texto Like '%articulação intersetorial%' OR
-P.Texto Like '%eficiência energética%' OR
-P.Texto Like '%exploração sustentável%' OR
-P.Texto Like '%potencial florestal%' OR
-P.Texto Like '%recursos hídricos%' OR
-P.Texto Like '%mudanças climáticas%' OR
-P.Texto Like '%controle ambiental%' OR
-P.Texto Like '%Plano Brasil Maior%' OR
-P.Texto Like '%Assistência técnica e extensão rural%' OR
-P.Texto Like '%agricultura familiar%' OR
-P.Texto Like '%Programa Trabalho, Emprego e Renda%' OR
-P.Texto Like '%crédito produtivo%' OR
-P.Texto Like '%microcrédito%' OR
-P.Texto Like '%indutoras do trabalho%'
+	P.Texto like '%Ciência%' OR
+P.Texto like '%Tecnologia%' OR
+P.Texto like '%Inovação%' OR
+P.Texto like '%CT&I%' OR
+P.Texto like '%política industrial%' OR
+P.Texto like '%comércio exterior.%' OR
+P.Texto like '%políticas industriais%' OR
+P.Texto like '%Ministério da Ciência e Tecnologia%' OR
+P.Texto like '%Pesquisa e Desenvolvimento%' OR
+P.Texto like '%desenvolvimento científico%' OR
+--P.Texto like '%desenvolvimento%' OR
+P.Texto like '%tecnológico%' OR
+P.Texto like '%inovação%' OR
+P.Texto like '%produção científica%' OR
+P.Texto like '%produção tecnológica%' OR
+P.Texto like '%periódicos científicos%' OR
+P.Texto like '%patentes%' OR
+P.Texto like '%mercado externo%' OR
+P.Texto like '%política de Ciência, Tecnologia e Inovação%' OR
+P.Texto like '%política industrial%' OR
+P.Texto like '%mundo acadêmico%' OR
+P.Texto like '%pesquisa científica%' OR
+P.Texto like '%Espacial%' OR
+P.Texto like '%Nuclear%' OR
+P.Texto like '%tecnologias sensíveis%' OR
+P.Texto like '%Inovações para a Agropecuária.%' OR
+P.Texto like '%produção científica%'
 
+*/
 
 
 SELECT 
@@ -172,6 +167,12 @@ Order by ID
 select '*Edges' 
 
 SELECT
+/*	v.*,
+	IdEntidade,
+	IdPortaria,
+	'[' + cast(DENSE_RANK() OVER (ORDER BY Tempo DESC) as nvarchar) +']',
+	v2.*  
+	*/
 	distinct cast(v.ID as nvarchar) + ' ' + cast(v2.id as nvarchar) + ' 1 [' + cast(DENSE_RANK() OVER (ORDER BY ee.Tempo DESC) as nvarchar) +']' as ligacao, ee.Tempo
 INTO 
 	#finalResult

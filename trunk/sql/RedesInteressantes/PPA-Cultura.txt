@@ -1,0 +1,35 @@
+P.Texto Like '%CONHECIMENTO, EDUCAÇÃO E CULTURA%' OR
+P.Texto Like '%Conhecimento, educação e cultura%' OR
+P.Texto Like '%Educação e cultura%' OR
+P.Texto Like '%educação básica%' OR
+P.Texto Like '%piso nacional do magistério%' OR
+P.Texto Like '%PROUNI%' OR
+P.Texto Like '%educação superior%' OR
+P.Texto Like '%mestres e doutores%' OR
+P.Texto Like '%gestão da escola%' OR
+P.Texto Like '%Educação Básica%' OR
+P.Texto Like '%Educação Profissional e Tecnológica%' OR
+P.Texto Like '%Educação Superior%' OR
+P.Texto Like '%Pesquisa e Extensão%' OR
+P.Texto Like '%Quadras esportivas escolares%' OR
+P.Texto Like '%Educação infantil%' OR
+P.Texto Like '%educação profissional%' OR
+P.Texto Like '%PRONATEC%' OR
+P.Texto Like '%rede federal de educação%' OR
+P.Texto Like '%Rede Federal de Educação Superior%' OR
+P.Texto Like '% Universidades Federais%' OR
+P.Texto Like '%Arte e cultura%' OR
+P.Texto Like '%política de cultura%' OR
+P.Texto Like '%Sistema Nacional de Cultura%' OR
+P.Texto Like '%Praças dos Esportes e da Cultura%' OR
+P.Texto Like '%economia criativa%' OR
+P.Texto Like '%esporte na inclusão social%' OR
+P.Texto Like '%potencial econômico do esporte%' OR
+P.Texto Like '%eventos esportivos%' OR
+P.Texto Like '%Copa 2014%' OR
+P.Texto Like '%Olimpíadas%' OR
+P.Texto Like '%legado esportivo%' OR
+P.Texto Like '%esporte de alto rendimento%' OR
+P.Texto Like '%olímpico%' OR
+P.Texto Like '%legado social%' OR
+P.Texto Like '%esporte educativo%' OR

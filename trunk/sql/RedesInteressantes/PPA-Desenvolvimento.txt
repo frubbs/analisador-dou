@@ -1,0 +1,48 @@
+SELECT 
+	EE.*
+INTO
+	#EntidadeEntidadeFiltrada_aux1
+FROM 
+	TbEntidadeEntidade EE
+JOIN
+	 TbPortaria P ON P.IdPortaria = EE.IdPortaria
+WHERE
+P.Texto Like '%consumo de massa%' OR
+P.Texto Like '%mercado interno%' OR
+P.Texto Like '%distribuição de renda%' OR
+P.Texto Like '%vulnerabilidade externa%' OR
+--P.Texto Like '%infraestrutura%' OR
+P.Texto Like '%mercado mundial%' OR
+P.Texto Like '%diferenças sociais%' OR
+P.Texto Like '%diferenças regionais%' OR
+P.Texto Like '%salário mínimo%' OR
+P.Texto Like '%Programa Bolsa Família%' OR
+P.Texto Like '%Plano de Desenvolvimento da Educação%' OR
+P.Texto Like '%PAC%' OR
+P.Texto Like '%desigualdades sociais%' OR
+P.Texto Like '%desigualdades regionais%' OR
+P.Texto Like '%Política Nacional de Desenvolvimento Regional%' OR
+P.Texto Like '%Territórios da Cidadania%' OR
+P.Texto Like '%meio rural%' OR
+P.Texto Like '%meio urbano%' OR
+P.Texto Like '%desigualdades inter-regionais%' OR
+P.Texto Like '%desigualdades intrarregionais%' OR
+P.Texto Like '%Arranjos Produtivos Locais%' OR
+P.Texto Like '%Economia Solidária%' OR
+P.Texto Like '%Brasil Sem Miséria%' OR
+P.Texto Like '%Programa Brasil Maior%' OR
+P.Texto Like '%PAC 2%' OR
+P.Texto Like '%articulação intersetorial%' OR
+P.Texto Like '%eficiência energética%' OR
+P.Texto Like '%exploração sustentável%' OR
+P.Texto Like '%potencial florestal%' OR
+P.Texto Like '%recursos hídricos%' OR
+P.Texto Like '%mudanças climáticas%' OR
+P.Texto Like '%controle ambiental%' OR
+P.Texto Like '%Plano Brasil Maior%' OR
+P.Texto Like '%Assistência técnica e extensão rural%' OR
+P.Texto Like '%agricultura familiar%' OR
+P.Texto Like '%Programa Trabalho, Emprego e Renda%' OR
+P.Texto Like '%crédito produtivo%' OR
+P.Texto Like '%microcrédito%' OR
+P.Texto Like '%indutoras do trabalho%'
