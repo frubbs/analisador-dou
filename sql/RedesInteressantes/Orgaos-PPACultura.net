@@ -1,23 +1,4 @@
-﻿
-(733 row(s) affected)
-
-(1471449 row(s) affected)
-
-(83055 row(s) affected)
-
-(82083 row(s) affected)
-
-(451 row(s) affected)
-
-----------------------------------------
-*Vertices 733
-
-(1 row(s) affected)
-
-(733 row(s) affected)
-
-
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+﻿*Vertices 733
 1  "Tribunal Superior do Trabalho"                                      0.0000    0.0000    0.5000 
 2  "CONSELHO SUPERIOR DA JUSTIÇA DO TRABALHO"                                      0.0000    0.0000    0.5000 
 3  "Secretaria de Orçamento Federal"                                      0.0000    0.0000    0.5000 
@@ -751,19 +732,7 @@
 731  "Circunscrição Judiciária de Sobradinho"                                      0.0000    0.0000    0.5000 
 732  "Secretaria de Administração e Finanças"                                      0.0000    0.0000    0.5000 
 733  "Secretaria de Planejamento e Gestão"                                      0.0000    0.0000    0.5000 
-
-(733 row(s) affected)
-
-
-------
 *Edges
-
-(1 row(s) affected)
-
-(70393 row(s) affected)
-
-ligacao
-------------------------------------------------------------------------------------------------
 49 523 1 [197]
 183 37 1 [197]
 50 95 1 [197]
@@ -71157,6 +71126,3 @@ ligacao
 166 16 1 [1]
 523 207 1 [1]
 541 207 1 [1]
-
-(70393 row(s) affected)
-

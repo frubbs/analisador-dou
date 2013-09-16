@@ -32,7 +32,7 @@ IF OBJECT_ID('tempdb..#finalResult') IS NOT NULL
 SELECT 
 	E.*
 INTO
-	#EntidadeFiltrada_0
+	#EntidadeFiltrada
 FROM
 	TbEntidade E
 WHERE
@@ -40,20 +40,6 @@ WHERE
 	--AND
 	E.TipoEntidade = 'Orgao'
 
-
-
-SELECT
-	E.*
-INTO
-	#EntidadeFiltrada
-FROM
-	#EntidadeFiltrada_0 E
-WHERE
-	E.Texto like '%Centro Federal de educ%'
-	OR E.Texto like '%Instituto Federal de Educa%'
-	OR E.Texto like '%Universidade%'
-
-	/*
 
 SELECT 
 	EE.*
@@ -119,13 +105,13 @@ P.Texto Like '%microcrédito%' OR
 P.Texto Like '%indutoras do trabalho%'
 
 
-*/
+
 SELECT 
 	EE.*
 INTO
 	#EntidadeEntidadeFiltrada_aux2
 FROM 
-	TbEntidadeEntidade EE
+	#EntidadeEntidadeFiltrada_aux1 EE
 WHERE
 	EE.IdEntidadeA in (SELECT IdEntidade FROM #EntidadeFiltrada) --(244455 row(s) affected)
 
