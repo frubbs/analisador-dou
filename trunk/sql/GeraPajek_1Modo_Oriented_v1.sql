@@ -32,29 +32,15 @@ IF OBJECT_ID('tempdb..#finalResult') IS NOT NULL
 SELECT 
 	E.*
 INTO
-	#EntidadeFiltrada_0
+	#EntidadeFiltrada
 FROM
 	TbEntidade E
 WHERE
-	--E.Texto like '%%' 
+	--E.Texto like '%Universidade%' 
 	--AND
 	E.TipoEntidade = 'Orgao'
 
-
-
-SELECT
-	E.*
-INTO
-	#EntidadeFiltrada
-FROM
-	#EntidadeFiltrada_0 E
-WHERE
-	E.Texto like '%Centro Federal de educ%'
-	OR E.Texto like '%Instituto Federal de Educa%'
-	OR E.Texto like '%Universidade%'
-
 	/*
-
 SELECT 
 	EE.*
 INTO
@@ -118,8 +104,8 @@ P.Texto Like '%crédito produtivo%' OR
 P.Texto Like '%microcrédito%' OR
 P.Texto Like '%indutoras do trabalho%'
 
-
 */
+
 SELECT 
 	EE.*
 INTO
@@ -139,12 +125,14 @@ WHERE
 	EE.IdEntidadeB in (SELECT IdEntidade FROM #EntidadeFiltrada) 
 
 
+	
+
 SELECT * INTO #EntidadeEntidadeFiltrada
 FROM
 (
-SELECT IdEntidadeA as IdEntidade FROM 	#EntidadeEntidadeFiltrada_aux3
+SELECT EE.IdEntidadeA as IdEntidade, P.IdPublicante as IdPublicante, EE.Tempo FROM #EntidadeEntidadeFiltrada_aux3 EE JOIN VwPortaria P on EE.IdPortaria = P.IdPortaria WHERE P.IdPublicante <> 9999999
 UNION
-SELECT IdEntidadeB as IdEntidade FROM 	#EntidadeEntidadeFiltrada_aux3
+SELECT IdEntidadeB as IdEntidade, P.IdPublicante as IdPublicante, EE.Tempo  FROM #EntidadeEntidadeFiltrada_aux3 EE JOIN VwPortaria P on EE.IdPortaria = P.IdPortaria WHERE P.IdPublicante <> 9999999
 ) AS tmp
 
 
@@ -183,18 +171,18 @@ Order by ID
 
 
 
-select '*Edges' 
+select '*Archs' 
 
 SELECT
 	distinct cast(v.ID as nvarchar) + ' ' + cast(v2.id as nvarchar) + ' 1 [' + cast(DENSE_RANK() OVER (ORDER BY ee.Tempo DESC) as nvarchar) +']' as ligacao, ee.Tempo
 INTO 
 	#finalResult
 FROM
-	#EntidadeEntidadeFiltrada_aux3 ee 
+	#EntidadeEntidadeFiltrada ee 
 LEFT JOIN 
-	@Vertice v on ee.IDEntidadeA = v.IdOriginal
+	@Vertice v on ee.IdPublicante = v.IdOriginal
 LEFT JOIN 
-	@Vertice v2 on ee.IDEntidadeB = v2.IdOriginal
+	@Vertice v2 on ee.IDEntidade = v2.IdOriginal
 
 
 

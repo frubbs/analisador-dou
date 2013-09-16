@@ -1,0 +1,25 @@
+Senhores,
+
+Segue em anexo algumas redes que extrai do D.O.U.
+Pode servir para o seu trabalho ou simplesmente como curiosidade.
+
+Universidades-Todas.net -> Rede de todos os orgãos cujo nome menciona o termo 'Universidade' e todas as portarias associadas.
+Rede1-Orgaos-Todas.net -> Rede de todos os orgãos e todas as portarias relacionadas
+Rede1-Orgaos-PPACiencia.net -> Rede com todos os orgaos e todas as portarias relacionadas que mencionam termos ligados a ciencia e tecnologia extraidos do PPA2012
+Rede1-Orgaos-PPACienciaSemTCU -> Rede com todos os orgaos e todas as portarias relacionadas que mencionam termos ligados ao macrodesafio ciencia e tecnologia extraidos do PPA2012, exceto acordãos e julgados do TCU
+Orgaos-PPAPobreza.net -> Rede com todos os orgaos e todas as portarias relacionadas que mencionam termos ligados ao macrodesafio combate a pobreza extraidos do PPA2012
+Orgaos-PPA-Desenvolvimento.net -> Rede com todos os orgaos e todas as portarias relacionadas que mencionam termos ligados ao macrodesafio desenvolvimento extraidos do PPA2012
+Orgaos-PPACultura.net -> Rede com todos os orgaos e todas as portarias relacionadas que mencionam termos ligados ao macrodesafio cultura e educação extraidos do PPA2012
+Orgaos-MinisteriosOrientada.net -> Rede com todos os orgaos e as conexoes sao orientadas, com o arco partindo do ministerio que publicou a portaria para o orgao citado. ex: se na seção do Minda Educação aparece uma menção ao Min do Esporte, entao há uma ligação saindo do Min da Educação e chegando no Min do Esporte.
+
+Os diarios processados englobam todas as paginas do jornal 1 do ano de 2012 inteiro e 2013 ate abril.
+
+Estou trabalhando na extração dos demais macrodesafios, nas redes envolvendo pessoas e na atribuição de pesos para as ligações baseado em diversidade lexica. Assim que tiver mais material, encaminho.
+
+Caso se interessem por qualquer outro recorte da rede, me avisem que eu extraio pois ainda não consegui bolar uma maneira eficiente de disponibilizar os dados para que qualquer um consiga extrair suas redes.
+
+
+EM caso de duvida me procurem.
+
+
+rafael
