@@ -107,8 +107,7 @@ public class ProcessadorInicioInicio1Modo implements ProcessadorAnotacoes
 
 							SimpleFeatureMap featureMap = annEnt.getFeatures();
 
-							int particao = featureMap.get("Particao") != null ? Integer.parseInt(featureMap.get("Particao")
-									.toString()) : 0;
+							String particao = featureMap.get("Particao") != null ? featureMap.get("Particao").toString() : "";
 
 							// Se houver sinonimo, usa
 							entidadeText = featureMap.get("Sinonimo") != null ? featureMap.get("Sinonimo").toString()

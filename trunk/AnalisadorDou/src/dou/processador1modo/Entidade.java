@@ -2,7 +2,7 @@ package dou.processador1modo;
 
 public class Entidade
 {
-	public Entidade(String _entidade, String _idEntidade, int _particao, long _inicioEntidade, long _fimEntidade,
+	public Entidade(String _entidade, String _idEntidade, String _particao, long _inicioEntidade, long _fimEntidade,
 			String _tipoEntidade)
 	{
 		entidade = _entidade.trim().replace('\n', ' ');
@@ -21,7 +21,7 @@ public class Entidade
 
 	public String entidade;
 	public long idEntidade;
-	public int particao; // nao usado atualmente
+	public String particao; // nao usado atualmente
 	public long inicioEntidade;
 	public long fimEntidade;
 	public String tipoEntidade;

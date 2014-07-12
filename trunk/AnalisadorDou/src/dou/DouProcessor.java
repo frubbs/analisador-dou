@@ -139,5 +139,5 @@ public class DouProcessor
 	/**
 	 * The character encoding to use when loading the docments. If null, the platform default encoding is used.
 	 */
-	private String encoding = null;
+	private String encoding = "UTF-8";
 }

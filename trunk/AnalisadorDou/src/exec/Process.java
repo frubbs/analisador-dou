@@ -7,7 +7,7 @@ import java.util.Date;
 import org.apache.log4j.Logger;
 
 import dou.DouProcessor;
-import dou.processador1modo.ProcessadorInicioInicio1Modo;
+import dou.processador1modo.ProcessadorDiscurso;
 import dou.processador1modo.registro.RegistroSQLServer1Modo;
 
 public class Process
@@ -45,8 +45,7 @@ public class Process
 				try
 				{
 
-					new DouProcessor().processFile(gapp, arquivoPequeno, new ProcessadorInicioInicio1Modo(),
-							new RegistroSQLServer1Modo());
+					new DouProcessor().processFile(gapp, arquivoPequeno, new ProcessadorDiscurso(), new RegistroSQLServer1Modo());
 
 					File newFile = new File(arquivoPequeno.getAbsolutePath().replace("\\txt\\", "\\ProcessedTxt\\"));
 
