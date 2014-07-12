@@ -25,22 +25,22 @@ public class teste
 
 		HashMap<String, Entidade> map = new HashMap<String, Entidade>();
 
-		Entidade e1 = new Entidade("teste1", null, 0, 0, 0, "");
+		Entidade e1 = new Entidade("teste1", null, "", 0, 0, "");
 		map.put(e1.entidade, e1);
 
-		Entidade e2 = new Entidade("teste4", null, 0, 0, 0, "");
+		Entidade e2 = new Entidade("teste4", null, "", 0, 0, "");
 		map.put(e2.entidade, e2);
 
-		Entidade e3 = new Entidade("teste1", null, 0, 0, 0, "");
+		Entidade e3 = new Entidade("teste1", null, "", 0, 0, "");
 		map.put(e3.entidade, e3);
 
-		Entidade e4 = new Entidade("teste4", null, 0, 0, 0, "");
+		Entidade e4 = new Entidade("teste4", null, "", 0, 0, "");
 		map.put(e4.entidade, e4);
 
-		Entidade e5 = new Entidade("teste3", null, 0, 0, 0, "");
+		Entidade e5 = new Entidade("teste3", null, "", 0, 0, "");
 		map.put(e5.entidade, e5);
 
-		Entidade e6 = new Entidade("teste4", null, 0, 0, 0, "");
+		Entidade e6 = new Entidade("teste4", null, "", 0, 0, "");
 		map.put(e6.entidade, e6);
 
 		@SuppressWarnings("unchecked")

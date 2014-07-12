@@ -41,7 +41,7 @@ public class RegistroSQLServer1Modo implements RegistroLigacaoStrategy
 		{
 			long insertStart = System.currentTimeMillis();
 
-			String SPsql = "EXEC [processaRegistro1Modo] ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+			String SPsql = "EXEC [processaRegistro1Modov2] ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
 
 			PreparedStatement ps = conn.prepareStatement(SPsql);
 			ps.setEscapeProcessing(true);
@@ -51,19 +51,21 @@ public class RegistroSQLServer1Modo implements RegistroLigacaoStrategy
 			ps.setLong(2, entidadeA.inicioEntidade);
 			ps.setLong(3, entidadeA.fimEntidade);
 			ps.setString(4, entidadeA.tipoEntidade);
+			ps.setString(5, entidadeA.particao);
 
-			ps.setString(5, entidadeB.entidade);
-			ps.setLong(6, entidadeB.inicioEntidade);
-			ps.setLong(7, entidadeB.fimEntidade);
-			ps.setString(8, entidadeB.tipoEntidade);
+			ps.setString(6, entidadeB.entidade);
+			ps.setLong(7, entidadeB.inicioEntidade);
+			ps.setLong(8, entidadeB.fimEntidade);
+			ps.setString(9, entidadeB.tipoEntidade);
+			ps.setString(10, entidadeB.particao);
 
-			ps.setString(9, portaria.identificacaoPortaria);
-			ps.setString(10, portaria.textoPortaria);
-			ps.setLong(11, portaria.inicioPortaria);
-			ps.setLong(12, portaria.fimPortaria);
-			ps.setString(13, portaria.tipoPortaria);
-			ps.setString(14, portaria.nomeArquivo);
-			ps.setDate(15, new java.sql.Date(portaria.data.getTime()));
+			ps.setString(11, portaria.identificacaoPortaria);
+			ps.setString(12, portaria.textoPortaria);
+			ps.setLong(13, portaria.inicioPortaria);
+			ps.setLong(14, portaria.fimPortaria);
+			ps.setString(15, portaria.tipoPortaria);
+			ps.setString(16, portaria.nomeArquivo);
+			ps.setDate(17, new java.sql.Date(portaria.data.getTime()));
 
 			ps.executeQuery();
 

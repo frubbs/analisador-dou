@@ -34,7 +34,7 @@ public class Util
 			date = null;
 		}
 
-		// log.warn("data: " + new SimpleDateFormat("yyyy-MM-dd").format(date));
+		log.warn("data: " + new SimpleDateFormat("yyyy-MM-dd").format(date));
 
 		return date;
 		// return new SimpleDateFormat("yyyy-MM-dd").format(date);
@@ -53,6 +53,39 @@ public class Util
 			return result.substring(0, 19);
 		else
 			return result;
+	}
+
+	public static String gerarIdentificacaoUnicaDiscurso(String absolutePath)
+	{
+		String somenteNumeros = absolutePath.replaceAll("[^0-9]", "");
+
+		if (somenteNumeros.length() > 20)
+			return somenteNumeros.substring(0, 19);
+		else
+			return somenteNumeros;
+	}
+
+	public static Date extrairDataDoNomeDoArquivoDiscurso(String name)
+	{
+		// 03-09-2012.GONZAGA PATRIOTA (PRESIDENTE).PSB.PE.sessao[234.2.54.O].txt
+		String data = name.substring(0, name.indexOf('.'));
+
+		// log.warn("Data: " + data);
+
+		Date date;
+		try
+		{
+			date = new SimpleDateFormat("dd-MM-yyyy").parse(data);
+		} catch (ParseException e)
+		{
+			log.warn("Nome de arquivo Invalido:" + name);
+			date = null;
+		}
+
+		log.warn("data: " + new SimpleDateFormat("yyyy-MM-dd").format(date));
+
+		return date;
+		// return new SimpleDateFormat("yyyy-MM-dd").format(date);
 	}
 
 }
