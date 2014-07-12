@@ -1,0 +1,68 @@
+// Valentin Tablan, 29/06/2001
+// $id$
+
+
+Phase:nomes
+Input: Token SpaceToken Lookup
+Options: control = appelt
+
+
+
+Template: TipoEntidade = "Nome"
+		
+
+MACRO: CompletoMaiusculo
+(
+    (
+		({Token.orth == "allCaps"})
+		({SpaceToken})[1,3]
+	)[0,4]
+	{Lookup.majorType == [TipoEntidade]}
+	({SpaceToken})[1,3]
+    (
+		({Token.orth == "allCaps"} | {Lookup.majorType == "Conector"})
+		({SpaceToken})[0,3]
+		
+	)[1,4]
+)
+
+MACRO: CompletoInicial
+(
+    (
+		({Token.orth == "upperInitial"})
+		({SpaceToken})[1,3]
+	)[0,4]
+	{Lookup.majorType == [TipoEntidade]}
+	({SpaceToken})[1,3]
+    (
+		({Token.orth == "upperInitial"} | {Lookup.majorType == "Conector"} )
+		({SpaceToken})[0,3]
+	)[1,4]
+)
+
+
+MACRO: Politico
+(
+    {Lookup.majorType == "Politico"}
+)
+
+MACRO: NOMECOMPLETO
+(
+	(Politico) | (CompletoInicial) | (CompletoMaiusculo) 
+)
+
+
+
+Rule: Nome	
+(
+	(NOMECOMPLETO)
+): nomeCompleto
+-->
+:nomeCompleto.EntidadeIdentificada = { kind = [TipoEntidade] }
+
+
+		
+		
+
+
+		
